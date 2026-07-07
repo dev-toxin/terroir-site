@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Terroir — AI Sommelier & Digital Wine Cellar</title>
+  <meta name="description" content="Terroir is an AI-powered wine app for label scanning, digital cellars, food pairing, wine discovery, and future B2B analytics for wineries and distributors." />
+  <link rel="canonical" href="https://terroir-app.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://terroir-app.com/" />
+  <meta property="og:title" content="Terroir — AI Sommelier & Digital Wine Cellar" />
+  <meta property="og:description" content="Scan wine labels, understand bottles, remember what you love, and build a smarter digital cellar with AI." />
+  <meta property="og:site_name" content="Terroir" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Terroir — AI Sommelier & Digital Wine Cellar" />
+  <meta name="twitter:description" content="Your AI sommelier for every bottle, cellar, and wine journey." />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Terroir",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "iOS, Android, Web",
+      "url": "https://terroir-app.com/",
+      "description": "Terroir is an AI-powered wine app for label scanning, digital cellars, food pairing, wine discovery, and future B2B analytics for wineries and distributors.",
+      "creator": {
+        "@type": "Organization",
+        "name": "AnKo Software Labs",
+        "url": "https://www.ankosoftlab.com/"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/PreOrder",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  </script>
+
+  <style>
+    /* ==============================
+       Terroir — dark wine design system
+    ============================== */
+    :root {
+      --ink: #09070a;
+      --graphite: #121014;
+      --panel: #191218;
+      --panel-soft: #211620;
+      --wine-black: #16050b;
+      --burgundy: #4d1026;
+      --merlot: #76213d;
+      --rose: #b96f68;
+      --terracotta: #a85a42;
+      --gold: #c9a45c;
+      --gold-soft: #ead7a6;
+      --cream: #fff3df;
+      --text: #fbefe4;
+      --muted: #b9aaa2;
+      --subtle: #867873;
+      --line: rgba(255, 243, 223, 0.12);
+      --line-strong: rgba(201, 164, 92, 0.28);
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --container: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(118, 33, 61, 0.38), transparent 30rem),
+        radial-gradient(circle at 86% 18%, rgba(201, 164, 92, 0.16), transparent 26rem),
+        radial-gradient(circle at 50% 100%, rgba(77, 16, 38, 0.34), transparent 34rem),
+        linear-gradient(180deg, #080608 0%, #13080e 42%, #09070a 100%);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 243, 223, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 243, 223, 0.028) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 72%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .container {
+      width: min(100% - 40px, var(--container));
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 92px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold-soft);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      color: var(--text);
+      letter-spacing: -0.045em;
+      line-height: 1.06;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      font-weight: 780;
+    }
+
+    h2 {
+      max-width: 760px;
+      font-size: clamp(2.15rem, 4.6vw, 4.2rem);
+      font-weight: 760;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 760;
+      letter-spacing: -0.025em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .lead {
+      max-width: 730px;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 2vw, 1.32rem);
+      line-height: 1.72;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      color: #17070c;
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+      box-shadow: 0 18px 46px rgba(201, 164, 92, 0.22);
+    }
+
+    .button-primary:hover {
+      box-shadow: 0 24px 62px rgba(201, 164, 92, 0.3);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      border-color: var(--line-strong);
+      background: rgba(255, 243, 223, 0.045);
+    }
+
+    .button-secondary:hover {
+      border-color: rgba(201, 164, 92, 0.48);
+      background: rgba(255, 243, 223, 0.075);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(255, 243, 223, 0.075), rgba(255, 243, 223, 0.032)),
+        linear-gradient(145deg, rgba(77, 16, 38, 0.18), rgba(9, 7, 10, 0.18));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(9, 7, 10, 0.78);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: max-content;
+    }
+
+    .brand-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-size: 1.28rem;
+      font-weight: 850;
+      letter-spacing: -0.035em;
+    }
+
+    .brand-mark {
+      width: 22px;
+      height: 22px;
+      border: 1px solid rgba(201, 164, 92, 0.7);
+      border-radius: 50% 50% 44% 44%;
+      background:
+        radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.68), transparent 16%),
+        linear-gradient(145deg, var(--merlot), var(--wine-black));
+    }
+
+    .brand-sub {
+      color: var(--subtle);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav a {
+      padding: 9px 11px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 720;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      background: rgba(255, 243, 223, 0.06);
+    }
+
+    .nav .nav-cta {
+      color: var(--gold-soft);
+      border: 1px solid var(--line-strong);
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0 88px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.72fr);
+      gap: 54px;
+      align-items: center;
+    }
+
+    .hero-copy .eyebrow {
+      margin-bottom: 18px;
+    }
+
+    .hero-copy .lead {
+      margin-top: 26px;
+    }
+
+    .hero-actions {
+      margin-top: 34px;
+    }
+
+    .availability {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 760px;
+      margin-top: 36px;
+    }
+
+    .stat {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 243, 223, 0.045);
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .stat span {
+      color: var(--subtle);
+      font-size: 0.86rem;
+    }
+
+    .app-preview {
+      position: relative;
+      padding: 18px;
+      border-radius: 36px;
+      background:
+        radial-gradient(circle at 30% 18%, rgba(201, 164, 92, 0.18), transparent 28%),
+        linear-gradient(145deg, rgba(118, 33, 61, 0.58), rgba(22, 5, 11, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .phone {
+      overflow: hidden;
+      min-height: 570px;
+      padding: 24px;
+      border: 1px solid rgba(255, 243, 223, 0.14);
+      border-radius: 30px;
+      background:
+        linear-gradient(180deg, rgba(255, 243, 223, 0.08), rgba(255, 243, 223, 0.03)),
+        #100a0f;
+    }
+
+    .phone-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--subtle);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .scan-result {
+      position: relative;
+      display: grid;
+      gap: 16px;
+      min-height: 250px;
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px solid rgba(201, 164, 92, 0.28);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(201, 164, 92, 0.13), transparent 18rem),
+        radial-gradient(circle at 82% 68%, rgba(118, 33, 61, 0.32), transparent 20rem),
+        linear-gradient(145deg, rgba(255, 243, 223, 0.065), rgba(255, 243, 223, 0.018));
+    }
+
+    .scan-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .scan-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .scan-title strong {
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+
+    .scan-title span,
+    .confidence span,
+    .wine-field span {
+      color: var(--subtle);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .confidence {
+      display: grid;
+      place-items: center;
+      width: 78px;
+      height: 78px;
+      border: 1px solid rgba(201, 164, 92, 0.3);
+      border-radius: 50%;
+      background: rgba(201, 164, 92, 0.08);
+    }
+
+    .confidence strong {
+      color: var(--gold-soft);
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    .wine-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .wine-field {
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(9, 7, 10, 0.22);
+    }
+
+    .wine-field strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .scan-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .scan-action {
+      padding: 8px 10px;
+      border: 1px solid rgba(201, 164, 92, 0.22);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      background: rgba(201, 164, 92, 0.07);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .profile-card {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 243, 223, 0.055);
+    }
+
+    .profile-card h3 {
+      font-size: 1.08rem;
+    }
+
+    .profile-card p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 7px 10px;
+      border: 1px solid rgba(201, 164, 92, 0.23);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      background: rgba(201, 164, 92, 0.07);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    /* Product */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 32px;
+    }
+
+    .section-header .lead {
+      max-width: 470px;
+      font-size: 1rem;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .pillar {
+      padding: 28px;
+    }
+
+    .pillar-number {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    .pillar h3 {
+      margin-top: 18px;
+      font-size: 1.45rem;
+    }
+
+    .pillar p {
+      margin-top: 12px;
+      color: var(--muted);
+    }
+
+    /* Audiences */
+    .audience-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .audience-card {
+      padding: 34px;
+    }
+
+    .audience-card.featured {
+      background:
+        radial-gradient(circle at 80% 12%, rgba(201, 164, 92, 0.14), transparent 22rem),
+        linear-gradient(145deg, rgba(118, 33, 61, 0.36), rgba(255, 243, 223, 0.035));
+    }
+
+    .audience-card p {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      display: flex;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .list li::before {
+      content: "✦";
+      flex: 0 0 auto;
+      color: var(--gold);
+    }
+
+    /* AI */
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .pipeline-step {
+      position: relative;
+      min-height: 126px;
+      padding: 20px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 243, 223, 0.045);
+      text-align: center;
+    }
+
+    .pipeline-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -11px;
+      z-index: 2;
+      color: var(--gold);
+      font-weight: 900;
+      transform: translateY(-50%);
+    }
+
+    .pipeline-step span {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .pipeline-step strong {
+      display: block;
+      margin-top: 10px;
+      color: var(--text);
+    }
+
+    .tech-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tech-line span {
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--subtle);
+      background: rgba(255, 243, 223, 0.035);
+      font-size: 0.86rem;
+      font-weight: 750;
+    }
+
+    /* Beta */
+    .beta-card {
+      display: grid;
+      grid-template-columns: 1fr 0.82fr;
+      gap: 32px;
+      padding: 34px;
+      align-items: start;
+      background:
+        radial-gradient(circle at 14% 10%, rgba(201, 164, 92, 0.12), transparent 28rem),
+        linear-gradient(145deg, rgba(118, 33, 61, 0.32), rgba(255, 243, 223, 0.035));
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .phase {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 14px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(9, 7, 10, 0.22);
+    }
+
+    .phase span {
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .phase strong {
+      color: var(--text);
+    }
+
+    .phase p {
+      margin-top: 4px;
+      color: var(--subtle);
+      font-size: 0.92rem;
+    }
+
+    .form-panel {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(9, 7, 10, 0.32);
+    }
+
+    form {
+      display: grid;
+      gap: 13px;
+      margin-top: 18px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--gold-soft);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--text);
+      background: rgba(255, 243, 223, 0.055);
+      outline: none;
+    }
+
+    input,
+    select {
+      min-height: 48px;
+      padding: 0 13px;
+    }
+
+    textarea {
+      min-height: 96px;
+      padding: 13px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(201, 164, 92, 0.72);
+      box-shadow: 0 0 0 4px rgba(201, 164, 92, 0.11);
+    }
+
+    option {
+      color: #120a10;
+    }
+
+    .form-panel .button {
+      width: 100%;
+      margin-top: 2px;
+      border: 0;
+    }
+
+    /* Company and footer */
+    .company-card {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 28px;
+      padding: 32px;
+    }
+
+    .company-card p {
+      color: var(--muted);
+    }
+
+    .company-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      color: var(--gold-soft);
+      font-weight: 850;
+    }
+
+    .footer {
+      padding: 42px 0;
+      border-top: 1px solid var(--line);
+      color: var(--subtle);
+      background: #070507;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .footer-brand {
+      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: 850;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px 18px;
+      max-width: 620px;
+      font-size: 0.92rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold-soft);
+    }
+
+    .copyright {
+      width: 100%;
+      text-align: right;
+    }
+
+    @media (max-width: 920px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .nav {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero-grid,
+      .section-header,
+      .audience-grid,
+      .beta-card,
+      .company-card {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header {
+        align-items: start;
+      }
+
+      .pillars {
+        grid-template-columns: 1fr;
+      }
+
+      .pipeline {
+        grid-template-columns: 1fr;
+      }
+
+      .pipeline-step {
+        min-height: auto;
+      }
+
+      .pipeline-step:not(:last-child)::after {
+        top: auto;
+        right: 50%;
+        bottom: -17px;
+        transform: translateX(50%) rotate(90deg);
+      }
+
+      .app-preview {
+        max-width: 520px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        justify-content: flex-start;
+      }
+
+      .copyright {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: min(100% - 28px, var(--container));
+      }
+
+      .section {
+        padding: 68px 0;
+      }
+
+      .hero {
+        padding: 58px 0 68px;
+      }
+
+      h1 {
+        font-size: clamp(2.85rem, 15vw, 4.2rem);
+      }
+
+      .nav a {
+        white-space: nowrap;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .availability {
+        grid-template-columns: 1fr;
+      }
+
+      .phone {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .scan-result {
+        min-height: 230px;
+        padding: 16px;
+      }
+
+      .wine-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .audience-card,
+      .beta-card,
+      .company-card,
+      .pillar {
+        padding: 24px;
+      }
+
+      .phase {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Terroir home">
+        <span class="brand-name"><span class="brand-mark" aria-hidden="true"></span>Terroir</span>
+        <span class="brand-sub">Developed by AnKo Software Labs</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#product">Product</a>
+        <a href="#lovers">Wine Lovers</a>
+        <a href="#business">Business</a>
+        <a href="#ai">AI</a>
+        <a class="nav-cta" href="#beta">Early access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">AI wine companion</p>
+          <h1 id="hero-title">Your AI sommelier for every bottle, cellar, and wine journey.</h1>
+          <p class="lead">
+            Scan a label, understand the wine, save what you loved, and get calm pairing guidance —
+            built for wine lovers today and the wine trade tomorrow.
+          </p>
+
+          <div class="button-row hero-actions">
+            <a class="button button-primary" href="#beta">Join early access</a>
+            <a class="button button-secondary" href="#product">See how it works</a>
+          </div>
+
+          <div class="availability" aria-label="Product highlights">
+            <div class="stat">
+              <strong>Label scanning</strong>
+              <span>OCR + AI profile extraction</span>
+            </div>
+            <div class="stat">
+              <strong>Digital cellar</strong>
+              <span>Bottles, notes, vintages</span>
+            </div>
+            <div class="stat">
+              <strong>Pairing guidance</strong>
+              <span>Food, occasions, taste memory</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="app-preview" aria-label="Terroir app preview">
+          <div class="phone">
+            <div class="phone-top">
+              <span>Terroir Scan</span>
+              <span>Ready</span>
+            </div>
+
+            <div class="scan-result">
+              <div class="scan-header">
+                <div class="scan-title">
+                  <span>Recognized label</span>
+                  <strong>Domaine Lumière Pinot Noir</strong>
+                </div>
+                <div class="confidence" aria-label="Recognition confidence 98 percent">
+                  <strong>98%</strong>
+                  <span>Match</span>
+                </div>
+              </div>
+
+              <div class="wine-fields" aria-label="Recognized wine details">
+                <div class="wine-field">
+                  <span>Region</span>
+                  <strong>Burgundy, France</strong>
+                </div>
+                <div class="wine-field">
+                  <span>Vintage</span>
+                  <strong>2018</strong>
+                </div>
+                <div class="wine-field">
+                  <span>Style</span>
+                  <strong>Elegant red · medium body</strong>
+                </div>
+                <div class="wine-field">
+                  <span>Profile</span>
+                  <strong>Red fruit · earth · soft spice</strong>
+                </div>
+              </div>
+
+              <div class="scan-actions" aria-label="Recommended actions">
+                <span class="scan-action">Save to cellar</span>
+                <span class="scan-action">Pair with duck</span>
+                <span class="scan-action">Find similar wines</span>
+              </div>
+            </div>
+
+            <div class="profile-card">
+              <h3>AI recommendation</h3>
+              <p>Ready for roasted poultry, mushroom risotto, or a quiet evening bottle. Best served slightly chilled.</p>
+              <div class="chips">
+                <span class="chip">Cellar</span>
+                <span class="chip">Food pairing</span>
+                <span class="chip">Taste memory</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Product -->
+    <section class="section" id="product" aria-labelledby="product-title">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Product</p>
+            <h2 id="product-title">Wine intelligence without the noise.</h2>
+          </div>
+          <p class="lead">
+            Terroir is designed as a focused app experience: fast capture, clear explanation, useful memory.
+          </p>
+        </div>
+
+        <div class="pillars">
+          <article class="card pillar">
+            <span class="pillar-number">01 / SCAN</span>
+            <h3>Decode any bottle.</h3>
+            <p>OCR and AI turn wine labels and restaurant wine cards into readable profiles with grape, region, style, producer, and vintage context.</p>
+          </article>
+          <article class="card pillar">
+            <span class="pillar-number">02 / REMEMBER</span>
+            <h3>Build your cellar memory.</h3>
+            <p>Save bottles, tasting notes, occasions, family cellar entries, and the wines you want to find again.</p>
+          </article>
+          <article class="card pillar">
+            <span class="pillar-number">03 / CHOOSE</span>
+            <h3>Pair and discover better.</h3>
+            <p>Get calm sommelier-style pairing ideas, similar wines, and recommendations shaped by your personal taste history.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Audiences -->
+    <section class="section" aria-labelledby="audience-title">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">For users and the wine trade</p>
+            <h2 id="audience-title">A product for people who choose, sell, and tell the story of wine.</h2>
+          </div>
+        </div>
+
+        <div class="audience-grid">
+          <article class="card audience-card featured" id="lovers">
+            <p class="eyebrow">For wine lovers</p>
+            <h3>Confidence at the shelf, restaurant, and cellar.</h3>
+            <p>Use Terroir to understand what is in front of you and keep a private record of what matters.</p>
+            <ul class="list">
+              <li>Scan bottles and understand grape, region, style, and vintage.</li>
+              <li>Remember wines you liked, disliked, shared, or want to buy again.</li>
+              <li>Manage a home, family, or club cellar with simple tasting notes.</li>
+              <li>Explore local and international wines with better context.</li>
+            </ul>
+          </article>
+
+          <article class="card audience-card" id="business">
+            <p class="eyebrow">For wineries & distributors</p>
+            <h3>A future business layer for verified wine demand.</h3>
+            <p>Terroir is being built with a roadmap for producers, importers, distributors, restaurants, and wine tourism partners.</p>
+            <ul class="list">
+              <li>Verified wine profiles and richer bottle pages.</li>
+              <li>“Where to buy” paths from discovery to purchase.</li>
+              <li>Distributor stock integrations and restaurant wine card support.</li>
+              <li>Anonymized demand analytics and market trend signals.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Pipeline -->
+    <section class="section" id="ai" aria-labelledby="ai-title">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">AI system</p>
+            <h2 id="ai-title">From photo to wine profile in seconds.</h2>
+          </div>
+          <p class="lead">
+            Practical AI, not spectacle: label recognition, structured wine data, semantic search, and human-friendly recommendations.
+          </p>
+        </div>
+
+        <div class="pipeline" aria-label="AI processing pipeline">
+          <div class="pipeline-step"><span>Photo</span><strong>Label or wine card</strong></div>
+          <div class="pipeline-step"><span>OCR</span><strong>Text extraction</strong></div>
+          <div class="pipeline-step"><span>AI</span><strong>Structured parsing</strong></div>
+          <div class="pipeline-step"><span>Profile</span><strong>Wine knowledge</strong></div>
+          <div class="pipeline-step"><span>Match</span><strong>Pairing & taste</strong></div>
+        </div>
+
+        <div class="tech-line" aria-label="Technology foundation">
+          <span>OCR for labels and wine cards</span>
+          <span>LLM parsing into structured JSON</span>
+          <span>PostgreSQL + pgvector</span>
+          <span>API-first backend</span>
+          <span>Mobile-first UX</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beta / Early Access -->
+    <section class="section" id="beta" aria-labelledby="beta-title">
+      <div class="container">
+        <div class="card beta-card">
+          <div>
+            <p class="eyebrow">Early access</p>
+            <h2 id="beta-title">Join the Terroir early access list.</h2>
+            <p class="lead" style="margin-top: 18px;">
+              Terroir is presented as a product experience with a focused rollout: core wine scanning first,
+              deeper matching and business integrations next.
+            </p>
+
+            <div class="roadmap">
+              <div class="phase">
+                <span>MVP</span>
+                <div><strong>Scan, cellar, notes, pairing.</strong><p>The foundation for everyday wine discovery.</p></div>
+              </div>
+              <div class="phase">
+                <span>Beta</span>
+                <div><strong>Similar wines, sharing, wine card scanning.</strong><p>Better matching and practical restaurant use.</p></div>
+              </div>
+              <div class="phase">
+                <span>Trade</span>
+                <div><strong>Winery profiles, distributors, analytics.</strong><p>Business features for the wine ecosystem.</p></div>
+              </div>
+              <div class="phase">
+                <span>Global</span>
+                <div><strong>Wine tourism and regional guides.</strong><p>Local grape discovery and travel context.</p></div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="form-panel" aria-label="Early access form">
+            <h3>Request access</h3>
+            <p style="margin-top: 8px; color: var(--muted);">For wine lovers, wineries, distributors, restaurants, and partners.</p>
+
+            <!-- Replace YOUR_FORM_ID with the real Formspree form id -->
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+              <label for="email">
+                Email
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+              </label>
+
+              <label for="role">
+                Role
+                <select id="role" name="role" required>
+                  <option value="">Select your role</option>
+                  <option value="Wine lover">Wine lover</option>
+                  <option value="Winery">Winery</option>
+                  <option value="Distributor">Distributor</option>
+                  <option value="Restaurant">Restaurant</option>
+                  <option value="Partner / Investor">Partner / Investor</option>
+                </select>
+              </label>
+
+              <label for="message">
+                Message optional
+                <textarea id="message" name="message" placeholder="Tell us what you want to use Terroir for."></textarea>
+              </label>
+
+              <button class="button button-primary" type="submit">Join early access</button>
+            </form>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company -->
+    <section class="section" aria-labelledby="company-title">
+      <div class="container">
+        <div class="card company-card">
+          <div>
+            <p class="eyebrow">Built by</p>
+            <h2 id="company-title">AnKo Software Labs.</h2>
+          </div>
+          <div>
+            <p>
+              Terroir is developed by AnKo Software Labs, an independent software company focused on practical AI-assisted SaaS products,
+              mobile-first workflows, backend systems, PostgreSQL-based data platforms, and production-ready product engineering.
+            </p>
+            <a class="company-link" href="https://www.ankosoftlab.com/" target="_blank" rel="noopener noreferrer">Visit AnKo Software Labs ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-brand">Terroir</div>
+        <div>Developed by AnKo Software Labs</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="mailto:contact@ankosoftlab.com">contact@ankosoftlab.com</a>
+        <a href="https://terroir-app.com/">terroir-app.com</a>
+        <a href="https://www.ankosoftlab.com/" target="_blank" rel="noopener noreferrer">ankosoftlab.com</a>
+        <span class="copyright">Copyright © 2026 AnKo Software Labs. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
