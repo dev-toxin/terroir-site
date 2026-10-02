@@ -1,0 +1,62 @@
+---
+/** Article template for the Journal. Body comes from a slot; metadata from articles.ts. */
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { localize, ROUTES } from '../i18n/ui';
+import { ARTICLES } from './articles';
+import { SITE, type Lang } from '../config';
+
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+const a = ARTICLES.find((x) => x.slug === slug)!;
+const m = a[lang];
+const path = `${ROUTES.journal}${slug}/`;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: m.title,
+  description: m.description,
+  inLanguage: lang,
+  datePublished: a.published,
+  mainEntityOfPage: new URL(localize(lang, path), SITE.url).href,
+  publisher: { '@type': 'Organization', name: SITE.company.name, url: SITE.company.url },
+  image: new URL(`/og/og-${lang}.png`, SITE.url).href,
+};
+---
+
+<Base lang={lang} title={m.title} description={m.description} path={path} crumb={m.title} crumbParent={{ href: localize(lang, ROUTES.journal), label: lang === 'en' ? 'Journal' : 'Журнал' }} jsonld={[ld]}>
+  <article class="article">
+    <header class="page-hero">
+      <div class="wrap--narrow">
+        <p class="kicker"><a href={localize(lang, ROUTES.journal)}>{lang === 'en' ? 'Journal' : 'Журнал'}</a></p>
+        <h1>{m.title}</h1>
+        <p class="lede">{m.description}</p>
+        <p class="article__meta"><time datetime={a.published}>{m.date}</time> · {m.minutes}</p>
+      </div>
+    </header>
+    <div class="section section--tight">
+      <div class="wrap--narrow prose article__body">
+        <slot />
+      </div>
+    </div>
+  </article>
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  .kicker a { color: inherit; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+  .article__meta { font-size: var(--fs--1); color: var(--c-muted); margin-top: var(--s-4); }
+  .article__body > :global(p), .article__body > :global(ul) > :global(li) { font-size: var(--fs-1); line-height: 1.7; }
+  .article__body :global(figure) { margin: var(--s-7) 0; }
+  .article__body :global(figcaption) { font-family: var(--f-display); font-style: italic; color: var(--c-terracotta-text); font-size: var(--fs-1); margin-top: var(--s-3); }
+  .article__body :global(blockquote) {
+    margin: var(--s-6) 0;
+    padding-left: var(--s-5);
+    border-left: 2px solid var(--c-gold);
+    font-family: var(--f-display);
+    font-size: var(--fs-2);
+    line-height: 1.35;
+    font-style: italic;
+    color: var(--c-burgundy);
+  }
+</style>

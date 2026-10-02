@@ -18,6 +18,7 @@ export const ru: Shape<typeof en> = {
     about: 'О проекте',
     privacy: 'Конфиденциальность',
     terms: 'Условия',
+    journal: 'Журнал',
   },
   menu: 'Меню',
   menuClose: 'Закрыть меню',

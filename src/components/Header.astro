@@ -181,7 +181,8 @@ const isCurrent = (p: string) => (p === '/' ? here === '/' : here.startsWith(p))
   @media (min-width: 560px) {
     .site-header__cta { display: inline-flex; }
   }
-  @media (min-width: 1024px) {
+  .nav-desktop a { white-space: nowrap; }
+  @media (min-width: 1200px) {
     .nav-desktop { display: block; }
     .nav-mobile { display: none; }
     .site-header__brand { margin-right: var(--s-4); }

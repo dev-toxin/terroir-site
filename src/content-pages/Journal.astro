@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { localize, ROUTES } from '../i18n/ui';
+import { ARTICLES } from './articles';
+import type { Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const C = {
+  en: {
+    title: 'Journal',
+    seo: 'Journal — notes on wine at home',
+    description: 'The Terroir journal: short, practical notes about keeping and opening wine at home — drinking windows, pairing with what you cook, small cellars.',
+    h1: 'Notes on wine <em>at home</em>',
+    lede: 'Short, practical pieces about keeping and opening wine — written for a kitchen, not a tasting room.',
+    read: 'Read',
+  },
+  ru: {
+    title: 'Журнал',
+    seo: 'Журнал — заметки о домашнем вине',
+    description: 'Журнал Terroir: короткие практичные заметки о том, как хранить и открывать вино дома, — окна питья, сочетания с тем, что вы готовите, небольшие погреба.',
+    h1: 'Заметки о вине <em>дома</em>',
+    lede: 'Короткие практичные тексты о том, как хранить и открывать вино, — для кухни, а не для дегустационного зала.',
+    read: 'Читать',
+  },
+}[lang];
+const list = ARTICLES.map((a) => ({ slug: a.slug, ...a[lang] }));
+---
+
+<Base lang={lang} title={C.seo} description={C.description} path={ROUTES.journal} crumb={C.title}>
+  <PageHero kicker={C.title} title={C.h1} lede={C.lede} icon="book" />
+  <section class="section">
+    <div class="wrap--narrow">
+      <ol class="journal">
+        {list.map((a, i) => (
+          <li>
+            <article class="entry">
+              <p class="entry__no" aria-hidden="true">№ {String(i + 1).padStart(2, '0')}</p>
+              <h2><a href={localize(lang, `${ROUTES.journal}${a.slug}/`)}>{a.title}</a></h2>
+              <p class="muted">{a.description}</p>
+              <p class="entry__meta">{a.date} · {a.minutes}</p>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .journal { list-style: none; padding: 0; margin: 0; }
+  .journal li { margin: 0; border-top: 1px solid var(--c-line); }
+  .journal li:last-child { border-bottom: 1px solid var(--c-line); }
+  .entry { padding-block: var(--s-6); }
+  .entry__no { font-family: var(--f-display); font-style: italic; color: var(--c-merlot); font-size: var(--fs-1); margin-bottom: var(--s-2); }
+  .entry h2 { font-size: var(--fs-4); margin-bottom: var(--s-3); }
+  .entry h2 a { color: var(--c-ink); text-decoration: none; }
+  .entry h2 a:hover { color: var(--c-merlot); }
+  .entry__meta { font-size: var(--fs--1); color: var(--c-muted); margin: 0; letter-spacing: 0.04em; }
+</style>

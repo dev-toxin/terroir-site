@@ -32,7 +32,8 @@ export const ROUTES = {
   about: '/about/',
   privacy: '/privacy/',
   terms: '/terms/',
+  journal: '/journal/',
 } as const;
 export type RouteKey = keyof typeof ROUTES;
 
-export const NAV: RouteKey[] = ['features', 'how', 'for', 'faq', 'about'];
+export const NAV: RouteKey[] = ['features', 'how', 'for', 'journal', 'faq', 'about'];

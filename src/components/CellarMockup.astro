@@ -92,7 +92,7 @@ const c = {
 </figure>
 
 <style>
-  .mock { margin: 0; position: relative; }
+  .mock { margin: 0; position: relative; container-type: inline-size; }
   .mock__frame {
     background: #fffaf2;
     border: 1px solid rgb(22 5 11 / 0.12);
@@ -169,7 +169,7 @@ const c = {
     background: #fff;
   }
 
-  @media (min-width: 640px) {
+  @container (min-width: 560px) {
     .mock__body { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); }
     .mock__shelf { border-bottom: 0; border-right: 1px solid var(--c-line); }
     .mock__card:nth-child(n + 4) { display: block; }

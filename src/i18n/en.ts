@@ -14,6 +14,7 @@ export const en = {
     about: 'About',
     privacy: 'Privacy',
     terms: 'Terms',
+    journal: 'Journal',
   },
   menu: 'Menu',
   menuClose: 'Close menu',

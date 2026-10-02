@@ -1,0 +1,66 @@
+---
+import BottleLabel from '../../components/BottleLabel.astro';
+import type { Lang } from '../../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+{lang === 'en' ? (
+  <>
+    <p>On a back label, in a shop note or in your own cellar app you’ll see something like <strong>“drink 2022–2031”</strong>. It looks precise. It isn’t — and that’s fine, once you know how to read it.</p>
+
+    <h2>A window, not a deadline</h2>
+    <p>A drinking window is an estimate of the years when a wine will be at least enjoyable, with a smaller stretch in the middle when it is likely at its best. Before the window the wine may feel tight, oaky or simply closed. After it, fruit fades and what’s left can be tired. Inside it, you have room.</p>
+
+    <figure>
+      <BottleLabel lang="en" name="Krasnostop" meta="Kuban · 2019" count={2} from={2022} to={2031} peakFrom={2025} peakTo={2028} note="at its peak" />
+      <figcaption>The thin line is the whole window; the dark band is the best years; the dot is today.</figcaption>
+    </figure>
+
+    <h2>Three things that move the window</h2>
+    <ul>
+      <li><strong>The wine itself.</strong> Structure — tannin, acidity, concentration — is what lets a wine age. A bright, fruity rosé has a short window; a firm red from a cool vintage can have a long one.</li>
+      <li><strong>Your storage.</strong> A cool, dark, steady place keeps the window where it was promised. A warm kitchen shelf next to the oven shortens it. Be honest with yourself and adjust.</li>
+      <li><strong>Your taste.</strong> Some people love the energy of a young wine; others wait for softer, more savoury notes. If your ratings keep saying “better young”, your personal window starts earlier.</li>
+    </ul>
+
+    <blockquote>The best year to open a bottle is the one where you’ll still be glad you did.</blockquote>
+
+    <h2>What to do with the bottle you’ve been saving</h2>
+    <p>Almost everyone has one: a gift, a souvenir, a bottle from a special trip. The risk with these isn’t opening them too early — it’s opening them too late. A simple rule: once a saved bottle enters the second half of its best band, choose an evening for it. It doesn’t need to be a grand occasion. A good dinner at home is occasion enough.</p>
+
+    <h2>How Terroir uses windows</h2>
+    <p>Terroir keeps a window for every bottle you add and lets you adjust it. When you ask what to open, it prefers bottles inside their best band, nudges the ones whose window is closing, and leaves the ones that need more time. If you have two bottles of the same wine, it may suggest opening one now and checking how the other develops later.</p>
+
+    <p>And whatever the numbers say — please drink in moderation.</p>
+  </>
+) : (
+  <>
+    <p>На контрэтикетке, в заметке магазина или в вашем приложении для погреба встречается что-то вроде <strong>«пить 2022–2031»</strong>. Выглядит точно. На деле — нет, и это нормально, если знать, как это читать.</p>
+
+    <h2>Окно, а не срок годности</h2>
+    <p>Окно питья — это оценка тех лет, когда вино будет как минимум приятным, а в середине — более короткий отрезок, когда оно, скорее всего, в лучшей форме. До окна вино может казаться зажатым, слишком дубовым или просто закрытым. После — фрукт уходит, и остаётся усталость. Внутри окна у вас есть простор.</p>
+
+    <figure>
+      <BottleLabel lang="ru" name="Красностоп" meta="Кубань · 2019" count={2} from={2022} to={2031} peakFrom={2025} peakTo={2028} note="на пике" />
+      <figcaption>Тонкая линия — всё окно, тёмная полоса — лучшие годы, точка — сегодня.</figcaption>
+    </figure>
+
+    <h2>Три вещи, которые сдвигают окно</h2>
+    <ul>
+      <li><strong>Само вино.</strong> Стареть вину позволяет структура — танины, кислотность, концентрация. У яркого фруктового розе окно короткое, у плотного красного из прохладного года — длинное.</li>
+      <li><strong>Ваше хранение.</strong> Прохладное, тёмное, стабильное место держит окно там, где оно было обещано. Тёплая полка на кухне рядом с духовкой его сокращает. Будьте честны с собой и поправляйте.</li>
+      <li><strong>Ваш вкус.</strong> Кому-то нравится энергия молодого вина, кто-то ждёт более мягких, пряных нот. Если ваши оценки раз за разом говорят «лучше молодым», ваше личное окно начинается раньше.</li>
+    </ul>
+
+    <blockquote>Лучший год, чтобы открыть бутылку, — тот, о котором вы не пожалеете.</blockquote>
+
+    <h2>Что делать с бутылкой, которую жалко открывать</h2>
+    <p>Такая есть почти у всех: подарок, сувенир, бутылка из особенной поездки. Риск с ними не в том, чтобы открыть слишком рано, а в том, чтобы открыть слишком поздно. Простое правило: как только такая бутылка входит во вторую половину своей лучшей полосы, выберите для неё вечер. Не обязательно торжественный — хороший ужин дома уже повод.</p>
+
+    <h2>Как Terroir работает с окнами</h2>
+    <p>Terroir ведёт окно для каждой бутылки, которую вы добавляете, и даёт его поправить. Когда вы спрашиваете, что открыть, он предпочитает бутылки в лучшей полосе, напоминает о тех, чьё окно закрывается, и не трогает те, которым нужно ещё время. Если у вас две бутылки одного вина, он может предложить открыть одну сейчас, а вторую — посмотреть, как она разовьётся позже.</p>
+
+    <p>И что бы ни говорили цифры, — чрезмерное употребление алкоголя вредит здоровью. Пейте умеренно.</p>
+  </>
+)}

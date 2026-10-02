@@ -290,10 +290,10 @@ const app = {
   .hero h1 { font-size: var(--fs-6); max-width: 13ch; margin-bottom: var(--s-5); }
   .hero .lede { margin-bottom: var(--s-6); }
   .hero__visual { position: relative; }
-  :global(.hero__note) { position: absolute; right: 0.5rem; bottom: -3.25rem; margin: 0; }
+  :global(.hero__note) { position: absolute; right: 0.5rem; top: calc(100% + 0.75rem); margin: 0; }
   @media (min-width: 1024px) {
     .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: var(--s-7); }
-    :global(.hero__note) { right: auto; left: -1rem; bottom: -3.5rem; }
+    :global(.hero__note) { right: auto; left: -1rem; }
   }
   @media (max-width: 639px) {
     :global(.hero__note) { position: static; margin-top: var(--s-4); }

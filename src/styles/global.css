@@ -418,7 +418,7 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
 .prose { max-width: var(--measure); }
 .prose h2 { font-size: var(--fs-3); margin-top: var(--s-7); }
 .prose h3 { font-size: var(--fs-2); margin-top: var(--s-6); }
-.prose p, .prose li { color: #2c1820; }
+.prose > p, .prose > ul > li { color: #2c1820; }
 .prose ul { padding-left: 1.2em; }
 .prose li::marker { color: var(--c-merlot); }
 

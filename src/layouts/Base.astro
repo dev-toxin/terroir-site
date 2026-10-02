@@ -22,12 +22,14 @@ interface Props {
   path: string;
   /** Visible label for breadcrumbs (omit on home / 404). */
   crumb?: string;
+  /** Intermediate breadcrumb, e.g. Journal for an article. */
+  crumbParent?: { href: string; label: string };
   /** Extra JSON-LD objects for this page. */
   jsonld?: object[];
   noindex?: boolean;
 }
 
-const { lang, title, fullTitle = false, description, path, crumb, jsonld = [], noindex = false } = Astro.props;
+const { lang, title, fullTitle = false, description, path, crumb, crumbParent, jsonld = [], noindex = false } = Astro.props;
 const s = t(lang);
 const other: Lang = lang === 'en' ? 'ru' : 'en';
 const pageTitle = fullTitle ? title : `${title} · Terroir`;
@@ -118,7 +120,7 @@ const preload = lang === 'ru' ? [fCormorantCyr, fInterCyr] : [fCormorantLatin, f
     <a class="skip-link" href="#main">{s.skip}</a>
     <Header lang={lang} altPath={altPath} />
     <main id="main" tabindex="-1">
-      {crumb && <div class="wrap"><Breadcrumbs lang={lang} current={crumb} /></div>}
+      {crumb && <div class="wrap"><Breadcrumbs lang={lang} current={crumb} parent={crumbParent} /></div>}
       <slot />
     </main>
     <Footer lang={lang} />
