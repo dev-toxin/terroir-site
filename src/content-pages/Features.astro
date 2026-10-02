@@ -144,7 +144,7 @@ const C = {
   }
   .feature__side { display: flex; align-items: center; gap: var(--s-4); }
   .feature__no { font-family: var(--f-display); font-style: italic; font-size: var(--fs-2); color: var(--c-merlot); margin: 0; }
-  .feature__icon { width: 3rem; height: 3rem; color: var(--c-merlot); }
+  :global(.feature__icon) { width: 3rem; height: 3rem; color: var(--c-merlot); }
   .feature h2 { font-size: var(--fs-4); max-width: 22ch; }
   .feature__body > p { max-width: 62ch; font-size: var(--fs-1); color: #3b2730; }
   .feature__demo { display: grid; gap: var(--s-5); align-items: center; margin-top: var(--s-6); max-width: 40rem; }

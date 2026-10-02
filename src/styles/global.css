@@ -98,7 +98,9 @@ body {
 }
 main { flex: 1 0 auto; }
 html, body { overflow-x: clip; }
-h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
+h1, h2, h3 { overflow-wrap: break-word; }
+main:focus { outline: none; box-shadow: none; }
+@media (max-width: 400px) { h1, h2 { hyphens: auto; } }
 
 h1, h2, h3, h4 {
   font-family: var(--f-display);
