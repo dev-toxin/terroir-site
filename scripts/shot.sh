@@ -19,7 +19,7 @@ fi
   --user-data-dir="/tmp/terroir-chrome-$$" --window-size="$win,$h" --screenshot="$out" \
   "$url" >/dev/null 2>&1 &
 pid=$!
-for _ in $(seq 1 40); do
+for _ in $(seq 1 80); do
   [ -s "$out" ] && break
   sleep 0.5
 done

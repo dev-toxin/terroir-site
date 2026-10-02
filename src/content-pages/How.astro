@@ -1,0 +1,202 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { t, localize, ROUTES } from '../i18n/ui';
+import type { Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = t(lang);
+const L = (p: string) => localize(lang, p);
+
+const C = {
+  en: {
+    title: 'How it works',
+    seo: 'How Terroir works — four steps, and where the answers come from',
+    description: 'Set up your cellar, answer six questions about taste, add the recipes you love, then just ask. And how Terroir answers: rules and your data first, AI only for wording — never a bottle you don’t own.',
+    h1: 'Four steps, <em>then just ask</em>',
+    lede: 'Setting up takes one evening with a glass in hand. After that Terroir mostly listens: every bottle you open and every note you leave makes the next answer better.',
+    steps: [
+      { icon: 'rack', h: 'Set up your cellar', p: 'Add what you have — name, grape, vintage, quantity, where it lies. Start with the ten bottles you open most; the rest can come later. Terroir suggests a drinking window for each, and you can adjust it.', aside: 'No need to enter everything on day one.' },
+      { icon: 'palate', h: 'Answer six questions about taste', p: 'Short and concrete: what you reach for on a weeknight, how you feel about oak, tannin, sweetness, acidity, age. A few more questions arrive later in small batches — never a wall of them.', aside: 'Takes about two minutes.' },
+      { icon: 'book', h: 'Add the recipes you love', p: 'Not a recipe database — your dishes. A title and a couple of words are enough: “lamb shoulder, slow, with garlic and rosemary”. Terroir uses them to pair in both directions.', aside: 'Three or four favourites make a real difference.' },
+      { icon: 'chat', h: 'Ask', p: '“What do we open with the duck?” “Something light for a hot evening?” “What should I cook for the Saperavi?” Terroir answers with a bottle you own, the reason, and your own past notes. Opened it? One tap — and a rating if you like.', aside: 'In the web app now; Telegram is planned.' },
+    ],
+    sourceKicker: 'Where the answers come from',
+    sourceH: 'Your shelf first. <em>Words last.</em>',
+    sourceLede: 'An assistant that makes things up is worse than no assistant. So Terroir is built in layers, and the language model sits on the very top.',
+    layers: [
+      { h: 'Your data', p: 'Only bottles actually in your cellar, with quantities, places and drinking windows. If a bottle isn’t there, it can’t be suggested.' },
+      { h: 'Clear rules', p: 'Pairing and timing logic does the choosing: what’s in its window, what suits the dish, what you rated highly before, who in the couple is asking.' },
+      { h: 'Your history', p: 'Ratings and notes you left yourself are quoted back — “you gave a similar one 5/5” — so you can judge the advice by your own words.' },
+      { h: 'AI for wording', p: 'A language model turns the result into a short, human answer. It phrases; it doesn’t pick bottles from thin air, and it says so when nothing on the shelf fits.' },
+    ],
+    honest: 'If nothing fits, Terroir says “nothing on your shelf is a great match tonight” — and tells you what the closest option is and why.',
+  },
+  ru: {
+    title: 'Как это работает',
+    seo: 'Как работает Terroir — четыре шага и откуда берутся ответы',
+    description: 'Заведите погреб, ответьте на шесть вопросов о вкусе, добавьте любимые рецепты — и просто спрашивайте. И как Terroir отвечает: сначала правила и ваши данные, ИИ только формулирует — и никогда не советует того, чего нет у вас на полке.',
+    h1: 'Четыре шага, <em>а дальше просто спрашивайте</em>',
+    lede: 'Настройка занимает один вечер с бокалом в руке. Дальше Terroir в основном слушает: каждая открытая бутылка и каждая заметка делают следующий ответ точнее.',
+    steps: [
+      { icon: 'rack', h: 'Заведите погреб', p: 'Добавьте то, что у вас есть: название, сорт, год, количество, где лежит. Начните с десятка бутылок, которые открываете чаще всего, остальное — потом. Terroir предложит окно питья для каждой, его можно поправить.', aside: 'Вносить всё в первый же день не нужно.' },
+      { icon: 'palate', h: 'Ответьте на шесть вопросов о вкусе', p: 'Коротко и по делу: что вы берёте в будний вечер, как относитесь к дубу, танинам, сладости, кислотности, возрасту вина. Ещё несколько вопросов придут позже, небольшими порциями, — никакой анкеты на полчаса.', aside: 'Около двух минут.' },
+      { icon: 'book', h: 'Добавьте любимые рецепты', p: 'Не база рецептов, а ваши блюда. Достаточно названия и пары слов: «баранья лопатка, долго, с чесноком и розмарином». По ним Terroir подбирает пары в обе стороны.', aside: 'Три-четыре любимых блюда уже многое меняют.' },
+      { icon: 'chat', h: 'Спрашивайте', p: '«Что откроем к утке?» «Что-нибудь лёгкое на жаркий вечер?» «Что приготовить к Саперави?» Terroir ответит бутылкой, которая у вас есть, объяснит выбор и напомнит ваши же заметки. Открыли — один тап и, если хочется, оценка.', aside: 'Сейчас — в веб-приложении, Telegram в планах.' },
+    ],
+    sourceKicker: 'Откуда ответы',
+    sourceH: 'Сначала ваша полка. <em>Слова — в последнюю очередь.</em>',
+    sourceLede: 'Помощник, который выдумывает, хуже, чем никакого. Поэтому Terroir устроен слоями, и языковая модель — на самом верху.',
+    layers: [
+      { h: 'Ваши данные', p: 'Только бутылки, которые действительно есть в погребе, с количеством, местом и окном питья. Чего нет на полке, того нельзя посоветовать.' },
+      { h: 'Понятные правила', p: 'Выбирает логика сочетаний и сроков: что сейчас в окне, что подходит к блюду, что вы раньше оценили высоко, кто из пары спрашивает.' },
+      { h: 'Ваша история', p: 'Ваши собственные оценки и заметки цитируются в ответе — «похожему вы ставили 5/5», — чтобы совет можно было проверить вашими же словами.' },
+      { h: 'ИИ — для формулировки', p: 'Языковая модель превращает результат в короткий человеческий ответ. Она формулирует, а не достаёт бутылки из воздуха — и прямо говорит, если на полке ничего не подходит.' },
+    ],
+    honest: 'Если ничего не подходит, Terroir так и скажет: «сегодня на вашей полке нет отличной пары», — и объяснит, что ближе всего и почему.',
+  },
+}[lang];
+---
+
+<Base lang={lang} title={C.seo} description={C.description} path={ROUTES.how} crumb={C.title}>
+  <PageHero kicker={C.title} title={C.h1} lede={C.lede} icon="cork" />
+
+  <section class="section" aria-label={C.title}>
+    <div class="wrap">
+      <ol class="steps">
+        {C.steps.map((st, i) => (
+          <li class="step">
+            <div class="step__art">
+              <span class="step__no" aria-hidden="true">{['I', 'II', 'III', 'IV'][i]}</span>
+              <Icon name={st.icon as any} class="step__icon" />
+            </div>
+            <div class="step__body">
+              <h2><span class="visually-hidden">{lang === 'en' ? 'Step' : 'Шаг'} {i + 1}. </span>{st.h}</h2>
+              <p>{st.p}</p>
+              <p class="step__aside">{st.aside}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--dark" aria-labelledby="h-source">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-head__no" aria-hidden="true">№ 05 · {C.sourceKicker}</p>
+        <h2 id="h-source" set:html={C.sourceH} />
+        <p class="lede">{C.sourceLede}</p>
+      </div>
+      <ol class="layers">
+        {C.layers.map((l, i) => (
+          <li class="layer" style={`--w:${100 - i * 9}%`}>
+            <span class="layer__no tnum" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{l.h}</h3>
+              <p>{l.p}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="honest">{C.honest}</p>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} secondary={{ href: L(ROUTES.features), label: s.nav.features }} />
+</Base>
+
+<style>
+  .steps { list-style: none; padding: 0; margin: 0; counter-reset: s; }
+  .step {
+    display: grid;
+    gap: var(--s-5) var(--s-8);
+    padding-block: var(--s-7);
+    border-top: 1px solid var(--c-line);
+    margin: 0;
+  }
+  .step:last-child { border-bottom: 1px solid var(--c-line); }
+  .step__art {
+    position: relative;
+    width: 9rem;
+    height: 9rem;
+    border: 1px solid var(--c-gold);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--c-cream);
+  }
+  .step__art::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgb(201 164 92 / 0.5);
+    border-radius: 50%;
+  }
+  .step__icon { width: 4.5rem; height: 4.5rem; color: var(--c-merlot); stroke-width: 1.1; }
+  .step__no {
+    position: absolute;
+    top: -0.4rem;
+    left: -0.4rem;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: var(--fs-3);
+    color: var(--c-merlot);
+    background: var(--c-parchment);
+    padding: 0 0.3rem;
+    line-height: 1;
+  }
+  .step h2 { font-size: var(--fs-4); }
+  .step__body > p { max-width: 62ch; font-size: var(--fs-1); color: #3b2730; }
+  .step__aside {
+    font-family: var(--f-display);
+    font-style: italic;
+    color: var(--c-terracotta-text) !important;
+    font-size: var(--fs-2) !important;
+    margin: 0;
+  }
+  @media (min-width: 768px) {
+    .step { grid-template-columns: 10rem minmax(0, 1fr); }
+    .step:nth-child(even) .step__art { order: 0; }
+  }
+
+  .layers { list-style: none; padding: 0; margin: 0 0 var(--s-6); display: grid; gap: var(--s-3); }
+  .layer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-5);
+    align-items: start;
+    margin: 0;
+    padding: var(--s-5) var(--s-6);
+    background: var(--c-ink-2);
+    border: 1px solid var(--c-line-dark);
+    border-radius: var(--radius-lg);
+  }
+  .layer:last-child { border-color: rgb(201 164 92 / 0.55); }
+  .layer__no {
+    font-family: var(--f-display);
+    font-size: var(--fs-4);
+    font-style: italic;
+    line-height: 1;
+    color: var(--c-gold);
+    min-width: 2.25rem;
+  }
+  .layer h3 { margin-bottom: var(--s-2); }
+  .layer p { margin: 0; color: var(--c-muted-dark); max-width: 64ch; }
+  @media (min-width: 1024px) {
+    .layer { width: var(--w); margin-inline: auto; }
+  }
+  .honest {
+    max-width: 52ch;
+    margin: var(--s-7) auto 0;
+    text-align: center;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: var(--fs-2);
+    line-height: 1.35;
+    color: var(--c-gold-soft);
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { ROUTES } from '../i18n/ui';
+import { SITE, type Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const C = {
+  en: {
+    title: 'About',
+    seo: 'About Terroir — why we built it and what we won’t do',
+    description: 'Why Terroir exists, the principles behind it — your data is yours, honest recommendations, no wine advertising — and the studio that builds it, AnKo Software Labs.',
+    h1: 'It started with <em>a notebook</em> and a shelf',
+    lede: 'Terroir began the way many home tools do: someone needed it for themselves.',
+    story: [
+      'One of us keeps a modest cellar at home and, for years, a paper notebook next to it: what was bought, what was opened, how it tasted, what was cooked that night. The notebook was the most useful wine tool in the house — and the most annoying. You can’t ask a notebook what to open with tonight’s dinner.',
+      'The apps we tried knew everything about wine in general and nothing about our shelf. General AI chats were articulate but forgetful, and kept suggesting bottles we didn’t have. So we built the thing in between: an inventory and a memory, with an assistant that speaks only from them.',
+      'For now we use Terroir ourselves, every week, on our own bottles. The next step is a small group of people who cook at home and keep some wine — maybe you.',
+    ],
+    principlesH: 'Principles',
+    principles: [
+      ['Your data is yours', 'Export everything as CSV at any time. Delete on request. No selling, no sharing for advertising.'],
+      ['Honest recommendations', 'Only from bottles you own. When nothing fits, we say so. No invented facts, no inflated scores.'],
+      ['No wine advertising', 'No shops, no affiliate links, no paid placements. Wineries can’t buy a spot in your answers.'],
+      ['Quiet by design', 'No streaks, no badges, no pressure to drink more. A tool for good evenings, not for engagement metrics.'],
+    ],
+    studioH: 'The studio',
+    studio: `Terroir is built by <a href="${SITE.company.url}" rel="noopener">${SITE.company.name}</a>, an independent software studio making practical, AI-assisted products. Questions, ideas or just a good pairing story — write to <a href="mailto:${SITE.contact}">${SITE.contact}</a>.`,
+  },
+  ru: {
+    title: 'О проекте',
+    seo: 'О Terroir — зачем мы его сделали и чего делать не будем',
+    description: 'Почему появился Terroir, принципы, на которых он построен, — ваши данные принадлежат вам, честные рекомендации, никакой рекламы вина, — и студия, которая его делает, AnKo Software Labs.',
+    h1: 'Всё началось <em>с записной книжки</em> и полки',
+    lede: 'Terroir появился так же, как многие домашние инструменты: кому-то он был нужен самому.',
+    story: [
+      'Один из нас держит дома скромный погреб и много лет — бумажную записную книжку рядом с ним: что куплено, что открыто, каким было на вкус, что готовили в тот вечер. Книжка была самым полезным винным инструментом в доме — и самым неудобным. У книжки не спросишь, что открыть к сегодняшнему ужину.',
+      'Приложения, которые мы пробовали, знали всё о вине вообще и ничего — о нашей полке. Обычные ИИ-чаты были красноречивы, но забывчивы и всё время советовали бутылки, которых у нас нет. Поэтому мы сделали то, что посередине: учёт и память, и помощника, который говорит только на их основе.',
+      'Пока мы пользуемся Terroir сами, каждую неделю, на своих бутылках. Следующий шаг — небольшая группа людей, которые готовят дома и держат немного вина. Возможно, вы.',
+    ],
+    principlesH: 'Принципы',
+    principles: [
+      ['Ваши данные — ваши', 'Выгрузка всего в CSV в любой момент. Удаление по запросу. Никакой продажи и передачи для рекламы.'],
+      ['Честные рекомендации', 'Только из бутылок, которые у вас есть. Если ничего не подходит, говорим прямо. Без выдуманных фактов и завышенных оценок.'],
+      ['Без рекламы вина', 'Никаких магазинов, партнёрских ссылок и платных размещений. Винодельня не может купить место в ваших ответах.'],
+      ['Спокойствие по умолчанию', 'Никаких серий, значков и подталкивания пить больше. Инструмент для хороших вечеров, а не для метрик вовлечённости.'],
+    ],
+    studioH: 'Студия',
+    studio: `Terroir делает <a href="${SITE.company.url}" rel="noopener">${SITE.company.name}</a> — независимая студия, которая создаёт практичные продукты с помощью ИИ. Вопросы, идеи или просто удачная история о сочетании — пишите на <a href="mailto:${SITE.contact}">${SITE.contact}</a>.`,
+  },
+}[lang];
+---
+
+<Base lang={lang} title={C.seo} description={C.description} path={ROUTES.about} crumb={C.title}>
+  <PageHero kicker={C.title} title={C.h1} lede={C.lede} icon="book" />
+
+  <section class="section" aria-label={C.title}>
+    <div class="wrap--narrow story">
+      {C.story.map((p, i) => <p class:list={[i === 0 && 'dropcap']}>{p}</p>)}
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="h-principles">
+    <div class="wrap grid grid--split">
+      <div class="sec-head">
+        <p class="sec-head__no" aria-hidden="true">№ 02</p>
+        <h2 id="h-principles">{C.principlesH}</h2>
+      </div>
+      <ol class="numbered">
+        {C.principles.map(([h, p]) => (
+          <li>
+            <h3>{h}</h3>
+            <p>{p}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="h-studio">
+    <div class="wrap--narrow">
+      <p class="sec-head__no" aria-hidden="true">№ 03</p>
+      <h2 id="h-studio">{C.studioH}</h2>
+      <p class="lede" set:html={C.studio} />
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  .story p { font-size: var(--fs-1); line-height: 1.7; color: #2c1820; max-width: 64ch; }
+  .dropcap::first-letter {
+    float: left;
+    font-family: var(--f-display);
+    font-size: 4.6em;
+    line-height: 0.8;
+    padding: 0.08em 0.1em 0 0;
+    color: var(--c-merlot);
+    font-weight: 500;
+  }
+</style>

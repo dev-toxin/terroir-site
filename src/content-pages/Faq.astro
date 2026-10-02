@@ -1,0 +1,171 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { localize, ROUTES } from '../i18n/ui';
+import { SITE, type Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const L = (p: string) => localize(lang, p);
+const mail = `<a href="mailto:${SITE.contact}">${SITE.contact}</a>`;
+
+const C = {
+  en: {
+    title: 'FAQ',
+    seo: 'Questions about Terroir — data, AI, price, languages',
+    description: 'How Terroir differs from label-scanning apps, whether you must enter every bottle, what happens to your data, which AI it uses, the price, apps and stores, why 18+ and which languages are supported.',
+    h1: 'Questions, <em>answered plainly</em>',
+    lede: `Didn’t find yours? Write to ${mail} — a person will reply.`,
+    groups: [
+      {
+        h: 'The product',
+        qa: [
+          ['How is Terroir different from label-scanning apps?', 'Those apps know a lot about wine in general — millions of labels and other people’s ratings. Terroir is about your wine in particular: what’s on your shelf, how you liked it, and what you cook. It doesn’t try to be a catalogue of the world; it tries to answer “what do we open tonight?” from what you own.'],
+          ['And how is it different from asking a general AI chat?', 'A general chat starts from zero every time and happily recommends bottles you don’t have. Terroir keeps a structured memory — inventory, drinking windows, ratings, recipes — and answers only from your cellar. If nothing fits, it says so.'],
+          ['Do I need to enter every bottle?', 'No. Start with the ten you open most often — that’s already enough for useful answers. Add the rest whenever you like; many people fill in bottles as they open or buy them.'],
+          ['Can two people share a cellar?', 'Yes. A couple can share one cellar while each keeps a personal taste profile and their own ratings. The assistant knows who is asking.'],
+          ['Is there an app in the App Store or Google Play?', 'Not yet. The first version is a web app you can add to your home screen (PWA) and, soon, a Telegram bot. No stores for now.'],
+          ['Which languages does it speak?', 'English and Russian, both in the product and on this site. You can switch at any time.'],
+        ],
+      },
+      {
+        h: 'Data and AI',
+        qa: [
+          ['What happens to my data?', `Your cellar, taste profile, recipes and conversations are used to give you answers — nothing else. We don’t sell data and don’t show wine ads. You can export everything as CSV at any time and ask us to delete your account. Details are in the <a href="${L(ROUTES.privacy)}">Privacy notice</a> (a draft for now).`],
+          ['Which AI models do you use?', 'We use a language-model provider through a standard interface, so we can change providers without changing the product. Where the provider allows it, we switch off the use of your data for model training. The model only puts the answer into words; the choice comes from your data and clear rules.'],
+          ['Can I take my data with me?', 'Yes — export the whole cellar, ratings and notes as a CSV file whenever you want. Your data belongs to you.'],
+        ],
+      },
+      {
+        h: 'Practical things',
+        qa: [
+          ['How much does it cost?', 'Free during early access. If and when there are paid plans, we’ll announce prices well in advance — early-access members will hear first.'],
+          ['Why is the site 18+?', 'Terroir is about wine, so it’s intended for adults of legal drinking age. It helps you keep track of bottles you already own; it doesn’t sell alcohol or encourage drinking more. Please drink in moderation.'],
+          ['Do you sell wine or get paid by wineries?', 'No. There are no shops, no affiliate links and no paid placements. Recommendations come from your own shelf.'],
+        ],
+      },
+    ],
+  },
+  ru: {
+    title: 'Вопросы',
+    seo: 'Вопросы о Terroir — данные, ИИ, цена, языки',
+    description: 'Чем Terroir отличается от приложений-сканеров этикеток, нужно ли вводить все бутылки, что с вашими данными, какой ИИ используется, сколько стоит, есть ли приложение в сторах, почему 18+ и на каких языках.',
+    h1: 'Вопросы <em>и прямые ответы</em>',
+    lede: `Не нашли свой? Напишите на ${mail} — ответит человек.`,
+    groups: [
+      {
+        h: 'О продукте',
+        qa: [
+          ['Чем Terroir отличается от приложений, которые сканируют этикетки?', 'Такие приложения много знают о вине вообще — миллионы этикеток и чужие оценки. Terroir — о вашем вине: что стоит у вас на полке, как оно вам понравилось и что вы готовите. Он не пытается быть каталогом всего мира — он отвечает на вопрос «что откроем сегодня?» из того, что у вас есть.'],
+          ['А чем это лучше, чем спросить обычный ИИ-чат?', 'Обычный чат каждый раз начинает с нуля и охотно советует бутылки, которых у вас нет. У Terroir есть структурированная память — учёт, окна питья, оценки, рецепты, — и отвечает он только из вашего погреба. Если ничего не подходит, он так и говорит.'],
+          ['Нужно ли вносить все бутылки?', 'Нет. Начните с десятка, которые открываете чаще всего, — этого уже хватает для полезных ответов. Остальные добавляйте когда удобно: многие вносят бутылки по мере покупки или открытия.'],
+          ['Можно ли вести погреб вдвоём?', 'Да. Пара может вести общий погреб, при этом у каждого свой профиль вкуса и свои оценки. Помощник знает, кто спрашивает.'],
+          ['Есть ли приложение в App Store или Google Play?', 'Пока нет. Первая версия — веб-приложение, которое можно добавить на домашний экран (PWA), и вскоре — Telegram-бот. Без магазинов приложений.'],
+          ['На каких языках он говорит?', 'На английском и русском — и в продукте, и на этом сайте. Переключиться можно в любой момент.'],
+        ],
+      },
+      {
+        h: 'Данные и ИИ',
+        qa: [
+          ['Что будет с моими данными?', `Погреб, профиль вкуса, рецепты и переписка используются для того, чтобы отвечать вам, — и только. Мы не продаём данные и не показываем рекламу вина. Всё можно выгрузить в CSV в любой момент и попросить удалить аккаунт. Подробности — в <a href="${L(ROUTES.privacy)}">политике конфиденциальности</a> (пока черновик).`],
+          ['Какие модели ИИ вы используете?', 'Мы используем провайдера языковых моделей через стандартный интерфейс, поэтому можем сменить провайдера, не меняя продукт. Там, где провайдер это позволяет, мы отключаем использование ваших данных для обучения моделей. Модель только формулирует ответ, а выбор делают ваши данные и понятные правила.'],
+          ['Можно ли забрать свои данные?', 'Да — выгрузите весь погреб, оценки и заметки в CSV когда захотите. Данные принадлежат вам.'],
+        ],
+      },
+      {
+        h: 'Практическое',
+        qa: [
+          ['Сколько это стоит?', 'Бесплатно на время раннего доступа. Если появятся платные тарифы, мы объявим цены заранее — участники раннего доступа узнают первыми.'],
+          ['Почему сайт 18+?', 'Terroir — про вино, поэтому он предназначен только для совершеннолетних. Это инструмент учёта и подбора из того, что у вас уже есть: он не продаёт алкоголь и не призывает пить больше. Чрезмерное употребление алкоголя вредит здоровью.'],
+          ['Вы продаёте вино или получаете деньги от виноделен?', 'Нет. Никаких магазинов, партнёрских ссылок и платных размещений. Рекомендации — только из вашей полки.'],
+        ],
+      },
+    ],
+  },
+}[lang];
+
+const strip = (h: string) => h.replace(/<[^>]+>/g, '');
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: lang,
+  mainEntity: C.groups.flatMap((g) =>
+    g.qa.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: strip(a) } })),
+  ),
+};
+let n = 0;
+---
+
+<Base lang={lang} title={C.seo} description={C.description} path={ROUTES.faq} crumb={C.title} jsonld={[faqLd]}>
+  <PageHero kicker={C.title} title={C.h1} lede={C.lede} icon="book" />
+
+  <section class="section" aria-label={C.title}>
+    <div class="wrap--narrow">
+      {C.groups.map((g) => (
+        <section class="faq-group" aria-labelledby={`g-${g.h.length}-${n}`}>
+          <h2 class="faq-group__h" id={`g-${g.h.length}-${n}`}>{g.h}</h2>
+          {g.qa.map(([q, a]) => {
+            n++;
+            return (
+              <details class="qa">
+                <summary>
+                  <span class="qa__no tnum" aria-hidden="true">{String(n).padStart(2, '0')}</span>
+                  <span class="qa__q">{q}</span>
+                  <span class="qa__mark" aria-hidden="true"></span>
+                </summary>
+                <div class="qa__a"><p set:html={a} /></div>
+              </details>
+            );
+          })}
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  .faq-group { margin-bottom: var(--s-8); }
+  .faq-group__h {
+    font-family: var(--f-text);
+    font-size: var(--fs--1);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-merlot);
+    margin-bottom: var(--s-4);
+  }
+  .qa { border-top: 1px solid var(--c-line); }
+  .qa:last-child { border-bottom: 1px solid var(--c-line); }
+  .qa summary {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 2.25rem 1fr 1.5rem;
+    gap: var(--s-3);
+    align-items: baseline;
+    padding: var(--s-5) 0;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa__no { font-family: var(--f-display); font-style: italic; color: var(--c-gold); font-size: var(--fs-1); color: #8a6a2a; }
+  .qa__q { font-family: var(--f-display); font-size: var(--fs-2); font-weight: 600; line-height: 1.2; }
+  .qa summary:hover .qa__q { color: var(--c-merlot); }
+  .qa__mark { position: relative; width: 1rem; height: 1rem; align-self: center; }
+  .qa__mark::before, .qa__mark::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1.5px;
+    background: var(--c-merlot);
+    transition: transform 0.2s var(--ease);
+  }
+  .qa__mark::after { transform: rotate(90deg); }
+  .qa[open] .qa__mark::after { transform: rotate(0); }
+  .qa__a { padding: 0 0 var(--s-5) calc(2.25rem + var(--s-3)); }
+  .qa__a p { color: #3b2730; margin: 0; max-width: 62ch; }
+</style>

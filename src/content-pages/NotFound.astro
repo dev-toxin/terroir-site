@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import BottleLabel from '../components/BottleLabel.astro';
+import { t, localize, ROUTES } from '../i18n/ui';
+import type { Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = t(lang);
+const L = (p: string) => localize(lang, p);
+const C = {
+  en: {
+    lede: 'We looked on every shelf — this page isn’t here. Maybe it was opened a while ago, or the address has a typo.',
+    try: 'Try one of these instead:',
+    card: { name: 'Page № 404', meta: 'Vintage unknown · cellar empty' },
+    note: 'not found',
+  },
+  ru: {
+    lede: 'Мы проверили все полки — такой страницы здесь нет. Возможно, её давно открыли и выпили, или в адресе опечатка.',
+    try: 'Загляните сюда:',
+    card: { name: 'Страница № 404', meta: 'Год неизвестен · полка пуста' },
+    note: 'не найдена',
+  },
+}[lang];
+const links = (['home', 'features', 'how', 'faq', 'early'] as const).map((k) => ({ href: L(ROUTES[k]), label: s.nav[k] }));
+---
+
+<Base lang={lang} title={s.notFound.title} description={C.lede} path="/404/" noindex>
+  <section class="section nf">
+    <div class="wrap nf__grid">
+      <div>
+        <p class="kicker">404</p>
+        <h1>{lang === 'en' ? <>This bottle isn’t <em>in the cellar</em></> : <>Этой бутылки <em>нет в погребе</em></>}</h1>
+        <p class="lede">{C.lede}</p>
+        <p class="mt-6"><strong>{C.try}</strong></p>
+        <ul class="nf__links">
+          {links.map((l) => <li><a class="text-link" href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="nf__card">
+        <BottleLabel lang={lang} name={C.card.name} meta={C.card.meta} count={0} from={2000} to={2030} peakFrom={2000} peakTo={2000} now={2000} note={C.note} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-7); align-items: center; }
+  .nf__links { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0 var(--s-5); }
+  .nf__links li { margin: 0; }
+  .nf__card { max-width: 22rem; transform: rotate(-3deg); opacity: 0.85; }
+  @media (min-width: 1024px) { .nf__grid { grid-template-columns: 1.4fr 1fr; } }
+</style>

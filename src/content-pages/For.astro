@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import MarginNote from '../components/MarginNote.astro';
+import { t, localize, ROUTES } from '../i18n/ui';
+import type { Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = t(lang);
+const L = (p: string) => localize(lang, p);
+
+const C = {
+  en: {
+    title: 'Who it’s for',
+    seo: 'Who Terroir is for — home cooks, couples, small cellars, local wines',
+    description: 'Terroir is for people who cook at home and open wine with dinner: couples sharing one cellar, keepers of 10–200 bottles, lovers of local and indigenous grapes, and hosts of themed wine evenings.',
+    h1: 'For a kitchen with <em>a few good bottles</em> nearby',
+    lede: 'You don’t need to be a sommelier or a collector. If you cook, keep some wine at home and sometimes wonder what to open — Terroir is for you.',
+    people: [
+      {
+        icon: 'book', h: 'Home cooks and couples',
+        p: 'You cook most evenings and like a glass with it. Two people, one cellar, two palates: one of you loves structured reds, the other wants something bright. Each rates for themselves, and Terroir knows whose evening it is.',
+        list: ['One shared cellar, personal tastes', 'Pairings drawn from the dishes you really make', '“We drank it” in one tap, notes for both'],
+      },
+      {
+        icon: 'rack', h: 'Keepers of a small cellar',
+        p: 'Somewhere between ten and two hundred bottles — a rack in the hallway, a cupboard, a corner of the basement. Enough to forget what’s at the back; too few to justify a spreadsheet hobby.',
+        list: ['Quantities and places for every bottle', 'Drinking windows you can see at a glance', 'CSV export whenever you want it'],
+      },
+      {
+        icon: 'leaf', h: 'Lovers of local and indigenous wines',
+        p: 'Saperavi from a qvevri, Krasnostop from Kuban, Areni from Vayots Dzor, a Crimean Kokur. Terroir isn’t limited to the famous regions — it remembers whatever is on your shelf and how you felt about it.',
+        list: ['Any grape, any region — Georgia, Armenia, Crimea, Kuban and beyond', 'Your own notes matter more than a global rating', 'Windows you can adjust when you know better'],
+      },
+    ],
+    eveningsH: 'Wine evenings <em>with friends</em>',
+    eveningsLede: 'Themed dinners are where Terroir is most fun: pick a country, cook, and let the cellar answer.',
+    evenings: [
+      { country: 'Italy', dish: 'Tagliatelle Bolognese, slow Sunday ragù', idea: 'Terroir looks for bright, food-friendly reds on your shelf with enough acidity to cut through the sauce — and shows which ones are in their window now.' },
+      { country: 'France', dish: 'Beef cheeks braised in red wine', idea: 'A long braise asks for depth. Terroir proposes the more structured bottles you own, and reminds you which one you thought “needed food” last time.' },
+      { country: 'The Caucasus', dish: 'Khinkali, mtsvadi, herbs and walnuts', idea: 'Your own Saperavi, Areni or amber wines — with a note on how many bottles you have, so there’s enough for the whole table.' },
+    ],
+    note: 'examples of what Terroir does with your bottles — not shopping lists',
+    notH: 'Who it’s probably not for (yet)',
+    not: 'Restaurants, shops and large collections with professional inventory needs. Terroir is a home tool; we’d rather do that one thing well.',
+  },
+  ru: {
+    title: 'Для кого',
+    seo: 'Для кого Terroir — домашние повара, пары, небольшие погреба, локальные вина',
+    description: 'Terroir — для тех, кто готовит дома и открывает вино к ужину: для пар с общим погребом, хранителей 10–200 бутылок, любителей локальных и автохтонных сортов и хозяев тематических винных вечеров.',
+    h1: 'Для кухни, рядом с которой <em>есть несколько хороших бутылок</em>',
+    lede: 'Не нужно быть сомелье или коллекционером. Если вы готовите, держите дома немного вина и иногда не знаете, что открыть, — Terroir для вас.',
+    people: [
+      {
+        icon: 'book', h: 'Домашние повара и пары',
+        p: 'Вы готовите почти каждый вечер и любите бокал к ужину. Двое, один погреб, два вкуса: один любит плотное красное, другой — что-нибудь свежее. Каждый оценивает за себя, а Terroir знает, чей сегодня вечер.',
+        list: ['Общий погреб, личные вкусы', 'Пары к блюдам, которые вы правда готовите', '«Выпили» одним тапом, заметки — у каждого'],
+      },
+      {
+        icon: 'rack', h: 'Хранители небольшого погреба',
+        p: 'Где-то от десяти до двухсот бутылок — стеллаж в прихожей, шкаф, угол подвала. Достаточно, чтобы забыть, что стоит в глубине, и слишком мало, чтобы вести таблицу как хобби.',
+        list: ['Количество и место каждой бутылки', 'Окна питья, видные с одного взгляда', 'Экспорт в CSV, когда захотите'],
+      },
+      {
+        icon: 'leaf', h: 'Любители локальных и автохтонных вин',
+        p: 'Саперави из квеври, кубанский Красностоп, Арени из Вайоц-Дзора, крымский Кокур. Terroir не ограничен знаменитыми регионами — он помнит всё, что стоит у вас на полке, и как оно вам понравилось.',
+        list: ['Любой сорт, любой регион — Грузия, Армения, Крым, Кубань и дальше', 'Ваши заметки важнее любого общего рейтинга', 'Окна питья можно поправить, если вы знаете лучше'],
+      },
+    ],
+    eveningsH: 'Винные вечера <em>с друзьями</em>',
+    eveningsLede: 'Тематические ужины — то, где Terroir особенно хорош: выберите страну, приготовьте, а погреб подскажет.',
+    evenings: [
+      { country: 'Италия', dish: 'Тальятелле болоньезе, долгое воскресное рагу', idea: 'Terroir ищет на вашей полке яркие гастрономичные красные с кислотностью, которая справится с соусом, и показывает, какие из них сейчас в окне.' },
+      { country: 'Франция', dish: 'Говяжьи щёки, томлённые в красном вине', idea: 'Долгое томление просит глубины. Terroir предложит самые плотные из ваших бутылок и напомнит, про какую вы в прошлый раз написали «нужна еда».' },
+      { country: 'Кавказ', dish: 'Хинкали, мцвади, зелень и орехи', idea: 'Ваши Саперави, Арени или янтарные вина — и сколько их у вас, чтобы хватило на весь стол.' },
+    ],
+    note: 'примеры того, что Terroir делает с вашими бутылками, — не список покупок',
+    notH: 'Кому Terroir, скорее всего, (пока) не подойдёт',
+    not: 'Ресторанам, магазинам и большим коллекциям с профессиональным учётом. Terroir — домашний инструмент, и мы хотим делать хорошо именно это.',
+  },
+}[lang];
+---
+
+<Base lang={lang} title={C.seo} description={C.description} path={ROUTES.for} crumb={C.title}>
+  <PageHero kicker={C.title} title={C.h1} lede={C.lede} icon="leaf" />
+
+  <section class="section" aria-label={C.title}>
+    <div class="wrap">
+      {C.people.map((p, i) => (
+        <article class:list={['person', i % 2 === 1 && 'person--alt']}>
+          <div class="person__art">
+            <Icon name={p.icon as any} class="person__icon" />
+          </div>
+          <div>
+            <p class="sec-head__no" aria-hidden="true">№ {String(i + 1).padStart(2, '0')}</p>
+            <h2>{p.h}</h2>
+            <p class="person__p">{p.p}</p>
+            <ul class="checks">{p.list.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="h-evenings">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-head__no" aria-hidden="true">№ 04</p>
+        <h2 id="h-evenings" set:html={C.eveningsH} />
+        <p class="lede">{C.eveningsLede}</p>
+      </div>
+      <div class="grid grid--3">
+        {C.evenings.map((e) => (
+          <article class="label menu">
+            <p class="menu__country">{e.country}</p>
+            <h3>{e.dish}</h3>
+            <hr class="menu__rule" />
+            <p>{e.idea}</p>
+          </article>
+        ))}
+      </div>
+      <MarginNote class="mt-6" dir="right">{C.note}</MarginNote>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="h-not">
+    <div class="wrap--narrow center">
+      <h2 id="h-not" class="not__h">{C.notH}</h2>
+      <p class="lede" style="margin-inline:auto">{C.not}</p>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} secondary={{ href: L(ROUTES.faq), label: s.nav.faq }} />
+</Base>
+
+<style>
+  .person {
+    display: grid;
+    gap: var(--s-5) var(--s-8);
+    padding-block: var(--s-7);
+    border-top: 1px solid var(--c-line);
+    align-items: center;
+  }
+  .person:last-child { border-bottom: 1px solid var(--c-line); }
+  .person__art {
+    width: 10rem;
+    aspect-ratio: 3 / 4;
+    border: 1px solid var(--c-gold);
+    border-radius: 999px 999px var(--radius) var(--radius);
+    display: grid;
+    place-items: center;
+    background: var(--c-cream);
+    position: relative;
+  }
+  .person__art::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgb(201 164 92 / 0.5);
+    border-radius: inherit;
+  }
+  .person__icon { width: 5rem; height: 5rem; color: var(--c-merlot); stroke-width: 1; }
+  .person h2 { font-size: var(--fs-4); }
+  .person__p { max-width: 62ch; font-size: var(--fs-1); color: #3b2730; }
+  @media (min-width: 768px) {
+    .person { grid-template-columns: 12rem minmax(0, 1fr); }
+    .person--alt { grid-template-columns: minmax(0, 1fr) 12rem; }
+    .person--alt .person__art { order: 2; justify-self: end; }
+  }
+  .menu { padding: var(--s-6); text-align: center; }
+  .menu__country {
+    font-size: var(--fs--1);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-merlot);
+    font-weight: 600;
+    margin-bottom: var(--s-3);
+  }
+  .menu h3 { font-size: var(--fs-2); font-style: italic; font-weight: 500; }
+  .menu__rule { width: 3rem; margin: var(--s-4) auto; border-top-color: var(--c-gold); }
+  .menu p:last-child { color: var(--c-muted); margin: 0; text-align: left; }
+  .not__h { font-size: var(--fs-3); }
+</style>

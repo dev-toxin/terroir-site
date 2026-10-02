@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import EarlyAccessForm from '../components/EarlyAccessForm.astro';
+import MarginNote from '../components/MarginNote.astro';
+import { ROUTES } from '../i18n/ui';
+import type { Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const C = {
+  en: {
+    title: 'Early access',
+    seo: 'Join Terroir early access',
+    description: 'Terroir is in early access: the founders use it every day, and a small closed group comes next. Free while in early access. Tell us about your cellar and what you’d like Terroir to do.',
+    h1: 'Join a <em>small table</em>',
+    lede: 'Right now Terroir is used by the people who build it — on their own cellars, every week. Next comes a small closed group. If you cook at home and keep some wine, we’d love you to be in it.',
+    stageH: 'Where we are',
+    stage: [
+      ['Now', 'The founders use Terroir on their own cellars.'],
+      ['Next', 'A small closed group, invited in waves.'],
+      ['Format', 'Web app (PWA) and a Telegram bot. No app stores yet.'],
+    ],
+    getH: 'What you get',
+    get: [
+      'Free access for the whole early-access period',
+      'A direct line to the people building it — replies from humans, not a ticket system',
+      'A say in what comes next: reminders, the Telegram bot, label recognition',
+      'Your data exportable as CSV at any moment, from day one',
+    ],
+    expectH: 'What we ask in return',
+    expect: [
+      'Use it on your real cellar — even if it’s twelve bottles',
+      'Honest feedback, including “this is confusing” and “I stopped using it”',
+      'Patience with rough edges: it’s early, things will change',
+    ],
+    formH: 'Request an invite',
+    formLede: 'Four short questions. We invite in small waves and will write to you personally.',
+    note: 'we read every single one',
+  },
+  ru: {
+    title: 'Ранний доступ',
+    seo: 'Ранний доступ к Terroir',
+    description: 'Terroir в раннем доступе: основатели пользуются им каждый день, следующая — небольшая закрытая группа. Бесплатно на время раннего доступа. Расскажите о своём погребе и о том, что должен уметь Terroir.',
+    h1: 'Присоединяйтесь <em>к небольшому столу</em>',
+    lede: 'Сейчас Terroir пользуются те, кто его делает, — на своих погребах, каждую неделю. Дальше — небольшая закрытая группа. Если вы готовите дома и держите немного вина, мы будем рады видеть вас в ней.',
+    stageH: 'Где мы сейчас',
+    stage: [
+      ['Сейчас', 'Основатели пользуются Terroir на своих погребах.'],
+      ['Дальше', 'Небольшая закрытая группа, приглашения волнами.'],
+      ['Формат', 'Веб-приложение (PWA) и Telegram-бот. Без магазинов приложений.'],
+    ],
+    getH: 'Что вы получите',
+    get: [
+      'Бесплатный доступ на весь период раннего доступа',
+      'Прямую связь с теми, кто делает продукт, — отвечают люди, а не тикет-система',
+      'Голос в выборе следующего: напоминания, Telegram-бот, распознавание этикетки',
+      'Экспорт ваших данных в CSV в любой момент, с первого дня',
+    ],
+    expectH: 'Чего мы просим взамен',
+    expect: [
+      'Пользоваться на реальном погребе — даже если в нём двенадцать бутылок',
+      'Честную обратную связь, включая «непонятно» и «я перестал пользоваться»',
+      'Терпения к шероховатостям: это ранняя версия, многое изменится',
+    ],
+    formH: 'Заявка на приглашение',
+    formLede: 'Четыре коротких вопроса. Мы приглашаем небольшими волнами и напишем вам лично.',
+    note: 'мы читаем каждую',
+  },
+}[lang];
+---
+
+<Base lang={lang} title={C.seo} description={C.description} path={ROUTES.early} crumb={C.title}>
+  <PageHero kicker={C.title} title={C.h1} lede={C.lede} icon="glass" />
+
+  <section class="section section--tight" aria-labelledby="h-stage">
+    <div class="wrap">
+      <h2 id="h-stage" class="visually-hidden">{C.stageH}</h2>
+      <ol class="stage">
+        {C.stage.map(([k, v], i) => (
+          <li class:list={['stage__item', i === 0 && 'is-now']}>
+            <p class="stage__k">{k}</p>
+            <p class="stage__v">{v}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-label={C.formH}>
+    <div class="wrap grid grid--split">
+      <div class="ea-copy">
+        <h2>{C.getH}</h2>
+        <ul class="checks">{C.get.map((x) => <li>{x}</li>)}</ul>
+        <h2 class="mt-7">{C.expectH}</h2>
+        <ul class="checks">{C.expect.map((x) => <li>{x}</li>)}</ul>
+      </div>
+      <div id="form">
+        <h2>{C.formH}</h2>
+        <p class="muted">{C.formLede}</p>
+        <EarlyAccessForm lang={lang} />
+        <MarginNote class="mt-6" dir="left">{C.note}</MarginNote>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stage { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-4); position: relative; }
+  .stage__item { margin: 0; padding: var(--s-5) 0 0; border-top: 1px solid var(--c-line); position: relative; }
+  .stage__item::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--c-parchment);
+    border: 1.5px solid var(--c-gold);
+  }
+  .stage__item.is-now::before { background: var(--c-merlot); border-color: var(--c-merlot); box-shadow: 0 0 0 4px rgb(118 33 61 / 0.15); }
+  .stage__k { font-family: var(--f-display); font-style: italic; font-size: var(--fs-2); color: var(--c-merlot); margin-bottom: var(--s-1); }
+  .stage__v { margin: 0; color: var(--c-muted); max-width: 32ch; }
+  @media (min-width: 768px) { .stage { grid-template-columns: repeat(3, 1fr); gap: 0; } .stage__item { padding-right: var(--s-5); } }
+  .ea-copy h2, #form h2 { font-size: var(--fs-3); }
+</style>

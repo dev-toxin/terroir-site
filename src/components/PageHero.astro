@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  kicker?: string;
+  title: string;   // may contain <em>
+  lede?: string;
+  icon?: Parameters<typeof Icon>[0]['name'];
+}
+const { kicker, title, lede, icon } = Astro.props;
+---
+
+<header class="page-hero">
+  <div class="wrap page-hero__grid">
+    <div>
+      {kicker && <p class="kicker rise">{kicker}</p>}
+      <h1 class="rise rise-1" set:html={title} />
+      {lede && <p class="lede rise rise-2" set:html={lede} />}
+      <slot />
+    </div>
+    {icon && <Icon name={icon} class="page-hero__art" />}
+  </div>
+</header>

@@ -1,0 +1,186 @@
+---
+/**
+ * Early-access form. Behaviour depends on SITE.form.endpoint (src/config.ts):
+ *  - endpoint set   → plain POST to it (Formspree / Cloudflare Worker / anything).
+ *  - endpoint empty → JS builds a mailto: with subject+body to SITE.contact;
+ *                     without JS the form still submits as mailto (method=post, enctype=text/plain),
+ *                     and a plain mailto link with a template is shown as a fallback.
+ */
+import { t, localize, ROUTES } from '../i18n/ui';
+import { SITE, type Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = t(lang).form;
+const endpoint = SITE.form.endpoint;
+const action = endpoint || `mailto:${SITE.contact}?subject=${encodeURIComponent(s.subject)}`;
+
+const template = [
+  s.bodyIntro,
+  '',
+  `${s.email}: `,
+  `${s.language}: `,
+  `${s.cellar}: `,
+  `${s.wish}: `,
+].join('\n');
+const fallbackHref = `mailto:${SITE.contact}?subject=${encodeURIComponent(s.subject)}&body=${encodeURIComponent(template)}`;
+const labels = JSON.stringify({
+  intro: s.bodyIntro,
+  email: s.email,
+  language: s.language,
+  cellar: s.cellar,
+  wish: s.wish,
+  consent: s.consentLink,
+  subject: s.subject,
+});
+---
+
+<form
+  class="ea-form"
+  data-ea-form
+  data-endpoint={endpoint}
+  data-contact={SITE.contact}
+  data-labels={labels}
+  action={action}
+  method="post"
+  enctype={endpoint ? 'application/x-www-form-urlencoded' : 'text/plain'}
+  aria-describedby="ea-note"
+>
+  <div class="ea-form__summary" data-form-summary hidden role="alert">{s.errSummary}</div>
+
+  <div class="field">
+    <label for="ea-email">{s.email} <span class="req" aria-hidden="true">*</span></label>
+    <input id="ea-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="ea-email-hint ea-email-err" spellcheck="false" />
+    <p class="field__hint" id="ea-email-hint">{s.emailHint}</p>
+    <p class="field__err" id="ea-email-err" data-error="email" hidden>{s.errEmail}</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="ea-lang">{s.language}</label>
+      <select id="ea-lang" name="language">
+        <option value="en" selected={lang === 'en'}>{s.langEn}</option>
+        <option value="ru" selected={lang === 'ru'}>{s.langRu}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="ea-cellar">{s.cellar}</label>
+      <select id="ea-cellar" name="cellar">
+        {s.cellarOpts.map((o, i) => <option value={['lt10', '10-50', '50-200', 'gt200', 'starting'][i]} selected={i === 1}>{o}</option>)}
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="ea-wish">{s.wish}</label>
+    <textarea id="ea-wish" name="wish" rows="4" maxlength="1500" aria-describedby="ea-wish-hint"></textarea>
+    <p class="field__hint" id="ea-wish-hint">{s.wishHint}</p>
+  </div>
+
+  <div class="field field--check">
+    <input id="ea-consent" name="consent" type="checkbox" value="yes" required aria-describedby="ea-consent-err" />
+    <label for="ea-consent">{s.consent} <a href={localize(lang, ROUTES.privacy)}>{s.consentLink}</a>. <span class="req" aria-hidden="true">*</span></label>
+    <p class="field__err" id="ea-consent-err" data-error="consent" hidden>{s.errConsent}</p>
+  </div>
+
+  <div class="ea-form__actions">
+    <button type="submit" class="btn">{endpoint ? s.submit : s.submitMail}</button>
+    <p class="ea-form__note" id="ea-note">
+      {endpoint ? s.noteEndpoint : <>{s.note} <strong>{SITE.contact}</strong>.</>}
+    </p>
+  </div>
+
+  <p class="ea-form__status" data-form-status hidden role="status">{s.ok} <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a>.</p>
+
+  <p class="ea-form__fallback">{s.noJs} <a href={fallbackHref}>{s.noJsLink} {SITE.contact}</a></p>
+</form>
+
+<style>
+  .ea-form {
+    background: var(--c-cream);
+    border: 1px solid var(--c-gold);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.25rem, 1rem + 2vw, 2.5rem);
+    box-shadow: var(--shadow-card);
+    position: relative;
+  }
+  .ea-form::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgb(201 164 92 / 0.45);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  .field { margin-bottom: var(--s-5); position: relative; }
+  .field-row { display: grid; gap: 0 var(--s-5); }
+  @media (min-width: 640px) { .field-row { grid-template-columns: 1fr 1fr; } }
+  label { display: block; font-weight: 600; font-size: 0.9375rem; margin-bottom: var(--s-2); }
+  .req { color: var(--c-merlot); }
+  input[type='email'], select, textarea {
+    width: 100%;
+    min-height: 48px;
+    font: inherit;
+    color: var(--c-ink);
+    background: #fffdf8;
+    border: 1px solid rgb(22 5 11 / 0.35);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.85rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--c-merlot) 50%), linear-gradient(135deg, var(--c-merlot) 50%, transparent 50%);
+    background-position: calc(100% - 1.15rem) 55%, calc(100% - 0.8rem) 55%;
+    background-size: 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+    padding-right: 2.25rem;
+  }
+  textarea { resize: vertical; min-height: 7rem; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible { border-color: var(--c-merlot); box-shadow: var(--focus); outline: none; }
+  [aria-invalid='true'] { border-color: #a3242f !important; }
+  .field__hint { font-size: var(--fs--1); color: var(--c-muted); margin: var(--s-2) 0 0; }
+  .field__err { font-size: var(--fs--1); color: #a3242f; font-weight: 600; margin: var(--s-2) 0 0; }
+  .field__err::before { content: '! '; }
+  .field--check { display: grid; grid-template-columns: auto 1fr; gap: var(--s-3); align-items: start; }
+  .field--check label { font-weight: 400; margin: 0; font-size: 0.9375rem; }
+  .field--check .field__err { grid-column: 2; }
+  input[type='checkbox'] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    margin: 0.1rem 0 0;
+    border: 1.5px solid rgb(22 5 11 / 0.5);
+    border-radius: 4px;
+    background: #fffdf8;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+  }
+  input[type='checkbox']::before {
+    content: '';
+    width: 12px;
+    height: 7px;
+    border-left: 2px solid var(--c-cream);
+    border-bottom: 2px solid var(--c-cream);
+    transform: rotate(-45deg) translate(1px, -1px);
+    opacity: 0;
+  }
+  input[type='checkbox']:checked { background: var(--c-merlot); border-color: var(--c-merlot); }
+  input[type='checkbox']:checked::before { opacity: 1; }
+  input[type='checkbox']:focus-visible { box-shadow: var(--focus); }
+  /* bigger tap target for the checkbox via its label */
+  .field--check label { min-height: 44px; }
+  .ea-form__actions { display: flex; flex-wrap: wrap; gap: var(--s-4); align-items: center; margin-top: var(--s-6); }
+  .ea-form__note { font-size: var(--fs--1); color: var(--c-muted); margin: 0; flex: 1 1 14rem; }
+  .ea-form__summary {
+    border-left: 3px solid #a3242f;
+    background: rgb(163 36 47 / 0.07);
+    padding: var(--s-3) var(--s-4);
+    color: #7d1a23;
+    font-weight: 600;
+    margin-bottom: var(--s-5);
+  }
+  .ea-form__status { margin: var(--s-5) 0 0; padding: var(--s-3) var(--s-4); background: rgb(63 122 79 / 0.1); border-left: 3px solid #3f7a4f; }
+  .ea-form__fallback { font-size: var(--fs--1); color: var(--c-muted); margin: var(--s-5) 0 0; padding-top: var(--s-4); border-top: 1px dashed var(--c-line); }
+</style>

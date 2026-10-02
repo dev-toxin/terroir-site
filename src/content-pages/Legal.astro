@@ -1,0 +1,197 @@
+---
+/**
+ * Privacy notice and Terms of use — DRAFTS, not legally reviewed.
+ * Items marked with .confirm need Anton's confirmation (operator, jurisdiction, retention).
+ */
+import Base from '../layouts/Base.astro';
+import { t, localize, ROUTES } from '../i18n/ui';
+import { SITE, type Lang } from '../config';
+
+interface Props { lang: Lang; doc: 'privacy' | 'terms' }
+const { lang, doc } = Astro.props;
+const s = t(lang);
+const L = (p: string) => localize(lang, p);
+const mail = `<a href="mailto:${SITE.contact}">${SITE.contact}</a>`;
+const op = `${SITE.company.name} (<span class="confirm">${lang === 'en' ? SITE.company.country : 'Грузия'} — ${lang === 'en' ? 'to be confirmed' : 'требует подтверждения'}</span>)`;
+const updated = lang === 'en' ? 'Draft of 2 October 2026' : 'Черновик от 2 октября 2026 г.';
+
+const DOCS = {
+  privacy: {
+    en: {
+      title: 'Privacy notice',
+      seo: 'Privacy notice (draft)',
+      description: 'Draft privacy notice for Terroir: what data we collect, why, how long we keep it, AI provider as a processor, no selling of data, deletion on request.',
+      body: `
+<p>This notice explains what data Terroir collects, why, and what you can do about it. It is written in plain language on purpose.</p>
+<h2>1. Who we are</h2>
+<p>Terroir is operated by ${op}. Contact for anything related to your data: ${mail}.</p>
+<h2>2. What we collect</h2>
+<h3>On this website</h3>
+<ul>
+<li><strong>Early-access request:</strong> your email, preferred language, approximate cellar size and what you wrote in the free-text field. Right now the form opens your email app, so the request reaches us as an ordinary email.</li>
+<li><strong>Your 18+ confirmation</strong> is stored only in your browser (localStorage) and never sent to us.</li>
+<li>The site uses <strong>no cookies, no analytics and no third-party trackers</strong>. Fonts and images are served from our own domain. Our hosting provider may keep standard technical server logs (such as IP address and time of request) for security.</li>
+</ul>
+<h3>In the product (early access)</h3>
+<ul>
+<li><strong>Account:</strong> email and, if you use the Telegram bot, your Telegram user ID.</li>
+<li><strong>Cellar:</strong> bottles, quantities, places, drinking windows, ratings and notes.</li>
+<li><strong>Taste profile:</strong> your answers to taste questions and what we learn from your ratings.</li>
+<li><strong>Recipes</strong> you add.</li>
+<li><strong>Conversations</strong> with the assistant.</li>
+</ul>
+<h2>3. Why we use it</h2>
+<ul>
+<li>To contact you about early access (website form).</li>
+<li>To provide the service: keep your cellar, answer your questions, pair wine with your recipes.</li>
+<li>To improve Terroir — based on your feedback and aggregated, non-identifying usage patterns.</li>
+</ul>
+<p>We <strong>do not sell</strong> your data, do not share it for advertising and do not accept payments from wineries or shops to influence recommendations.</p>
+<h2>4. AI provider</h2>
+<p>To phrase answers, Terroir sends the relevant part of your request and data to a language-model provider, which acts as our <strong>processor</strong>: it processes data on our behalf and only for this purpose. Where the provider offers the option, we disable the use of your data for training their models. We may change providers; this notice will be updated if we do.</p>
+<h2>5. How long we keep it</h2>
+<ul>
+<li>Early-access requests: until the end of early access or until you ask us to delete them <span class="confirm">(retention period — to be confirmed)</span>.</li>
+<li>Product data: for as long as you have an account. When you delete the account, we delete your data within a reasonable period <span class="confirm">(e.g. 30 days — to be confirmed)</span>, except where the law requires us to keep something.</li>
+</ul>
+<h2>6. Your rights</h2>
+<ul>
+<li><strong>Access and export:</strong> export your cellar, ratings and notes as CSV at any time.</li>
+<li><strong>Correction:</strong> edit your data in the product or ask us.</li>
+<li><strong>Deletion:</strong> write to ${mail} and we will delete your account and data.</li>
+<li><strong>Questions or complaints:</strong> contact us first; you may also have the right to complain to a data-protection authority in your country.</li>
+</ul>
+<h2>7. Age</h2>
+<p>Terroir is about wine and is intended only for adults of legal drinking age in their country (18+). We do not knowingly collect data from minors.</p>
+<h2>8. Changes</h2>
+<p>We will update this notice as the product grows, and tell early-access members about significant changes by email.</p>`,
+    },
+    ru: {
+      title: 'Политика конфиденциальности',
+      seo: 'Политика конфиденциальности (черновик)',
+      description: 'Черновик политики конфиденциальности Terroir: какие данные мы собираем, зачем, как долго храним, ИИ-провайдер как обработчик, никакой продажи данных, удаление по запросу.',
+      body: `
+<p>Здесь объясняется, какие данные собирает Terroir, зачем и что вы можете с этим сделать. Мы намеренно пишем простым языком.</p>
+<h2>1. Кто мы</h2>
+<p>Оператор Terroir — ${op}. Контакт по любым вопросам о ваших данных: ${mail}.</p>
+<h2>2. Что мы собираем</h2>
+<h3>На этом сайте</h3>
+<ul>
+<li><strong>Заявка на ранний доступ:</strong> email, удобный язык, примерный размер погреба и текст, который вы написали в свободном поле. Сейчас форма открывает вашу почтовую программу, поэтому заявка приходит к нам обычным письмом.</li>
+<li><strong>Подтверждение 18+</strong> хранится только в вашем браузере (localStorage) и нам не отправляется.</li>
+<li>Сайт <strong>не использует cookies, аналитику и сторонние трекеры</strong>. Шрифты и изображения загружаются с нашего домена. Хостинг-провайдер может вести стандартные технические журналы сервера (например, IP-адрес и время запроса) в целях безопасности.</li>
+</ul>
+<h3>В продукте (ранний доступ)</h3>
+<ul>
+<li><strong>Аккаунт:</strong> email и, если вы пользуетесь Telegram-ботом, ваш идентификатор в Telegram.</li>
+<li><strong>Погреб:</strong> бутылки, количество, место хранения, окна питья, оценки и заметки.</li>
+<li><strong>Профиль вкуса:</strong> ответы на вопросы о вкусе и то, что мы узнаём из ваших оценок.</li>
+<li><strong>Рецепты</strong>, которые вы добавляете.</li>
+<li><strong>Переписка</strong> с помощником.</li>
+</ul>
+<h2>3. Зачем мы их используем</h2>
+<ul>
+<li>Чтобы связаться с вами по поводу раннего доступа (форма на сайте).</li>
+<li>Чтобы сервис работал: вести ваш погреб, отвечать на вопросы, подбирать вино к вашим рецептам.</li>
+<li>Чтобы улучшать Terroir — на основе ваших отзывов и обобщённых, не позволяющих вас идентифицировать данных об использовании.</li>
+</ul>
+<p>Мы <strong>не продаём</strong> ваши данные, не передаём их для рекламы и не принимаем оплату от виноделен или магазинов за влияние на рекомендации.</p>
+<h2>4. ИИ-провайдер</h2>
+<p>Чтобы сформулировать ответ, Terroir передаёт нужную часть вашего запроса и данных провайдеру языковой модели, который выступает нашим <strong>обработчиком</strong>: обрабатывает данные по нашему поручению и только для этой цели. Там, где провайдер даёт такую возможность, мы отключаем использование ваших данных для обучения его моделей. Мы можем сменить провайдера — в этом случае политика будет обновлена.</p>
+<h2>5. Сколько мы храним</h2>
+<ul>
+<li>Заявки на ранний доступ — до окончания раннего доступа или пока вы не попросите их удалить <span class="confirm">(срок хранения требует подтверждения)</span>.</li>
+<li>Данные в продукте — пока у вас есть аккаунт. После удаления аккаунта мы удаляем данные в разумный срок <span class="confirm">(например, 30 дней — требует подтверждения)</span>, если закон не обязывает хранить что-то дольше.</li>
+</ul>
+<h2>6. Ваши права</h2>
+<ul>
+<li><strong>Доступ и выгрузка:</strong> экспорт погреба, оценок и заметок в CSV в любой момент.</li>
+<li><strong>Исправление:</strong> поправьте данные в продукте или напишите нам.</li>
+<li><strong>Удаление:</strong> напишите на ${mail} — мы удалим аккаунт и данные.</li>
+<li><strong>Вопросы и жалобы:</strong> сначала напишите нам; у вас также может быть право обратиться в орган по защите данных в вашей стране.</li>
+</ul>
+<h2>7. Возраст</h2>
+<p>Terroir посвящён вину и предназначен только для совершеннолетних (18+). Мы сознательно не собираем данные несовершеннолетних.</p>
+<h2>8. Изменения</h2>
+<p>Мы будем обновлять политику по мере развития продукта и сообщать участникам раннего доступа о существенных изменениях по email.</p>`,
+    },
+  },
+  terms: {
+    en: {
+      title: 'Terms of use',
+      seo: 'Terms of use (draft)',
+      description: 'Draft terms of use for Terroir early access: who can use it, what the service is and isn’t, your content, acceptable use, no warranties during early access.',
+      body: `
+<p>These terms apply to the Terroir website and to early access to the Terroir service.</p>
+<h2>1. The service</h2>
+<p>Terroir is provided by ${op}. It is a personal tool for keeping track of the wine you own, your taste and your recipes, with an assistant that suggests what to open or cook based on that data. Terroir <strong>does not sell alcohol</strong>, does not act as a shop or marketplace, and does not take payments for promoting any wine.</p>
+<h2>2. Who can use it</h2>
+<p>You must be of legal drinking age in your country and at least 18 years old. By using Terroir you confirm that you are.</p>
+<h2>3. Early access</h2>
+<ul>
+<li>Early access is <strong>free</strong>. If paid plans appear, we will announce prices in advance, and nothing will be charged without your explicit agreement.</li>
+<li>The service is in development: features may change, appear or disappear, and there may be bugs or downtime.</li>
+<li>We may end early access or limit the number of participants.</li>
+</ul>
+<h2>4. Your content</h2>
+<p>Your cellar, notes, ratings and recipes remain yours. You give us permission to store and process them only to provide the service to you. You can export them as CSV and ask us to delete them at any time. See the <a href="${L(ROUTES.privacy)}">Privacy notice</a>.</p>
+<h2>5. Recommendations</h2>
+<p>Suggestions are informational and based on the data you enter. Drinking windows and pairings are estimates, not guarantees. Terroir gives no medical, health or legal advice. Please drink responsibly and in moderation, and never drink and drive.</p>
+<h2>6. Acceptable use</h2>
+<p>Don’t misuse the service: no attempts to break or overload it, no access to other people’s data, no use for illegal purposes.</p>
+<h2>7. Liability</h2>
+<p>During early access the service is provided “as is”. To the extent permitted by law, we are not liable for indirect losses arising from its use <span class="confirm">(wording and governing law — to be confirmed)</span>.</p>
+<h2>8. Contact</h2>
+<p>Questions about these terms: ${mail}.</p>`,
+    },
+    ru: {
+      title: 'Условия использования',
+      seo: 'Условия использования (черновик)',
+      description: 'Черновик условий использования раннего доступа к Terroir: кто может пользоваться, что такое сервис и чем он не является, ваш контент, правила использования, отсутствие гарантий на этапе раннего доступа.',
+      body: `
+<p>Эти условия относятся к сайту Terroir и к раннему доступу к сервису Terroir.</p>
+<h2>1. Сервис</h2>
+<p>Terroir предоставляет ${op}. Это личный инструмент для учёта вина, которое у вас есть, вашего вкуса и рецептов, с помощником, который на основе этих данных подсказывает, что открыть или приготовить. Terroir <strong>не продаёт алкоголь</strong>, не является магазином или маркетплейсом и не получает оплату за продвижение каких-либо вин.</p>
+<h2>2. Кто может пользоваться</h2>
+<p>Вам должно быть не меньше 18 лет и не меньше возраста, с которого употребление алкоголя разрешено в вашей стране. Пользуясь Terroir, вы это подтверждаете.</p>
+<h2>3. Ранний доступ</h2>
+<ul>
+<li>Ранний доступ <strong>бесплатный</strong>. Если появятся платные тарифы, мы заранее объявим цены, и ничего не будет списано без вашего явного согласия.</li>
+<li>Сервис в разработке: функции могут меняться, появляться и исчезать, возможны ошибки и перерывы в работе.</li>
+<li>Мы можем завершить ранний доступ или ограничить число участников.</li>
+</ul>
+<h2>4. Ваш контент</h2>
+<p>Ваш погреб, заметки, оценки и рецепты остаются вашими. Вы разрешаете нам хранить и обрабатывать их только для того, чтобы сервис работал для вас. Их можно выгрузить в CSV и попросить удалить в любой момент. См. <a href="${L(ROUTES.privacy)}">политику конфиденциальности</a>.</p>
+<h2>5. Рекомендации</h2>
+<p>Подсказки носят информационный характер и основаны на данных, которые вы вносите. Окна питья и сочетания — это оценки, а не гарантии. Terroir не даёт медицинских, оздоровительных или юридических советов. Чрезмерное употребление алкоголя вредит здоровью; не садитесь за руль после употребления алкоголя.</p>
+<h2>6. Правила использования</h2>
+<p>Не злоупотребляйте сервисом: не пытайтесь его взломать или перегрузить, не получайте доступ к чужим данным, не используйте его в незаконных целях.</p>
+<h2>7. Ответственность</h2>
+<p>На этапе раннего доступа сервис предоставляется «как есть». В пределах, допустимых законом, мы не несём ответственности за косвенные убытки, связанные с его использованием <span class="confirm">(формулировка и применимое право требуют подтверждения)</span>.</p>
+<h2>8. Контакт</h2>
+<p>Вопросы об этих условиях: ${mail}.</p>`,
+    },
+  },
+};
+const D = DOCS[doc][lang];
+---
+
+<Base lang={lang} title={D.seo} description={D.description} path={ROUTES[doc]} crumb={D.title}>
+  <header class="page-hero">
+    <div class="wrap--narrow">
+      <p class="kicker">{updated}</p>
+      <h1>{D.title}</h1>
+    </div>
+  </header>
+  <section class="section section--tight">
+    <div class="wrap--narrow">
+      <p class="draft-banner" role="note">
+        <strong>{s.draft}.</strong>
+        <span>{lang === 'en'
+          ? 'This text is a working draft and has not been reviewed by a lawyer. Highlighted items still need confirmation.'
+          : 'Это рабочий черновик, его не проверял юрист. Выделенные места ещё требуют подтверждения.'}</span>
+      </p>
+      <article class="prose" set:html={D.body} />
+    </div>
+  </section>
+</Base>
