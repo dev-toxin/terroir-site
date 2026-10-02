@@ -1,0 +1,114 @@
+---
+import Logo from './Logo.astro';
+import { t, localize, ROUTES, NAV } from '../i18n/ui';
+import { SITE, type Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = t(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer on-dark">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a href={localize(lang, '/')} class="site-footer__logo" aria-label={`Terroir — ${s.nav.home}`}><Logo decorative /></a>
+        <p class="site-footer__tagline">{s.footer.tagline}</p>
+        <p class="site-footer__stage">{s.footer.stage}</p>
+      </div>
+
+      <nav aria-label={s.footerNav}>
+        <ul class="site-footer__list">
+          {NAV.map((k) => <li><a href={localize(lang, ROUTES[k])}>{s.nav[k]}</a></li>)}
+          <li><a href={localize(lang, ROUTES.early)}>{s.nav.early}</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__contact">
+        <p class="site-footer__h">{s.footer.contact}</p>
+        <p><a href={`mailto:${SITE.contact}`}>{SITE.contact}</a></p>
+        <p class="site-footer__h">{s.footer.made}</p>
+        <p><a href={SITE.company.url} rel="noopener">{SITE.company.name}</a></p>
+      </div>
+    </div>
+
+    <div class="site-footer__age">
+      <span class="site-footer__badge" aria-hidden="true">18+</span>
+      <p>{s.footer.age}</p>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {year} {SITE.company.name}. {s.footer.rights}</p>
+      <nav aria-label={s.legalNav}>
+        <ul class="site-footer__legal">
+          <li><a href={localize(lang, ROUTES.privacy)}>{s.nav.privacy}</a></li>
+          <li><a href={localize(lang, ROUTES.terms)}>{s.nav.terms}</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: var(--s-8) var(--s-5);
+    font-size: 0.9375rem;
+    background-image: url('/img/grain.svg');
+    background-size: 240px 240px;
+  }
+  .site-footer a { color: var(--c-cream); text-decoration-color: rgb(255 243 223 / 0.3); }
+  .site-footer a:hover { color: var(--c-gold-soft); }
+  .site-footer p { margin-bottom: var(--s-2); }
+  .site-footer__top { display: grid; gap: var(--s-7); padding-bottom: var(--s-7); border-bottom: 1px solid var(--c-line-dark); }
+  .site-footer__logo { color: var(--c-cream); display: inline-flex; min-height: 44px; align-items: center; }
+  .site-footer__logo :global(.logo) { height: 2.25rem; }
+  .site-footer__tagline { font-family: var(--f-display); font-size: var(--fs-2); line-height: 1.25; max-width: 24ch; margin-top: var(--s-4); }
+  .site-footer__stage { color: var(--c-muted-dark); max-width: 40ch; }
+  .site-footer__list, .site-footer__legal { list-style: none; padding: 0; margin: 0; }
+  .site-footer__list li { margin: 0; }
+  .site-footer__list a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+  .site-footer__h { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-gold); font-weight: 600; margin-top: var(--s-4); }
+  .site-footer__h:first-child { margin-top: 0; }
+  .site-footer__contact a { display: inline-flex; min-height: 44px; align-items: center; }
+  .site-footer__age {
+    display: flex;
+    gap: var(--s-4);
+    align-items: flex-start;
+    padding-block: var(--s-5);
+    border-bottom: 1px solid var(--c-line-dark);
+    color: var(--c-muted-dark);
+    font-size: var(--fs--1);
+  }
+  .site-footer__age p { margin: 0; max-width: 80ch; }
+  .site-footer__badge {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--c-gold);
+    border-radius: 50%;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--c-gold-soft);
+  }
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-6);
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--s-4);
+    color: var(--c-muted-dark);
+    font-size: var(--fs--1);
+  }
+  .site-footer__bottom p { margin: 0; }
+  .site-footer__legal { display: flex; gap: var(--s-5); }
+  .site-footer__legal li { margin: 0; }
+  .site-footer__legal a { display: inline-flex; min-height: 44px; align-items: center; }
+  @media (min-width: 768px) {
+    .site-footer__top { grid-template-columns: 2fr 1fr 1.2fr; }
+  }
+</style>

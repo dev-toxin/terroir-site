@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+<Base lang={lang} title="Terroir" fullTitle description="Terroir" path="/">
+  <section class="section"><div class="wrap"><h1>Terroir</h1></div></section>
+</Base>

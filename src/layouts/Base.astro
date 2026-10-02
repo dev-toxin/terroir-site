@@ -1,0 +1,130 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AgeGate from '../components/AgeGate.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE, type Lang } from '../config';
+import { t, localize } from '../i18n/ui';
+
+import fCormorantLatin from '../assets/fonts/cormorant-latin-wght-normal.woff2?url';
+import fCormorantCyr from '../assets/fonts/cormorant-cyrillic-wght-normal.woff2?url';
+import fInterLatin from '../assets/fonts/inter-latin-wght-normal.woff2?url';
+import fInterCyr from '../assets/fonts/inter-cyrillic-wght-normal.woff2?url';
+
+interface Props {
+  lang: Lang;
+  /** Page title without the brand suffix (home passes the full title + `fullTitle`). */
+  title: string;
+  fullTitle?: boolean;
+  description: string;
+  /** Route without language prefix, e.g. '/features/'. */
+  path: string;
+  /** Visible label for breadcrumbs (omit on home / 404). */
+  crumb?: string;
+  /** Extra JSON-LD objects for this page. */
+  jsonld?: object[];
+  noindex?: boolean;
+}
+
+const { lang, title, fullTitle = false, description, path, crumb, jsonld = [], noindex = false } = Astro.props;
+const s = t(lang);
+const other: Lang = lang === 'en' ? 'ru' : 'en';
+const pageTitle = fullTitle ? title : `${title} · Terroir`;
+const canonical = new URL(localize(lang, path), SITE.url).href;
+const alt = {
+  en: new URL(localize('en', path), SITE.url).href,
+  ru: new URL(localize('ru', path), SITE.url).href,
+};
+const altPath = localize(other, path);
+const ogImage = new URL(`/og/og-${lang}.png`, SITE.url).href;
+const ogAlt = lang === 'en' ? 'Terroir — what to open tonight, from your own cellar.' : 'Terroir — что открыть сегодня, из своего погреба.';
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE.url}/#org`,
+  name: SITE.company.name,
+  url: SITE.company.url,
+  email: SITE.contact,
+};
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  name: 'Terroir',
+  url: `${SITE.url}/`,
+  inLanguage: ['en', 'ru'],
+  publisher: { '@id': `${SITE.url}/#org` },
+};
+const ld = path === '/' ? [org, website, ...jsonld] : jsonld;
+
+const preload = lang === 'ru' ? [fCormorantCyr, fInterCyr] : [fCormorantLatin, fInterLatin];
+---
+
+<!doctype html>
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {!noindex && <link rel="alternate" hreflang="en" href={alt.en} />}
+    {!noindex && <link rel="alternate" hreflang="ru" href={alt.ru} />}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={alt.en} />}
+
+    {preload.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+
+    <meta name="theme-color" content="#fbefe4" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Terroir" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={s.locale} />
+    <meta property="og:locale:alternate" content={t(other).locale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
+
+    {ld.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+
+
+    {
+      SITE.analytics.enabled && SITE.analytics.token && (
+        <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: SITE.analytics.token })} />
+      )
+    }
+    <!--
+      Cloudflare Web Analytics — disabled. To enable: set SITE.analytics.enabled = true and token
+      in src/config.ts, then allow static.cloudflareinsights.com (script-src) and
+      cloudflareinsights.com (connect-src) in public/_headers. See docs/DEPLOY.md.
+    -->
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{s.skip}</a>
+    <Header lang={lang} altPath={altPath} />
+    <main id="main" tabindex="-1">
+      {crumb && <div class="wrap"><Breadcrumbs lang={lang} current={crumb} /></div>}
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <AgeGate lang={lang} />
+    <script>
+      import '../scripts/site.js';
+    </script>
+  </body>
+</html>

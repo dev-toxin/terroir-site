@@ -1,0 +1,190 @@
+---
+import Logo from './Logo.astro';
+import { t, localize, stripLang, ROUTES, NAV } from '../i18n/ui';
+import type { Lang } from '../config';
+
+interface Props {
+  lang: Lang;
+  /** Path of the same page in the other language (keeps the user on the page). */
+  altPath: string;
+}
+const { lang, altPath } = Astro.props;
+const s = t(lang);
+const other: Lang = lang === 'en' ? 'ru' : 'en';
+const here = stripLang(Astro.url.pathname);
+const isCurrent = (p: string) => (p === '/' ? here === '/' : here.startsWith(p));
+---
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="site-header__brand" href={localize(lang, '/')} aria-label={`Terroir — ${s.nav.home}`}>
+      <Logo decorative />
+    </a>
+
+    <nav class="nav-desktop" aria-label={s.mainNav}>
+      <ul>
+        {NAV.map((k) => (
+          <li>
+            <a href={localize(lang, ROUTES[k])} aria-current={isCurrent(ROUTES[k]) ? 'page' : undefined}>{s.nav[k]}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="lang-switch" href={altPath} hreflang={other} lang={other} title={s.switchLang} data-lang-switch={other}>
+        <span class="visually-hidden">{s.switchLang}</span>
+        <span aria-hidden="true">{s.switchLangShort}</span>
+      </a>
+      <a class="btn btn--sm site-header__cta" href={localize(lang, ROUTES.early)}>{s.ctaShort}</a>
+
+      <details class="nav-mobile" data-nav-mobile>
+        <summary>
+          <span class="nav-mobile__label">{s.menu}</span>
+          <span class="nav-mobile__burger" aria-hidden="true"><i></i><i></i></span>
+        </summary>
+        <div class="nav-mobile__panel">
+          <nav aria-label={s.mainNav}>
+            <ul>
+              {NAV.map((k) => (
+                <li>
+                  <a href={localize(lang, ROUTES[k])} aria-current={isCurrent(ROUTES[k]) ? 'page' : undefined}>{s.nav[k]}</a>
+                </li>
+              ))}
+              <li><a href={localize(lang, ROUTES.early)} aria-current={isCurrent(ROUTES.early) ? 'page' : undefined}>{s.nav.early}</a></li>
+              <li class="nav-mobile__lang"><a href={altPath} hreflang={other} lang={other}>{s.switchLang}</a></li>
+            </ul>
+          </nav>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgb(251 239 228 / 0.92);
+    border-bottom: 1px solid var(--c-line);
+  }
+  @supports (backdrop-filter: blur(8px)) {
+    .site-header { background: rgb(251 239 228 / 0.8); backdrop-filter: blur(10px) saturate(1.2); }
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--s-5);
+    min-height: 4.25rem;
+  }
+  .site-header__brand {
+    color: var(--c-burgundy);
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-right: auto;
+  }
+  .site-header__brand :global(.logo) { height: 1.75rem; }
+
+  .nav-desktop { display: none; }
+  .nav-desktop ul { display: flex; gap: var(--s-1); list-style: none; margin: 0; padding: 0; }
+  .nav-desktop li { margin: 0; }
+  .nav-desktop a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.8rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--c-ink);
+    text-decoration: none;
+    border-radius: 999px;
+    position: relative;
+  }
+  .nav-desktop a:hover { color: var(--c-merlot); }
+  .nav-desktop a[aria-current='page'] { color: var(--c-merlot); }
+  .nav-desktop a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0.8rem;
+    right: 0.8rem;
+    bottom: 0.55rem;
+    height: 1px;
+    background: var(--c-gold);
+  }
+
+  .site-header__actions { display: flex; align-items: center; gap: var(--s-2); }
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--c-ink);
+    text-decoration: none;
+    border-radius: 999px;
+  }
+  .lang-switch:hover { color: var(--c-merlot); background: rgb(118 33 61 / 0.06); }
+  .site-header__cta { display: none; }
+
+  /* mobile menu — <details>, works without JS */
+  .nav-mobile { position: static; }
+  .nav-mobile summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 0.85rem;
+    border: 1px solid rgb(22 5 11 / 0.25);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    user-select: none;
+  }
+  .nav-mobile summary::-webkit-details-marker { display: none; }
+  .nav-mobile__burger { display: inline-grid; gap: 5px; width: 18px; }
+  .nav-mobile__burger i { display: block; height: 1.5px; background: currentColor; transition: transform 0.2s var(--ease); }
+  .nav-mobile[open] .nav-mobile__burger i:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .nav-mobile[open] .nav-mobile__burger i:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+  .nav-mobile__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--c-parchment);
+    border-bottom: 1px solid var(--c-line);
+    box-shadow: 0 24px 40px -24px rgb(22 5 11 / 0.35);
+    padding: var(--s-3) var(--gutter) var(--s-6);
+  }
+  .nav-mobile__panel ul { list-style: none; margin: 0; padding: 0; }
+  .nav-mobile__panel li { margin: 0; border-bottom: 1px solid var(--c-line); }
+  .nav-mobile__panel a {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    font-family: var(--f-display);
+    font-size: var(--fs-2);
+    font-weight: 500;
+    color: var(--c-ink);
+    text-decoration: none;
+  }
+  .nav-mobile__panel a[aria-current='page'] { color: var(--c-merlot); font-style: italic; }
+  .nav-mobile__lang a { font-family: var(--f-text); font-size: var(--fs-0); color: var(--c-merlot); }
+
+  @media (min-width: 560px) {
+    .site-header__cta { display: inline-flex; }
+  }
+  @media (min-width: 1024px) {
+    .nav-desktop { display: block; }
+    .nav-mobile { display: none; }
+    .site-header__brand { margin-right: var(--s-4); }
+    .nav-desktop { margin-right: auto; }
+  }
+</style>

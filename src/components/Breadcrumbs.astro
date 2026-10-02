@@ -1,0 +1,39 @@
+---
+import { t, localize } from '../i18n/ui';
+import { SITE, type Lang } from '../config';
+
+interface Props {
+  lang: Lang;
+  /** Current page title shown as the last crumb. */
+  current: string;
+}
+const { lang, current } = Astro.props;
+const s = t(lang);
+const home = localize(lang, '/');
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: s.nav.home, item: new URL(home, SITE.url).href },
+    { '@type': 'ListItem', position: 2, name: current, item: new URL(Astro.url.pathname, SITE.url).href },
+  ],
+};
+---
+
+<nav class="crumbs" aria-label={s.breadcrumbs}>
+  <ol>
+    <li><a href={home}>{s.nav.home}</a></li>
+    <li><span aria-current="page">{current}</span></li>
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+<style>
+  .crumbs { font-size: var(--fs--1); padding-top: var(--s-5); }
+  .crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5em; padding: 0; margin: 0; }
+  .crumbs li { margin: 0; display: inline-flex; align-items: center; gap: 0.5em; color: var(--c-muted); }
+  .crumbs li + li::before { content: '/'; color: var(--c-gold); }
+  .crumbs a { color: var(--c-muted); display: inline-flex; min-height: 44px; align-items: center; }
+  .crumbs a:hover { color: var(--c-merlot); }
+  .crumbs [aria-current] { color: var(--c-ink); }
+</style>

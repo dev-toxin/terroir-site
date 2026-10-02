@@ -1,0 +1,59 @@
+---
+/**
+ * Unobtrusive 18+ notice. Hidden by default (`hidden`) — site.js reveals it only if the visitor
+ * hasn't confirmed yet. Without JS the site stays fully readable; the 18+ line lives in the footer.
+ */
+import { t } from '../i18n/ui';
+import type { Lang } from '../config';
+interface Props { lang: Lang }
+const s = t(Astro.props.lang);
+---
+
+<section class="agegate on-dark" data-agegate hidden aria-labelledby="agegate-title" role="region">
+  <div class="agegate__inner">
+    <span class="agegate__badge" aria-hidden="true">18+</span>
+    <div data-age-body class="agegate__body">
+      <p class="agegate__title" id="agegate-title">{s.age.title}</p>
+      <p class="agegate__text">{s.age.text}</p>
+    </div>
+    <p data-age-under class="agegate__under" hidden tabindex="-1">{s.age.under}</p>
+    <div class="agegate__actions">
+      <button type="button" class="btn btn--sm" data-age-yes>{s.age.yes}</button>
+      <button type="button" class="btn btn--sm btn--ghost" data-age-no>{s.age.no}</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .agegate {
+    position: fixed;
+    z-index: 60;
+    left: var(--s-3);
+    right: var(--s-3);
+    bottom: var(--s-3);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgb(201 164 92 / 0.5);
+    box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.6);
+    padding: var(--s-4) var(--s-5);
+  }
+  .agegate[hidden] { display: none; }
+  .agegate__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-5); }
+  .agegate__badge {
+    display: inline-grid; place-items: center; flex: none;
+    width: 3rem; height: 3rem; border-radius: 50%;
+    border: 1px solid var(--c-gold); color: var(--c-gold-soft);
+    font-family: var(--f-display); font-style: italic; font-size: 1.15rem;
+  }
+  .agegate__body, .agegate__under { flex: 1 1 16rem; }
+  .agegate p { margin: 0; }
+  .agegate__title { font-family: var(--f-display); font-size: var(--fs-2); line-height: 1.15; }
+  .agegate__text, .agegate__under { color: var(--c-muted-dark); font-size: 0.9375rem; }
+  .agegate__actions { display: flex; gap: var(--s-2); }
+  .agegate .btn:not(.btn--ghost) { --_bg: var(--c-cream); --_fg: var(--c-ink); --_bd: var(--c-cream); }
+  .agegate .btn:not(.btn--ghost):hover { --_bg: var(--c-gold-soft); --_bd: var(--c-gold-soft); }
+  .agegate .btn--ghost { --_fg: var(--c-cream); --_bd: rgb(255 243 223 / 0.4); }
+  .agegate .btn--ghost:hover { --_bg: var(--c-cream); --_fg: var(--c-ink); }
+  @media (min-width: 768px) {
+    .agegate { left: auto; right: var(--s-5); bottom: var(--s-5); max-width: 36rem; }
+  }
+</style>
