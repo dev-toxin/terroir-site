@@ -55,6 +55,7 @@ export const en = {
     wishHint: 'One sentence is enough. “Tell me what to open on Friday” is a perfect answer.',
     consent: 'I agree that my email and answers will be used to contact me about early access, as described in the',
     consentLink: 'Privacy notice',
+    consentMail: 'Agreed to the Privacy notice',
     submit: 'Request an invite',
     submitMail: 'Compose the email',
     note: 'The button opens your email app with a ready-made message to',
