@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.idea/
+.DS_Store
+*.log
+.env
+.env.*
+# Hugo artefacts (kept in case of fallback to Hugo)
+resources/_gen/
+.hugo_build.lock
