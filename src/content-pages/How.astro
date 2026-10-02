@@ -93,7 +93,7 @@ const C = {
       </div>
       <ol class="layers">
         {C.layers.map((l, i) => (
-          <li class="layer" style={`--w:${100 - i * 9}%`}>
+          <li class="layer">
             <span class="layer__no tnum" aria-hidden="true">{i + 1}</span>
             <div>
               <h3>{l.h}</h3>
@@ -187,7 +187,11 @@ const C = {
   .layer h3 { margin-bottom: var(--s-2); }
   .layer p { margin: 0; color: var(--c-muted-dark); max-width: 64ch; }
   @media (min-width: 1024px) {
-    .layer { width: var(--w); margin-inline: auto; }
+    .layer { margin-inline: auto; }
+    .layer:nth-child(1) { width: 100%; }
+    .layer:nth-child(2) { width: 91%; }
+    .layer:nth-child(3) { width: 82%; }
+    .layer:nth-child(4) { width: 73%; }
   }
   .honest {
     max-width: 52ch;

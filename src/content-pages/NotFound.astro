@@ -25,7 +25,8 @@ const C = {
 const links = (['home', 'features', 'how', 'faq', 'early'] as const).map((k) => ({ href: L(ROUTES[k]), label: s.nav[k] }));
 ---
 
-<Base lang={lang} title={s.notFound.title} description={C.lede} path="/404/" noindex>
+<!-- path="/" so the language switch leads to the other language's home page -->
+<Base lang={lang} title={s.notFound.title} description={C.lede} path="/" noindex>
   <section class="section nf">
     <div class="wrap nf__grid">
       <div>

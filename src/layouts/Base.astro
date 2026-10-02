@@ -57,7 +57,7 @@ const website = {
   inLanguage: ['en', 'ru'],
   publisher: { '@id': `${SITE.url}/#org` },
 };
-const ld = path === '/' ? [org, website, ...jsonld] : jsonld;
+const ld = path === '/' && !noindex ? [org, website, ...jsonld] : jsonld;
 
 const preload = lang === 'ru' ? [fCormorantCyr, fInterCyr] : [fCormorantLatin, fInterLatin];
 ---

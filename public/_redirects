@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects — https://developers.cloudflare.com/pages/configuration/redirects/
+# Host-based redirect www → apex can't be expressed here; it is a Cloudflare Redirect Rule (docs/DEPLOY.md).
+
+/index.html          /                301
+/ru/index.html       /ru/             301
+/ru                  /ru/             301
+/en/                 /                301
+/en/*                /:splat          301
+

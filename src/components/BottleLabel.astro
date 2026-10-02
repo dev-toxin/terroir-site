@@ -24,6 +24,7 @@ interface Props {
 const { lang, name, meta, count, from, to, peakFrom, peakTo, now = 2026, note, place, tone = 'red', compact = false, class: cls = '' } = Astro.props;
 
 const pct = (y: number) => Math.min(100, Math.max(0, ((y - from) / (to - from)) * 100));
+const r = (n: number) => Math.round(n * 10) / 10;
 const nowPct = pct(now);
 const pf = peakFrom ?? from;
 const pt = peakTo ?? to;
@@ -38,17 +39,19 @@ const nowLabel = lang === 'en' ? `now: ${now}` : `сейчас: ${now}`;
   <div class="bl__head">
     <span class="bl__swatch" aria-hidden="true"></span>
     <div class="bl__id">
-      <h3 class="bl__name">{name}</h3>
+      <p class="bl__name">{name}</p>
       <p class="bl__meta">{meta}</p>
     </div>
     <p class="bl__count tnum"><span class="visually-hidden">{lang === 'en' ? 'In stock: ' : 'В наличии: '}</span>{bottles}</p>
   </div>
 
   <div class="bl__window" role="img" aria-label={`${windowLabel}, ${nowLabel}${note ? ', ' + note : ''}`}>
-    <div class="bl__track" aria-hidden="true">
-      <span class="bl__peak" style={`left:${pct(pf)}%;right:${100 - pct(pt)}%`}></span>
-      <span class="bl__now" style={`left:${nowPct}%`}></span>
-    </div>
+    <!-- SVG with % attributes instead of inline styles → strict CSP (no style-src 'unsafe-inline') -->
+    <svg class="bl__track" aria-hidden="true" focusable="false" width="100%" height="16">
+      <line x1="0" x2="100%" y1="8" y2="8" class="bl__base" />
+      {pt > pf && <rect x={`${r(pct(pf))}%`} width={`${r(pct(pt) - pct(pf))}%`} y="6" height="4" rx="2" class="bl__peak" />}
+      <circle cx={`${r(nowPct)}%`} cy="8" r="5.5" class="bl__now" />
+    </svg>
     <div class="bl__years tnum" aria-hidden="true">
       <span>{from}</span>
       {note && <span class="bl__note">{note}</span>}
@@ -111,34 +114,10 @@ const nowLabel = lang === 'en' ? `now: ${now}` : `сейчас: ${now}`;
     background: rgb(255 255 255 / 0.4);
   }
   .bl__window { margin-top: 0.9rem; }
-  .bl__track { position: relative; height: 12px; }
-  .bl__track::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 5.5px;
-    height: 1px;
-    background: rgb(22 5 11 / 0.3);
-  }
-  .bl__peak {
-    position: absolute;
-    top: 4px;
-    height: 4px;
-    border-radius: 4px;
-    background: var(--tone);
-  }
-  .bl__now {
-    position: absolute;
-    top: 0;
-    width: 12px;
-    height: 12px;
-    margin-left: -6px;
-    border-radius: 50%;
-    background: var(--c-cream);
-    border: 2px solid var(--tone);
-    box-shadow: 0 0 0 3px var(--c-cream);
-  }
+  .bl__track { display: block; height: 16px; overflow: visible; }
+  .bl__base { stroke: rgb(22 5 11 / 0.3); stroke-width: 1; }
+  .bl__peak { fill: var(--tone); }
+  .bl__now { fill: var(--c-cream); stroke: var(--tone); stroke-width: 2; }
   .bl__years {
     display: flex;
     justify-content: space-between;

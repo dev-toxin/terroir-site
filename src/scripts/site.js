@@ -14,7 +14,6 @@
     var no = gate.querySelector('[data-age-no]');
     var msg = gate.querySelector('[data-age-under]');
     var body = gate.querySelector('[data-age-body]');
-    if (yes) setTimeout(function () { yes.focus({ preventScroll: true }); }, 50);
     yes && yes.addEventListener('click', function () {
       try { localStorage.setItem(KEY, '1'); } catch (e) { /* ignore */ }
       gate.hidden = true;

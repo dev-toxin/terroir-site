@@ -18,7 +18,7 @@ const text = Astro.props.text ?? (lang === 'en'
 
 <section class="section section--dark cta-band">
   <div class="wrap">
-    <p class="sec-head__no" style="justify-content:center" aria-hidden="true">✦</p>
+    <p class="cta-band__orn" aria-hidden="true"><span></span>✦<span></span></p>
     <h2 set:html={title} />
     <p class="lede">{text}</p>
     <div class="btn-row">

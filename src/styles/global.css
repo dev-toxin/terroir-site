@@ -436,6 +436,9 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
 .cta-band h2 { max-width: 20ch; margin-inline: auto; }
 .cta-band .lede { margin-inline: auto; margin-bottom: var(--s-6); }
 .cta-band .btn-row { justify-content: center; }
+.cta-band__orn { display: flex; align-items: center; justify-content: center; gap: var(--s-4); color: var(--c-gold); margin-bottom: var(--s-5); }
+.cta-band__orn span { width: 4rem; height: 1px; background: currentColor; opacity: 0.7; }
+.lede.center-x, .center-x { margin-inline: auto; }
 
 /* ── draft banner ─────────────────────────────────────────────────── */
 .draft-banner {
