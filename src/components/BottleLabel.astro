@@ -1,0 +1,167 @@
+---
+/**
+ * «Label» card for a bottle with a drinking-window timeline: 2022 ──●── 2031.
+ * Pure HTML/CSS. The marker position = (now − from) / (to − from).
+ */
+import type { Lang } from '../config';
+
+interface Props {
+  lang: Lang;
+  name: string;
+  meta: string;          // region · vintage
+  count: number;
+  from: number;
+  to: number;
+  peakFrom?: number;
+  peakTo?: number;
+  now?: number;
+  note?: string;         // marginal note, e.g. "at its peak"
+  place?: string;        // where it lies: "rack B · shelf 2"
+  tone?: 'red' | 'white' | 'amber' | 'rose';
+  compact?: boolean;
+  class?: string;
+}
+const { lang, name, meta, count, from, to, peakFrom, peakTo, now = 2026, note, place, tone = 'red', compact = false, class: cls = '' } = Astro.props;
+
+const pct = (y: number) => Math.min(100, Math.max(0, ((y - from) / (to - from)) * 100));
+const nowPct = pct(now);
+const pf = peakFrom ?? from;
+const pt = peakTo ?? to;
+const bottles = lang === 'en'
+  ? `${count} ${count === 1 ? 'bottle' : 'bottles'}`
+  : `${count} ${count % 10 === 1 && count % 100 !== 11 ? 'бутылка' : [2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100) ? 'бутылки' : 'бутылок'}`;
+const windowLabel = lang === 'en' ? `Drinking window ${from}–${to}` : `Окно питья ${from}–${to}`;
+const nowLabel = lang === 'en' ? `now: ${now}` : `сейчас: ${now}`;
+---
+
+<article class:list={['bl', `bl--${tone}`, compact && 'bl--compact', cls]}>
+  <div class="bl__head">
+    <span class="bl__swatch" aria-hidden="true"></span>
+    <div class="bl__id">
+      <h3 class="bl__name">{name}</h3>
+      <p class="bl__meta">{meta}</p>
+    </div>
+    <p class="bl__count tnum"><span class="visually-hidden">{lang === 'en' ? 'In stock: ' : 'В наличии: '}</span>{bottles}</p>
+  </div>
+
+  <div class="bl__window" role="img" aria-label={`${windowLabel}, ${nowLabel}${note ? ', ' + note : ''}`}>
+    <div class="bl__track" aria-hidden="true">
+      <span class="bl__peak" style={`left:${pct(pf)}%;right:${100 - pct(pt)}%`}></span>
+      <span class="bl__now" style={`left:${nowPct}%`}></span>
+    </div>
+    <div class="bl__years tnum" aria-hidden="true">
+      <span>{from}</span>
+      {note && <span class="bl__note">{note}</span>}
+      <span>{to}</span>
+    </div>
+  </div>
+  {place && <p class="bl__place">{place}</p>}
+</article>
+
+<style>
+  .bl {
+    --tone: var(--c-merlot);
+    position: relative;
+    background: var(--c-cream);
+    border: 1px solid rgb(201 164 92 / 0.85);
+    border-radius: 6px;
+    padding: 1rem 1.1rem 0.9rem;
+    box-shadow: var(--shadow-card);
+    color: var(--c-ink);
+  }
+  .bl::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgb(201 164 92 / 0.45);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .bl--white { --tone: #9a7a2c; }
+  .bl--amber { --tone: var(--c-terracotta); }
+  .bl--rose { --tone: #b0566a; }
+  .bl__head { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75rem; align-items: start; }
+  .bl__swatch {
+    width: 0.65rem;
+    height: 2.4rem;
+    border-radius: 0.35rem 0.35rem 0.2rem 0.2rem;
+    background: linear-gradient(180deg, var(--tone) 0 70%, rgb(22 5 11 / 0.2) 70%);
+    margin-top: 0.2rem;
+    opacity: 0.9;
+  }
+  .bl__name {
+    font-family: var(--f-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 0 0 0.15rem;
+    letter-spacing: -0.005em;
+  }
+  .bl__meta { font-size: 0.8125rem; color: var(--c-muted); margin: 0; line-height: 1.35; }
+  .bl__count {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--c-ink);
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    padding: 0.15rem 0.55rem;
+    white-space: nowrap;
+    background: rgb(255 255 255 / 0.4);
+  }
+  .bl__window { margin-top: 0.9rem; }
+  .bl__track { position: relative; height: 12px; }
+  .bl__track::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 5.5px;
+    height: 1px;
+    background: rgb(22 5 11 / 0.3);
+  }
+  .bl__peak {
+    position: absolute;
+    top: 4px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--tone);
+  }
+  .bl__now {
+    position: absolute;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    border-radius: 50%;
+    background: var(--c-cream);
+    border: 2px solid var(--tone);
+    box-shadow: 0 0 0 3px var(--c-cream);
+  }
+  .bl__years {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--c-muted);
+    margin-top: 0.3rem;
+  }
+  .bl__note {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--c-merlot);
+  }
+  .bl__place {
+    margin: 0.55rem 0 0;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgb(22 5 11 / 0.15);
+    font-size: 0.75rem;
+    color: var(--c-muted);
+    letter-spacing: 0.02em;
+  }
+  .bl--compact { padding: 0.8rem 0.9rem 0.75rem; }
+  .bl--compact .bl__name { font-size: 1.2rem; }
+</style>

@@ -1,0 +1,15 @@
+---
+/** Handwritten-feeling marginal note with a small drawn arrow. */
+interface Props { class?: string; dir?: 'down' | 'left' | 'right' }
+const { class: cls = '', dir = 'down' } = Astro.props;
+const arrows = {
+  down: 'M4 4c10 2 20 10 22 24m-6-5 6 5 4-7',
+  left: 'M34 8C24 6 12 10 6 22m0-8v8h8',
+  right: 'M4 8c10-2 22 2 28 14m0-8v8h-8',
+};
+---
+
+<p class:list={['margin-note', cls]}>
+  <svg viewBox="0 0 38 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d={arrows[dir]} /></svg>
+  <span><slot /></span>
+</p>

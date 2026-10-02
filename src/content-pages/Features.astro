@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import BottleLabel from '../components/BottleLabel.astro';
+import CtaBand from '../components/CtaBand.astro';
+import MarginNote from '../components/MarginNote.astro';
+import { t, localize, ROUTES } from '../i18n/ui';
+import type { Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = t(lang);
+const L = (p: string) => localize(lang, p);
+
+const C = {
+  en: {
+    title: 'Features',
+    seo: 'Features — cellar, drinking windows, taste profile, recipes',
+    description: 'What Terroir does today: a cellar with drinking windows, one-tap “drank it” with a rating, a taste profile built from short questions, wine ↔ your recipes, an assistant that answers from your shelf, a shared cellar for two, CSV export.',
+    kicker: 'Features',
+    h1: 'Small tools for <em>everyday</em> wine at home',
+    lede: 'Everything here exists so that one question — “what do we open tonight?” — gets a good answer in a few seconds.',
+    items: [
+      { id: 'cellar', icon: 'rack', h: 'A cellar with drinking windows', p: 'Add a bottle in a few fields: name, grape, vintage, how many, where it lies. Terroir keeps a drinking window for each — from “not yet” to “now’s the time” to “don’t wait much longer” — and shows it as a simple line, so you see the whole shelf at a glance.', demo: true },
+      { id: 'drank', icon: 'tap', h: '“Drank it” — one tap', p: 'Opened a bottle? One tap takes it off the shelf. Add a score and a line of notes if you like — “better on day two”, “too young”, “perfect with the lamb”. That note is what Terroir will quote back to you next time.' },
+      { id: 'taste', icon: 'palate', h: 'A taste profile, a few questions at a time', p: 'No sixty-question quiz. Terroir asks six short questions to start, then a couple more now and then, in small batches. Every rating you give quietly sharpens the profile.' },
+      { id: 'recipes', icon: 'book', h: 'Wine ↔ your own recipes', p: 'Keep the dishes you actually cook. Ask in either direction: “what goes with this bottle from my recipes?” or “what from my cellar goes with Sunday’s ragù?”' },
+      { id: 'assistant', icon: 'chat', h: 'An assistant that answers from your shelf', p: 'Ask in plain words. The answer names a bottle you own, says why, and points to your own past notes. If nothing on the shelf fits, it says so instead of inventing one.' },
+      { id: 'shared', icon: 'pair', h: 'One cellar for two', p: 'Share the cellar with your partner. Bottles are common, taste is personal: each of you rates for yourself, and the assistant knows who is asking.' },
+      { id: 'export', icon: 'export', h: 'CSV export — your data is yours', p: 'Download the whole cellar, ratings and notes as a CSV any time. Open it in a spreadsheet, keep a backup, or move elsewhere.' },
+    ],
+    plannedH: 'On the workbench',
+    plannedLede: 'Honestly marked: these are planned, not ready. Early-access members help decide the order.',
+    planned: [
+      { icon: 'bell', h: 'Reminders', p: 'A gentle nudge when a bottle’s window is about to close.' },
+      { icon: 'plane', h: 'Telegram bot', p: 'Ask Terroir right from a chat and log a bottle without opening the app.' },
+      { icon: 'camera', h: 'Label recognition', p: 'Snap a label to fill in the bottle’s details faster. A helper for input — not the point of the product.' },
+    ],
+    demoNote: 'the dot is today; the dark band is the best years',
+    demoBottle: { name: 'Saperavi', meta: 'Kakheti · qvevri · 2018', place: 'Rack B · shelf 2' },
+  },
+  ru: {
+    title: 'Возможности',
+    seo: 'Возможности — погреб, окна питья, профиль вкуса, рецепты',
+    description: 'Что Terroir умеет уже сейчас: погреб с окнами питья, «выпил» одним тапом с оценкой, профиль вкуса по коротким вопросам, вино ↔ ваши рецепты, помощник, отвечающий из вашего погреба, общий погреб на двоих, экспорт в CSV.',
+    kicker: 'Возможности',
+    h1: 'Небольшие инструменты для <em>домашнего</em> вина',
+    lede: 'Всё здесь нужно для того, чтобы на вопрос «что откроем сегодня?» был хороший ответ за пару секунд.',
+    items: [
+      { id: 'cellar', icon: 'rack', h: 'Погреб с окнами питья', p: 'Бутылка добавляется в несколько полей: название, сорт, год, сколько штук, где лежит. Для каждой Terroir ведёт окно питья — от «рано» через «самое время» до «не тяните» — и показывает его простой линией, чтобы вся полка читалась с одного взгляда.', demo: true },
+      { id: 'drank', icon: 'tap', h: '«Выпил» — одним тапом', p: 'Открыли бутылку — один тап, и она списана с полки. Если хочется, поставьте оценку и добавьте строчку: «на второй день лучше», «ещё молодое», «идеально к баранине». Именно эту заметку Terroir напомнит вам в следующий раз.' },
+      { id: 'taste', icon: 'palate', h: 'Профиль вкуса — по чуть-чуть', p: 'Никаких анкет на шестьдесят вопросов. Для старта — шесть коротких, дальше иногда ещё пара, небольшими порциями. Каждая ваша оценка тихо уточняет профиль.' },
+      { id: 'recipes', icon: 'book', h: 'Вино ↔ ваши рецепты', p: 'Храните блюда, которые вы правда готовите. Спрашивайте в обе стороны: «что из моих рецептов подойдёт к этой бутылке?» или «что из погреба открыть к воскресному рагу?»' },
+      { id: 'assistant', icon: 'chat', h: 'Помощник, который отвечает из вашего погреба', p: 'Спрашивайте обычными словами. В ответе — бутылка, которая у вас есть, объяснение почему и ссылка на ваши же прошлые заметки. Если на полке ничего не подходит, он так и скажет, а не придумает.' },
+      { id: 'shared', icon: 'pair', h: 'Один погреб на двоих', p: 'Поделитесь погребом с партнёром. Бутылки общие, вкус — у каждого свой: каждый оценивает за себя, а помощник знает, кто спрашивает.' },
+      { id: 'export', icon: 'export', h: 'Экспорт в CSV — данные ваши', p: 'Скачайте весь погреб, оценки и заметки одним CSV-файлом в любой момент. Откройте в таблице, сохраните копию или переезжайте.' },
+    ],
+    plannedH: 'В мастерской',
+    plannedLede: 'Честно помечено: это в планах, а не готово. Участники раннего доступа помогают выбрать порядок.',
+    planned: [
+      { icon: 'bell', h: 'Напоминания', p: 'Мягкое напоминание, когда окно питья бутылки скоро закроется.' },
+      { icon: 'plane', h: 'Telegram-бот', p: 'Спросить Terroir прямо из чата и списать бутылку, не открывая приложение.' },
+      { icon: 'camera', h: 'Распознавание этикетки', p: 'Сфотографировать этикетку, чтобы быстрее заполнить карточку. Помощь при вводе — а не смысл продукта.' },
+    ],
+    demoNote: 'точка — сегодня, тёмная полоса — лучшие годы',
+    demoBottle: { name: 'Саперави', meta: 'Кахетия · квеври · 2018', place: 'Стеллаж B · полка 2' },
+  },
+}[lang];
+---
+
+<Base lang={lang} title={C.seo} description={C.description} path={ROUTES.features} crumb={C.title}>
+  <PageHero kicker={C.kicker} title={C.h1} lede={C.lede} icon="glass" />
+
+  <section class="section" aria-label={C.title}>
+    <div class="wrap">
+      <nav class="toc" aria-label={lang === 'en' ? 'On this page' : 'На этой странице'}>
+        <ol>
+          {C.items.map((it, i) => <li><a href={`#${it.id}`}><span class="tnum">{String(i + 1).padStart(2, '0')}</span> {it.h}</a></li>)}
+        </ol>
+      </nav>
+
+      <div class="features">
+        {C.items.map((it, i) => (
+          <article class="feature" id={it.id}>
+            <div class="feature__side">
+              <p class="feature__no tnum" aria-hidden="true">№ {String(i + 1).padStart(2, '0')}</p>
+              <Icon name={it.icon as any} class="feature__icon" />
+            </div>
+            <div class="feature__body">
+              <h2>{it.h}</h2>
+              <p>{it.p}</p>
+              {it.demo && (
+                <div class="feature__demo">
+                  <BottleLabel lang={lang} name={C.demoBottle.name} meta={C.demoBottle.meta} place={C.demoBottle.place} count={3} from={2021} to={2032} peakFrom={2026} peakTo={2030} />
+                  <MarginNote dir="left">{C.demoNote}</MarginNote>
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="h-planned">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-head__no" aria-hidden="true">№ 08</p>
+        <h2 id="h-planned">{C.plannedH}</h2>
+        <p class="lede">{C.plannedLede}</p>
+      </div>
+      <div class="grid grid--3">
+        {C.planned.map((it) => (
+          <article class="card planned">
+            <span class="tag">{s.planned}</span>
+            <Icon name={it.icon as any} class="card__icon" />
+            <h3>{it.h}</h3>
+            <p class="muted">{it.p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} secondary={{ href: L(ROUTES.how), label: s.nav.how }} />
+</Base>
+
+<style>
+  .toc { margin-bottom: var(--s-7); }
+  .toc ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 0 var(--s-6); }
+  .toc li { margin: 0; border-bottom: 1px solid var(--c-line); }
+  .toc a { display: flex; gap: var(--s-3); align-items: baseline; min-height: 44px; padding-block: 0.6rem; color: var(--c-ink); text-decoration: none; }
+  .toc a:hover { color: var(--c-merlot); }
+  .toc span { color: var(--c-merlot); font-size: var(--fs--1); font-weight: 600; }
+  @media (min-width: 768px) { .toc ol { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1200px) { .toc ol { grid-template-columns: repeat(3, 1fr); } }
+
+  .feature {
+    display: grid;
+    gap: var(--s-4) var(--s-7);
+    padding-block: var(--s-7);
+    border-top: 1px solid var(--c-line);
+  }
+  .feature__side { display: flex; align-items: center; gap: var(--s-4); }
+  .feature__no { font-family: var(--f-display); font-style: italic; font-size: var(--fs-2); color: var(--c-merlot); margin: 0; }
+  .feature__icon { width: 3rem; height: 3rem; color: var(--c-merlot); }
+  .feature h2 { font-size: var(--fs-4); max-width: 22ch; }
+  .feature__body > p { max-width: 62ch; font-size: var(--fs-1); color: #3b2730; }
+  .feature__demo { display: grid; gap: var(--s-5); align-items: center; margin-top: var(--s-6); max-width: 40rem; }
+  @media (min-width: 640px) { .feature__demo { grid-template-columns: minmax(0, 22rem) 1fr; } }
+  @media (min-width: 1024px) {
+    .feature { grid-template-columns: 12rem minmax(0, 1fr); }
+    .feature__side { flex-direction: column; align-items: flex-start; }
+  }
+  .planned .tag { position: absolute; top: var(--s-5); right: var(--s-5); }
+</style>

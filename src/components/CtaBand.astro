@@ -1,0 +1,29 @@
+---
+import { t, localize, ROUTES } from '../i18n/ui';
+import type { Lang } from '../config';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  text?: string;
+  secondary?: { href: string; label: string };
+}
+const { lang, secondary } = Astro.props;
+const s = t(lang);
+const title = Astro.props.title ?? (lang === 'en' ? 'Bring your shelf. <em>We’ll remember it.</em>' : 'Приходите со своей полкой. <em>Мы её запомним.</em>');
+const text = Astro.props.text ?? (lang === 'en'
+  ? 'Early access is small and free. We read every reply, and the product grows from what you tell us.'
+  : 'Ранний доступ — небольшой и бесплатный. Мы читаем каждый ответ, и продукт растёт из того, что вы нам рассказываете.');
+---
+
+<section class="section section--dark cta-band">
+  <div class="wrap">
+    <p class="sec-head__no" style="justify-content:center" aria-hidden="true">✦</p>
+    <h2 set:html={title} />
+    <p class="lede">{text}</p>
+    <div class="btn-row">
+      <a class="btn" href={localize(lang, ROUTES.early)}>{s.cta}</a>
+      {secondary && <a class="btn btn--ghost" href={secondary.href}>{secondary.label}</a>}
+    </div>
+  </div>
+</section>
