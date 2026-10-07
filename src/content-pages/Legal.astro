@@ -1,7 +1,8 @@
 ---
 /**
  * Privacy notice and Terms of use — DRAFTS, not legally reviewed.
- * Items marked with .confirm need Anton's confirmation (operator, jurisdiction, retention).
+ * Items marked with .confirm need Anton's confirmation (retention, governing law).
+ * Operator confirmed 2026-10-07 — see SITE.operator in src/config.ts.
  */
 import Base from '../layouts/Base.astro';
 import { t, localize, ROUTES } from '../i18n/ui';
@@ -12,7 +13,7 @@ const { lang, doc } = Astro.props;
 const s = t(lang);
 const L = (p: string) => localize(lang, p);
 const mail = `<a href="mailto:${SITE.contact}">${SITE.contact}</a>`;
-const op = `${SITE.company.name} (<span class="confirm">${lang === 'en' ? SITE.company.country : 'Грузия'} — ${lang === 'en' ? 'to be confirmed' : 'требует подтверждения'}</span>)`;
+const op = SITE.operator[lang];
 const updated = lang === 'en' ? 'Draft of 2 October 2026' : 'Черновик от 2 октября 2026 г.';
 
 const DOCS = {
@@ -20,7 +21,7 @@ const DOCS = {
     en: {
       title: 'Privacy notice',
       seo: 'Privacy notice (draft)',
-      description: 'Draft privacy notice for Terroir: what data we collect, why, how long we keep it, AI provider as a processor, no selling of data, deletion on request.',
+      description: 'Draft privacy notice for Terroir: what data we collect, why, how long we keep it, AI provider as a processor, no selling of data, deletion whenever you ask.',
       body: `
 <p>This notice explains what data Terroir collects, why, and what you can do about it. It is written in plain language on purpose.</p>
 <h2>1. Who we are</h2>
@@ -69,7 +70,7 @@ const DOCS = {
     ru: {
       title: 'Политика конфиденциальности',
       seo: 'Политика конфиденциальности (черновик)',
-      description: 'Черновик политики конфиденциальности Terroir: какие данные мы собираем, зачем, как долго храним, ИИ-провайдер как обработчик, никакой продажи данных, удаление по запросу.',
+      description: 'Черновик политики конфиденциальности Terroir: какие данные мы собираем, зачем, как долго храним, ИИ-провайдер как обработчик, никакой продажи данных, удаление в любой момент.',
       body: `
 <p>Здесь объясняется, какие данные собирает Terroir, зачем и что вы можете с этим сделать. Мы намеренно пишем простым языком.</p>
 <h2>1. Кто мы</h2>

@@ -1,7 +1,8 @@
 ---
 /**
  * Early-access form. Behaviour depends on SITE.form.endpoint (src/config.ts):
- *  - endpoint set   → plain POST to it (Formspree / Cloudflare Worker / anything).
+ *  - endpoint set   → plain POST to it (own Cloudflare Pages Function + D1 only;
+ *                     no third-party form services — decision 2026-10-07).
  *  - endpoint empty → JS builds a mailto: with subject+body to SITE.contact;
  *                     without JS the form still submits as mailto (method=post, enctype=text/plain),
  *                     and a plain mailto link with a template is shown as a fallback.

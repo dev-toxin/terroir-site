@@ -47,6 +47,9 @@ const org = {
   '@type': 'Organization',
   '@id': `${SITE.url}/#org`,
   name: SITE.company.name,
+  legalName: SITE.operator.legalName,
+  taxID: SITE.company.id,
+  address: { '@type': 'PostalAddress', addressCountry: 'GE' },
   url: SITE.company.url,
   email: SITE.contact,
 };

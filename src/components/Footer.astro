@@ -39,7 +39,7 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="site-footer__bottom">
-      <p>© {year} {SITE.company.name}. {s.footer.rights}</p>
+      <p>© {year} {SITE.operator[lang]}. {s.footer.rights}</p>
       <nav aria-label={s.legalNav}>
         <ul class="site-footer__legal">
           <li><a href={localize(lang, ROUTES.privacy)}>{s.nav.privacy}</a></li>

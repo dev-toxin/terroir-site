@@ -19,7 +19,7 @@ const ld = {
   inLanguage: lang,
   datePublished: a.published,
   mainEntityOfPage: new URL(localize(lang, path), SITE.url).href,
-  publisher: { '@type': 'Organization', name: SITE.company.name, url: SITE.company.url },
+  publisher: { '@type': 'Organization', name: SITE.company.name, legalName: SITE.operator.legalName, taxID: SITE.company.id, url: SITE.company.url },
   image: new URL(`/og/og-${lang}.png`, SITE.url).href,
 };
 ---
