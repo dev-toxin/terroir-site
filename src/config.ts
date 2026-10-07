@@ -7,7 +7,7 @@ export const SITE = {
   url: 'https://terroir-app.com',
   name: 'Terroir',
   /** Единый контакт: письма, mailto-форма, Privacy/Terms, JSON-LD. */
-  contact: 'ceo@ankosoftlab.com',
+  contact: 'contact@ankosoftlab.com',
   company: {
     name: 'AnKo Software Labs',
     url: 'https://www.ankosoftlab.com/',

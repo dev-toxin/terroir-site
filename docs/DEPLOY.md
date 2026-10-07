@@ -74,7 +74,7 @@ DNS домена сейчас в **Namecheap** (по данным брифа). �
 
 ## 5. Форма раннего доступа
 
-Сейчас `SITE.form.endpoint = ''` → форма открывает почтовый клиент с готовым письмом на `ceo@ankosoftlab.com`. **Решение 2026-10-07:** до переезда на Cloudflare — только `mailto:`, после — своя форма на Pages Function + D1. Сторонние сервисы форм (Formspree, Tally и т. п.) не используем. Чтобы принимать заявки на сервере:
+Сейчас `SITE.form.endpoint = ''` → форма открывает почтовый клиент с готовым письмом на `contact@ankosoftlab.com`. **Решение 2026-10-07:** до переезда на Cloudflare — только `mailto:`, после — своя форма на Pages Function + D1. Сторонние сервисы форм (Formspree, Tally и т. п.) не используем. Чтобы принимать заявки на сервере:
 1. Написать свою Cloudflare Pages Function + D1.
 2. Вписать URL в `src/config.ts` → `SITE.form.endpoint`.
 3. В `public/_headers` добавить origin в `form-action` (если функция на том же домене, достаточно `'self'`).

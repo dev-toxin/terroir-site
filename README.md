@@ -74,7 +74,7 @@ docs/                   DECISIONS, DEPLOY, BRAND, sessions/
 
 | Параметр | Сейчас | Что делает |
 |---|---|---|
-| `contact` | `ceo@ankosoftlab.com` | все mailto, форма, Privacy/Terms, JSON-LD |
+| `contact` | `contact@ankosoftlab.com` | все mailto, форма, Privacy/Terms, JSON-LD |
 | `form.endpoint` | `''` | пусто → заявка письмом (mailto); URL → POST туда |
 | `analytics.enabled` | `false` | Cloudflare Web Analytics (см. DEPLOY.md §6) |
 | `url` | `https://terroir-app.com` | canonical, hreflang, sitemap, OG |
