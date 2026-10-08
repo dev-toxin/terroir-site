@@ -1,0 +1,137 @@
+---
+/**
+ * Hero art: «a table with wine» drawn in SVG (own artwork, no stock, no real labels or brands).
+ * Paper-and-ink style: a bottle with a blank label, a poured glass, a plate with a dish, a folded
+ * napkin, a candle — brass hairlines, bordeaux wine, cellar shadow.
+ * Decorative: the meaning is carried by the heading next to it.
+ *
+ * TODO: photo (local generation, see 🎨 Генерация графики) — a real still-life of a dinner table
+ * with an unlabelled bottle can replace this SVG later; keep the same aspect ratio (4:5).
+ */
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+
+<figure class:list={['table-art', cls]} aria-hidden="true">
+  <svg viewBox="0 0 480 600" class="table-art__svg" focusable="false">
+    <defs>
+      <linearGradient id="ta-wine" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8a2a3e" />
+        <stop offset="1" stop-color="#4e1220" />
+      </linearGradient>
+      <linearGradient id="ta-glass" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2f382a" />
+        <stop offset=".45" stop-color="#3f4a35" />
+        <stop offset=".6" stop-color="#56634a" />
+        <stop offset="1" stop-color="#2a3226" />
+      </linearGradient>
+      <radialGradient id="ta-glow" cx=".72" cy=".2" r=".7">
+        <stop offset="0" stop-color="#d9c18f" stop-opacity=".55" />
+        <stop offset="1" stop-color="#d9c18f" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="ta-cloth" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#faf6ef" />
+        <stop offset="1" stop-color="#e8dfd0" />
+      </linearGradient>
+    </defs>
+
+    <!-- wall + light -->
+    <rect x="0" y="0" width="480" height="600" rx="18" class="ta-wall" />
+    <rect x="0" y="0" width="480" height="600" rx="18" fill="url(#ta-glow)" />
+    <!-- window frame hint -->
+    <path d="M300 40h140v220H300z" class="ta-line ta-faint" />
+    <path d="M370 40v220M300 150h140" class="ta-line ta-faint" />
+
+    <!-- table -->
+    <path d="M0 400 L480 372 L480 600 L0 600 Z" fill="url(#ta-cloth)" />
+    <path d="M0 400 L480 372" class="ta-line" />
+    <path d="M0 418 L480 390" class="ta-line ta-faint" />
+
+    <!-- candle -->
+    <g class="ta-candle">
+      <rect x="62" y="262" width="18" height="118" rx="3" class="ta-wax" />
+      <path d="M71 262v-10" class="ta-line" />
+      <path d="M71 236c6 8 6 14 0 18-6-4-6-10 0-18z" class="ta-flame" />
+      <ellipse cx="71" cy="384" rx="26" ry="6" class="ta-brass-fill" />
+    </g>
+
+    <!-- bottle (blank label, no brand) -->
+    <g class="ta-bottle">
+      <path d="M170 92h28v62c0 10 26 22 26 50v192a10 10 0 0 1-10 10h-60a10 10 0 0 1-10-10V204c0-28 26-40 26-50z" fill="url(#ta-glass)" />
+      <rect x="170" y="80" width="28" height="18" rx="3" class="ta-capsule" />
+      <path d="M152 214c0-20 20-30 22-56" class="ta-shine" />
+      <!-- label -->
+      <rect x="150" y="262" width="68" height="92" rx="3" class="ta-label" />
+      <rect x="155" y="267" width="58" height="82" rx="2" class="ta-line ta-brass" />
+      <path d="M166 296h36M172 306h24" class="ta-line ta-ink-soft" />
+      <path d="M176 324h16" class="ta-line ta-brass" />
+      <circle cx="184" cy="283" r="6" class="ta-line ta-bordeaux" />
+    </g>
+
+    <!-- glass -->
+    <g class="ta-wineglass">
+      <path d="M262 236h64l-4 52a28 28 0 0 1-56 0z" class="ta-glass-bowl" />
+      <path d="M266 270h56l-1.6 18a26 26 0 0 1-52.8 0z" fill="url(#ta-wine)" />
+      <path d="M268 268c18 6 34 6 52 0" class="ta-line ta-faint" />
+      <path d="M294 316v58" class="ta-stem" />
+      <ellipse cx="294" cy="378" rx="26" ry="5" class="ta-stem-foot" />
+      <path d="M272 246c-2 14 0 30 6 40" class="ta-shine" />
+    </g>
+
+    <!-- plate with a dish -->
+    <g class="ta-plate">
+      <ellipse cx="300" cy="470" rx="132" ry="36" class="ta-plate-rim" />
+      <ellipse cx="300" cy="468" rx="96" ry="24" class="ta-plate-well" />
+      <!-- a braised dish: meat + herbs + sauce -->
+      <path d="M248 466c8-16 40-22 64-18 22 4 40 12 38 22-4 14-34 18-62 16-26-2-46-8-40-20z" class="ta-dish" />
+      <path d="M262 462c14-6 34-8 52-4" class="ta-line ta-sauce" />
+      <path d="M318 452c4-6 10-8 16-6M326 458c4-4 9-4 13-2M286 452c2-5 7-7 12-6" class="ta-herb" />
+      <circle cx="270" cy="476" r="3" class="ta-herb-dot" />
+      <circle cx="332" cy="474" r="2.5" class="ta-herb-dot" />
+    </g>
+
+    <!-- cutlery + napkin -->
+    <path d="M110 452l40 70M120 448l40 70" class="ta-line ta-brass" />
+    <path d="M406 430l-22 92" class="ta-line ta-brass" />
+    <path d="M58 486l70-12 30 40-74 14z" class="ta-napkin" />
+    <path d="M70 492l60-10" class="ta-line ta-bordeaux ta-faint" />
+
+    <!-- cork on the table -->
+    <rect x="232" y="392" width="12" height="22" rx="3" transform="rotate(-62 238 403)" class="ta-cork" />
+
+    <!-- frame -->
+    <rect x="10" y="10" width="460" height="580" rx="12" class="ta-line ta-brass ta-faint" />
+  </svg>
+</figure>
+
+<style>
+  .table-art { margin: 0; position: relative; }
+  .table-art__svg { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 50px 90px -50px rgb(42 15 23 / 0.75), 0 14px 30px -20px rgb(31 20 22 / 0.35); }
+  .ta-wall { fill: #2a0f17; }
+  .ta-line { fill: none; stroke: #a8874f; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .ta-faint { opacity: 0.45; }
+  .ta-brass { stroke: #a8874f; }
+  .ta-ink-soft { stroke: #55463f; }
+  .ta-bordeaux { stroke: #6b1e2e; }
+  .ta-sauce { stroke: #4e1220; stroke-width: 2; opacity: 0.7; }
+  .ta-brass-fill { fill: #a8874f; opacity: 0.7; }
+  .ta-wax { fill: #faf6ef; }
+  .ta-flame { fill: #d9c18f; }
+  .ta-capsule { fill: #6b1e2e; }
+  .ta-label { fill: #faf6ef; }
+  .ta-shine { fill: none; stroke: #faf6ef; stroke-width: 2.4; stroke-linecap: round; opacity: 0.35; }
+  .ta-glass-bowl { fill: rgb(250 246 239 / 0.1); stroke: #faf6ef; stroke-width: 1.6; stroke-opacity: 0.7; }
+  .ta-stem { fill: none; stroke: #faf6ef; stroke-width: 2.4; stroke-opacity: 0.7; }
+  .ta-stem-foot { fill: none; stroke: #faf6ef; stroke-width: 1.6; stroke-opacity: 0.7; }
+  .ta-plate-rim { fill: #faf6ef; stroke: #a8874f; stroke-width: 1.4; }
+  .ta-plate-well { fill: #f3ece1; stroke: #e8dfd0; stroke-width: 1.2; }
+  .ta-dish { fill: #7a5a3a; }
+  .ta-herb { fill: none; stroke: #3f4a35; stroke-width: 2.2; stroke-linecap: round; }
+  .ta-herb-dot { fill: #3f4a35; }
+  .ta-napkin { fill: #6b1e2e; opacity: 0.9; }
+  .ta-cork { fill: #b8946a; }
+  @media (prefers-reduced-motion: no-preference) {
+    .ta-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: ta-flicker 3.2s ease-in-out infinite; }
+    @keyframes ta-flicker { 0%, 100% { transform: scale(1); } 45% { transform: scale(0.94, 1.06); } 70% { transform: scale(1.04, 0.97); } }
+  }
+</style>

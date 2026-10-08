@@ -7,23 +7,26 @@
    ══════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* — palette — */
-  --c-ink: #16050b;            /* wine black: main text, dark sections */
+  /* — palette: «label & cellar» (2026-10-08) — */
+  --c-ink: #1f1416;            /* ink: main text */
+  --c-ink-soft: #3a2a2c;       /* long reading text on paper */
   --c-graphite: #121014;
-  --c-ink-2: #241018;          /* raised surface on dark */
-  --c-parchment: #fbefe4;      /* page background */
-  --c-cream: #fff3df;          /* cards, labels */
-  --c-paper: #f6e6d6;          /* alt light section */
-  --c-merlot: #76213d;         /* primary accent */
-  --c-burgundy: #4d1026;       /* hover / deep accent */
-  --c-gold: #c9a45c;           /* hairlines, details (not for text on light) */
-  --c-gold-soft: #e2cc9a;
-  --c-terracotta: #a85a42;     /* rare 2nd accent — decorative / large only */
-  --c-terracotta-text: #8f452f;/* terracotta usable for small text on light */
-  --c-muted: #5e4a4f;          /* secondary text on light */
-  --c-muted-dark: #c2b2a9;     /* secondary text on dark */
-  --c-line: rgb(22 5 11 / 0.14);
-  --c-line-dark: rgb(255 243 223 / 0.16);
+  --c-cellar: #2a0f17;         /* cellar: dark sections */
+  --c-ink-2: #3a1a24;          /* raised surface on dark */
+  --c-parchment: #f3ece1;      /* paper: page background */
+  --c-cream: #faf6ef;          /* label stock: cards, labels */
+  --c-paper: #e8dfd0;          /* darker paper: alt light section */
+  --c-merlot: #6b1e2e;         /* bordeaux: primary accent */
+  --c-burgundy: #4e1220;       /* hover / deep accent */
+  --c-gold: #a8874f;           /* brass: hairlines and large numerals only */
+  --c-gold-soft: #d9c18f;      /* brass on dark: links, em */
+  --c-terracotta: #7a5a3a;     /* umber: decorative */
+  --c-terracotta-text: #6a4a2c;/* umber usable for small text on paper */
+  --c-glass: #3f4a35;          /* bottle glass: rare accent */
+  --c-muted: #55463f;          /* secondary text on paper */
+  --c-muted-dark: #cbbcb0;     /* secondary text on dark */
+  --c-line: rgb(31 20 22 / 0.14);
+  --c-line-dark: rgb(250 246 239 / 0.16);
 
   /* — type — */
   --f-display: 'Cormorant', 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
@@ -36,8 +39,8 @@
   --fs-2: clamp(1.375rem, 1.28rem + 0.45vw, 1.625rem);
   --fs-3: clamp(1.75rem, 1.55rem + 0.9vw, 2.25rem);
   --fs-4: clamp(2.125rem, 1.8rem + 1.6vw, 3.25rem);
-  --fs-5: clamp(2.625rem, 2rem + 3vw, 4.75rem);
-  --fs-6: clamp(3rem, 2.1rem + 4.4vw, 6rem);
+  --fs-5: clamp(2.75rem, 2.05rem + 3.3vw, 5rem);
+  --fs-6: clamp(3.1rem, 2.1rem + 5vw, 6.75rem);
 
   --lh-tight: 1.02;
   --lh-head: 1.1;
@@ -59,7 +62,7 @@
   --gutter: clamp(1.125rem, 0.6rem + 2.4vw, 2.5rem);
   --radius: 4px;
   --radius-lg: 10px;
-  --shadow-card: 0 1px 0 rgb(22 5 11 / 0.04), 0 10px 30px -18px rgb(77 16 38 / 0.35);
+  --shadow-card: 0 1px 0 rgb(31 20 22 / 0.04), 0 14px 34px -20px rgb(42 15 23 / 0.45);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --focus: 0 0 0 3px var(--c-parchment), 0 0 0 5px var(--c-merlot);
 }
@@ -111,8 +114,8 @@ h1, h2, h3, h4 {
   text-wrap: balance;
   font-kerning: normal;
 }
-h1 { font-size: var(--fs-5); line-height: var(--lh-tight); letter-spacing: -0.022em; }
-h2 { font-size: var(--fs-4); letter-spacing: -0.018em; }
+h1 { font-size: var(--fs-5); font-weight: 600; line-height: var(--lh-tight); letter-spacing: -0.024em; }
+h2 { font-size: var(--fs-4); font-weight: 600; letter-spacing: -0.018em; }
 h3 { font-size: var(--fs-2); font-weight: 600; letter-spacing: -0.005em; }
 h4 { font-size: var(--fs-1); font-weight: 600; }
 h1 em, h2 em, h3 em { font-style: italic; font-weight: 500; color: var(--c-merlot); }
@@ -132,13 +135,13 @@ a {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  text-decoration-color: rgb(118 33 61 / 0.4);
+  text-decoration-color: rgb(107 30 46 / 0.4);
   transition: color 0.15s, text-decoration-color 0.15s;
 }
 a:hover { color: var(--c-burgundy); text-decoration-color: currentColor; }
 
 :focus-visible { outline: none; box-shadow: var(--focus); border-radius: 2px; }
-.on-dark :focus-visible { box-shadow: 0 0 0 3px var(--c-ink), 0 0 0 5px var(--c-gold); }
+.on-dark :focus-visible { box-shadow: 0 0 0 3px var(--c-cellar), 0 0 0 5px var(--c-gold-soft); }
 
 ::selection { background: var(--c-merlot); color: var(--c-cream); }
 
@@ -158,18 +161,18 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
 .section--paper { background: var(--c-paper); border-block: 1px solid var(--c-line); }
 .section--dark,
 .on-dark {
-  background-color: var(--c-ink);
+  background-color: var(--c-cellar);
   color: var(--c-cream);
 }
 .section--dark {
-  background-image: url('/img/grain.svg'), radial-gradient(120% 80% at 85% 0%, rgb(118 33 61 / 0.35), transparent 60%);
-  background-size: 240px 240px, auto;
+  /* No grain tile on dark: at 240px it showed as faint squares («клетка»). Soft light only. */
+  background-image: radial-gradient(120% 80% at 85% 0%, rgb(107 30 46 / 0.45), transparent 60%), radial-gradient(80% 60% at 0% 100%, rgb(168 135 79 / 0.08), transparent 70%);
 }
-.section--dark a:not(.btn) { color: var(--c-gold-soft); text-decoration-color: rgb(226 204 154 / 0.45); }
+.section--dark a:not(.btn) { color: var(--c-gold-soft); text-decoration-color: rgb(217 193 143 / 0.45); }
 .section--dark a:not(.btn):hover { color: var(--c-cream); }
 .section--dark h1 em, .section--dark h2 em, .section--dark h3 em { color: var(--c-gold-soft); }
 .section--dark .muted { color: var(--c-muted-dark); }
-.section--dark .kicker { color: var(--c-gold); }
+.section--dark .kicker { color: var(--c-gold-soft); }
 .section--dark hr, .section--dark .rule { border-color: var(--c-line-dark); }
 
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-6); }
@@ -235,7 +238,7 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
   height: 1px;
   background: var(--c-gold);
 }
-.section--dark .sec-head__no { color: var(--c-gold); }
+.section--dark .sec-head__no { color: var(--c-gold-soft); }
 .sec-head h2 { margin-bottom: var(--s-4); }
 .sec-head--center { margin-inline: auto; text-align: center; }
 .sec-head--center .sec-head__no { justify-content: center; }
@@ -302,10 +305,10 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
 .btn:hover { --_bg: var(--c-burgundy); --_bd: var(--c-burgundy); color: var(--_fg); }
 .btn:active { transform: translateY(1px); }
 .btn svg { width: 1.1em; height: 1.1em; }
-.btn--ghost { --_bg: transparent; --_fg: var(--c-ink); --_bd: rgb(22 5 11 / 0.35); }
+.btn--ghost { --_bg: transparent; --_fg: var(--c-ink); --_bd: rgb(31 20 22 / 0.35); }
 .btn--ghost:hover { --_bg: var(--c-ink); --_fg: var(--c-cream); --_bd: var(--c-ink); }
 .btn--sm { min-height: 44px; padding: 0.5rem 1.1rem; font-size: var(--fs--1); }
-.section--dark .btn--ghost, .on-dark .btn--ghost { --_fg: var(--c-cream); --_bd: rgb(255 243 223 / 0.4); }
+.section--dark .btn--ghost, .on-dark .btn--ghost { --_fg: var(--c-cream); --_bd: rgb(250 246 239 / 0.4); }
 .section--dark .btn--ghost:hover { --_bg: var(--c-cream); --_fg: var(--c-ink); --_bd: var(--c-cream); }
 .section--dark .btn:not(.btn--ghost) { --_bg: var(--c-cream); --_fg: var(--c-ink); --_bd: var(--c-cream); }
 .section--dark .btn:not(.btn--ghost):hover { --_bg: var(--c-gold-soft); --_bd: var(--c-gold-soft); }
@@ -366,7 +369,7 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
   content: '';
   position: absolute;
   inset: 5px;
-  border: 1px solid rgb(201 164 92 / 0.55);
+  border: 1px solid rgb(168 135 79 / 0.55);
   border-radius: 2px;
   pointer-events: none;
 }
@@ -418,7 +421,7 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
 .prose { max-width: var(--measure); }
 .prose h2 { font-size: var(--fs-3); margin-top: var(--s-7); }
 .prose h3 { font-size: var(--fs-2); margin-top: var(--s-6); }
-.prose > p, .prose > ul > li { color: #2c1820; }
+.prose > p, .prose > ul > li { color: var(--c-ink-soft); }
 .prose ul { padding-left: 1.2em; }
 .prose li::marker { color: var(--c-merlot); }
 
@@ -448,7 +451,7 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
   gap: var(--s-3);
   align-items: flex-start;
   border: 1px dashed var(--c-terracotta);
-  background: rgb(168 90 66 / 0.07);
+  background: rgb(122 90 58 / 0.08);
   color: var(--c-terracotta-text);
   padding: var(--s-4) var(--s-5);
   border-radius: var(--radius);
@@ -456,7 +459,7 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
   margin-bottom: var(--s-6);
 }
 .draft-banner strong { letter-spacing: 0.08em; text-transform: uppercase; }
-.confirm { background: rgb(201 164 92 / 0.25); padding: 0 0.25em; border-radius: 2px; }
+.confirm { background: rgb(168 135 79 / 0.25); padding: 0 0.25em; border-radius: 2px; }
 
 /* ── utilities ────────────────────────────────────────────────────── */
 .visually-hidden {
@@ -488,12 +491,14 @@ th { font-weight: 600; font-size: var(--fs--1); letter-spacing: 0.06em; text-tra
 
 /* reveal-on-load for marked elements (no JS needed) */
 @media (prefers-reduced-motion: no-preference) {
-  .rise { animation: rise 0.9s var(--ease) both; animation-delay: var(--d, 0s); }
-  .rise-1 { --d: 0.08s; }
-  .rise-2 { --d: 0.18s; }
-  .rise-3 { --d: 0.3s; }
+  /* Progressive enhancement only: the start frame is still readable (opacity ≥ .6),
+     delays stay short, so text is never «empty» on slow phones or in headless renders. */
+  .rise { animation: rise 0.7s var(--ease) both; animation-delay: var(--d, 0s); }
+  .rise-1 { --d: 0.05s; }
+  .rise-2 { --d: 0.1s; }
+  .rise-3 { --d: 0.15s; }
   @keyframes rise {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0.6; transform: translateY(10px); }
     to { opacity: 1; transform: none; }
   }
 }

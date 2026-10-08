@@ -66,11 +66,11 @@ const isCurrent = (p: string) => (p === '/' ? here === '/' : here.startsWith(p))
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgb(251 239 228 / 0.92);
+    background: rgb(243 236 225 / 0.94);
     border-bottom: 1px solid var(--c-line);
   }
   @supports (backdrop-filter: blur(8px)) {
-    .site-header { background: rgb(251 239 228 / 0.8); backdrop-filter: blur(10px) saturate(1.2); }
+    .site-header { background: rgb(243 236 225 / 0.82); backdrop-filter: blur(10px) saturate(1.2); }
   }
   .site-header__inner {
     display: flex;
@@ -128,7 +128,7 @@ const isCurrent = (p: string) => (p === '/' ? here === '/' : here.startsWith(p))
     text-decoration: none;
     border-radius: 999px;
   }
-  .lang-switch:hover { color: var(--c-merlot); background: rgb(118 33 61 / 0.06); }
+  .lang-switch:hover { color: var(--c-merlot); background: rgb(107 30 46 / 0.07); }
   .site-header__cta { display: none; }
 
   /* mobile menu — <details>, works without JS */
@@ -141,7 +141,7 @@ const isCurrent = (p: string) => (p === '/' ? here === '/' : here.startsWith(p))
     min-height: 44px;
     min-width: 44px;
     padding: 0 0.85rem;
-    border: 1px solid rgb(22 5 11 / 0.25);
+    border: 1px solid rgb(31 20 22 / 0.25);
     border-radius: 999px;
     cursor: pointer;
     font-size: 0.875rem;
@@ -160,7 +160,7 @@ const isCurrent = (p: string) => (p === '/' ? here === '/' : here.startsWith(p))
     top: 100%;
     background: var(--c-parchment);
     border-bottom: 1px solid var(--c-line);
-    box-shadow: 0 24px 40px -24px rgb(22 5 11 / 0.35);
+    box-shadow: 0 24px 40px -24px rgb(31 20 22 / 0.35);
     padding: var(--s-3) var(--gutter) var(--s-6);
   }
   .nav-mobile__panel ul { list-style: none; margin: 0; padding: 0; }

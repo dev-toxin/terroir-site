@@ -2,7 +2,11 @@
 /**
  * Hero visual: a "live" product mock built in HTML/CSS (not an image).
  * Left — the cellar shelf; right — the assistant answering from that shelf.
- * Entry animation is CSS-only and disabled under prefers-reduced-motion.
+ * Entry animation is CSS-only, decorative and disabled under prefers-reduced-motion.
+ * Bug fix 2026-10-08: on phones (and in headless renders) the old animation started every card and
+ * message at opacity 0 with delays up to 3.1 s, so the mock looked empty. Now every element is fully
+ * readable from the first frame: the animation only nudges position and starts at opacity .6, and the
+ * longest delay is 0.6 s.
  */
 import BottleLabel from './BottleLabel.astro';
 import type { Lang } from '../config';
@@ -92,12 +96,14 @@ const c = {
 </figure>
 
 <style>
-  .mock { margin: 0; position: relative; container-type: inline-size; }
+  /* The mock sits on the dark «cellar» section: pin its own ink colour, otherwise text inherits cream. */
+  .mock { margin: 0; position: relative; container-type: inline-size; color: var(--c-ink); }
+  .mock :global(a) { color: var(--c-merlot); }
   .mock__frame {
-    background: #fffaf2;
-    border: 1px solid rgb(22 5 11 / 0.12);
+    background: var(--c-cream);
+    border: 1px solid rgb(31 20 22 / 0.12);
     border-radius: 14px;
-    box-shadow: 0 1px 0 rgb(255 255 255 / 0.8) inset, 0 40px 80px -40px rgb(77 16 38 / 0.45), 0 12px 24px -16px rgb(22 5 11 / 0.25);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.8) inset, 0 40px 80px -40px rgb(42 15 23 / 0.45), 0 12px 24px -16px rgb(31 20 22 / 0.25);
     overflow: hidden;
   }
   .mock__bar {
@@ -108,7 +114,7 @@ const c = {
     border-bottom: 1px solid var(--c-line);
     background: var(--c-paper);
   }
-  .mock__bar span { width: 9px; height: 9px; border-radius: 50%; background: rgb(22 5 11 / 0.14); }
+  .mock__bar span { width: 9px; height: 9px; border-radius: 50%; background: rgb(31 20 22 / 0.14); }
   .mock__bar em {
     margin-left: auto;
     margin-right: auto;
@@ -121,8 +127,8 @@ const c = {
   .mock__shelf, .mock__chat { padding: 1rem; }
   .mock__shelf {
     background:
-      repeating-linear-gradient(180deg, transparent 0 calc(25% - 1px), rgb(201 164 92 / 0.25) calc(25% - 1px) 25%);
-    background-color: #f8eadb;
+      repeating-linear-gradient(180deg, transparent 0 calc(25% - 1px), rgb(168 135 79 / 0.25) calc(25% - 1px) 25%);
+    background-color: #efe5d6;
     border-bottom: 1px solid var(--c-line);
   }
   .mock__head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.75rem; }
@@ -153,12 +159,12 @@ const c = {
   .mock__chips span {
     font-size: 0.8rem;
     padding: 0.35rem 0.75rem;
-    border: 1px solid rgb(118 33 61 / 0.35);
+    border: 1px solid rgb(107 30 46 / 0.35);
     color: var(--c-merlot);
     border-radius: 999px;
-    background: #fffaf2;
+    background: var(--c-cream);
   }
-  .mock__chips span:first-child { background: rgb(118 33 61 / 0.08); }
+  .mock__chips span:first-child { background: rgb(107 30 46 / 0.08); }
   .mock__input {
     margin-top: auto;
     font-size: 0.85rem;
@@ -177,24 +183,23 @@ const c = {
 
   @media (prefers-reduced-motion: no-preference) {
     .mock__card, .msg, .mock__chips {
-      animation: mock-in 0.7s var(--ease) both;
+      animation: mock-in 0.6s var(--ease) backwards;
     }
-    .mock__card:nth-child(1) { animation-delay: 0.25s; }
-    .mock__card:nth-child(2) { animation-delay: 0.34s; }
-    .mock__card:nth-child(3) { animation-delay: 0.43s; }
-    .mock__card:nth-child(4) { animation-delay: 0.52s; }
-    .msg:nth-child(1) { animation-delay: 0.9s; }
-    .msg:nth-child(2) { animation-delay: 1.45s; }
-    .msg:nth-child(3) { animation-delay: 2s; }
-    .msg:nth-child(4) { animation-delay: 2.55s; }
-    .mock__chips { animation-delay: 3.1s; }
+    .mock__card:nth-child(2) { animation-delay: 0.06s; }
+    .mock__card:nth-child(3) { animation-delay: 0.12s; }
+    .mock__card:nth-child(4) { animation-delay: 0.18s; }
+    .msg:nth-child(1) { animation-delay: 0.25s; }
+    .msg:nth-child(2) { animation-delay: 0.35s; }
+    .msg:nth-child(3) { animation-delay: 0.45s; }
+    .msg:nth-child(4) { animation-delay: 0.55s; }
+    .mock__chips { animation-delay: 0.6s; }
     .msg--me { animation-name: mock-in-r; }
     @keyframes mock-in {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0.6; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
     @keyframes mock-in-r {
-      from { opacity: 0; transform: translate(8px, 4px); }
+      from { opacity: 0.6; transform: translate(8px, 4px); }
       to { opacity: 1; transform: none; }
     }
   }

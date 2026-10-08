@@ -66,7 +66,7 @@ const nowLabel = lang === 'en' ? `now: ${now}` : `сейчас: ${now}`;
     --tone: var(--c-merlot);
     position: relative;
     background: var(--c-cream);
-    border: 1px solid rgb(201 164 92 / 0.85);
+    border: 1px solid rgb(168 135 79 / 0.85);
     border-radius: 6px;
     padding: 1rem 1.1rem 0.9rem;
     box-shadow: var(--shadow-card);
@@ -76,19 +76,19 @@ const nowLabel = lang === 'en' ? `now: ${now}` : `сейчас: ${now}`;
     content: '';
     position: absolute;
     inset: 4px;
-    border: 1px solid rgb(201 164 92 / 0.45);
+    border: 1px solid rgb(168 135 79 / 0.45);
     border-radius: 3px;
     pointer-events: none;
   }
   .bl--white { --tone: #9a7a2c; }
   .bl--amber { --tone: var(--c-terracotta); }
-  .bl--rose { --tone: #b0566a; }
+  .bl--rose { --tone: #9e4a5c; }
   .bl__head { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75rem; align-items: start; }
   .bl__swatch {
     width: 0.65rem;
     height: 2.4rem;
     border-radius: 0.35rem 0.35rem 0.2rem 0.2rem;
-    background: linear-gradient(180deg, var(--tone) 0 70%, rgb(22 5 11 / 0.2) 70%);
+    background: linear-gradient(180deg, var(--tone) 0 70%, rgb(31 20 22 / 0.2) 70%);
     margin-top: 0.2rem;
     opacity: 0.9;
   }
@@ -115,7 +115,7 @@ const nowLabel = lang === 'en' ? `now: ${now}` : `сейчас: ${now}`;
   }
   .bl__window { margin-top: 0.9rem; }
   .bl__track { display: block; height: 16px; overflow: visible; }
-  .bl__base { stroke: rgb(22 5 11 / 0.3); stroke-width: 1; }
+  .bl__base { stroke: rgb(31 20 22 / 0.3); stroke-width: 1; }
   .bl__peak { fill: var(--tone); }
   .bl__now { fill: var(--c-cream); stroke: var(--tone); stroke-width: 2; }
   .bl__years {
@@ -136,7 +136,7 @@ const nowLabel = lang === 'en' ? `now: ${now}` : `сейчас: ${now}`;
   .bl__place {
     margin: 0.55rem 0 0;
     padding-top: 0.5rem;
-    border-top: 1px dashed rgb(22 5 11 / 0.15);
+    border-top: 1px dashed rgb(31 20 22 / 0.15);
     font-size: 0.75rem;
     color: var(--c-muted);
     letter-spacing: 0.02em;
