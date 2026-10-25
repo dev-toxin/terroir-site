@@ -339,11 +339,12 @@ const app = {
     .hero__copy { display: contents; }
     .hero .kicker { order: 1; margin: 0; }
     .hero h1 { order: 2; margin: 0; }
-    .hero .lede { order: 3; margin: 0; }
-    .hero__visual { order: 4; max-width: 10.5rem; justify-self: center; }
-    .hero .btn-row { order: 5; }
-    .hero__ctanote { order: 6; margin: 0; }
+    .hero__visual { order: 3; max-width: 9rem; justify-self: start; }
+    .hero .btn-row { order: 4; }
+    .hero__ctanote { order: 5; margin: 0; }
+    .hero .lede { order: 6; margin: var(--s-2) 0 0; }
     .facts { order: 7; flex-wrap: nowrap; gap: var(--s-4); margin-top: var(--s-2); }
+    :global(.hero__note) { display: none; }
     .facts div { min-width: 0; flex: 1 1 0; }
     .facts dt { font-size: var(--fs-2); }
     .facts dd { font-size: 0.75rem; letter-spacing: 0.02em; }
