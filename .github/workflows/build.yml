@@ -1,9 +1,9 @@
-# Build + self-check on every push / PR. Deployment is done by Cloudflare Pages, not here.
+# Build + self-check on every push / PR. Deployment: .github/workflows/deploy.yml (GitHub Pages).
 name: build
 
 on:
   push:
-    branches: [main, site-v2]
+    branches: [main, site-v2, site-2026-10]
   pull_request:
 
 permissions:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
+          node-version: 24
           cache: npm
       - run: npm ci
       - run: npx astro build

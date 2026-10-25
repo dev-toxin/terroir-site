@@ -3,8 +3,8 @@
  * Меняйте здесь — всё остальное подхватит.
  */
 export const SITE = {
-  /** Канонический адрес (без www, см. docs/DECISIONS.md → D07). */
-  url: 'https://terroir-app.com',
+  /** Канонический адрес. С 2026-10 — www: сайт на GitHub Pages, apex-редирект делает GitHub (D07 пересмотрено). */
+  url: 'https://www.terroir-app.com',
   name: 'Terroir',
   /** Единый контакт: письма, mailto-форма, Privacy/Terms, JSON-LD. */
   contact: 'contact@ankosoftlab.com',
