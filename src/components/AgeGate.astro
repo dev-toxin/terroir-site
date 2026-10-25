@@ -1,7 +1,8 @@
 ---
 /**
  * Unobtrusive 18+ notice. Hidden by default (`hidden`) — site.js reveals it only if the visitor
- * hasn't confirmed yet. Without JS the site stays fully readable; the 18+ line lives in the footer.
+ * hasn't confirmed yet (remembered in localStorage). Without JS the site stays fully readable; the 18+
+ * line lives in the footer. Since 2026-10 it is an in-flow strip above the header, not an overlay.
  */
 import { t } from '../i18n/ui';
 import type { Lang } from '../config';
@@ -25,49 +26,34 @@ const s = t(Astro.props.lang);
 </section>
 
 <style>
-  /* Phones: a slim bar glued to the bottom edge (one line of text + two compact buttons),
-     ≈ 64–76 px high, so the hero CTA and most of the screen stay visible. Fix 2026-10-08. */
+  /* 2026-10: an in-flow strip at the very top of the page (not fixed, not floating), so it never covers
+     the hero, the CTA or the facts on any screen. One line on desktop, two at most on phones. */
   .agegate {
-    position: fixed;
-    z-index: 60;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-top: 1px solid rgb(168 135 79 / 0.5);
-    box-shadow: 0 -12px 30px -18px rgb(0 0 0 / 0.6);
-    padding: var(--s-2) var(--s-4) calc(var(--s-2) + env(safe-area-inset-bottom, 0px));
+    position: relative;
+    z-index: 5;
+    border-bottom: 1px solid rgb(168 135 79 / 0.5);
+    padding: var(--s-2) var(--s-4);
   }
   .agegate[hidden] { display: none; }
-  .agegate__inner { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--s-3); }
+  .agegate__inner { display: flex; align-items: center; gap: var(--s-3); max-width: 72rem; margin-inline: auto; }
   .agegate__badge {
     display: inline-grid; place-items: center; flex: none;
-    width: 2.25rem; height: 2.25rem; border-radius: 50%;
+    width: 2rem; height: 2rem; border-radius: 50%;
     border: 1px solid var(--c-gold); color: var(--c-gold-soft);
-    font-family: var(--f-display); font-style: italic; font-size: 1.15rem;
+    font-family: var(--f-display); font-style: italic; font-size: 1rem;
   }
-  .agegate__body, .agegate__under { flex: 1 1 auto; min-width: 0; }
+  .agegate__body, .agegate__under { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--s-3); }
   .agegate p { margin: 0; }
-  .agegate__title { font-family: var(--f-display); font-size: 1.15rem; line-height: 1.15; }
-  .agegate__text { display: none; }
+  .agegate__title { font-family: var(--f-display); font-size: 1.05rem; line-height: 1.2; }
+  .agegate__text { display: none; color: var(--c-muted-dark); font-size: 0.875rem; }
   .agegate__under { color: var(--c-muted-dark); font-size: 0.875rem; }
-  .agegate__actions { flex: none; }
-  .agegate .btn--sm { min-height: 40px; padding: 0.35rem 0.85rem; }
-  .agegate__actions { display: flex; gap: var(--s-2); }
+  .agegate__actions { flex: none; display: flex; gap: var(--s-2); }
+  .agegate .btn--sm { min-height: 36px; padding: 0.3rem 0.8rem; font-size: 0.875rem; }
   .agegate .btn:not(.btn--ghost) { --_bg: var(--c-cream); --_fg: var(--c-ink); --_bd: var(--c-cream); }
   .agegate .btn:not(.btn--ghost):hover { --_bg: var(--c-gold-soft); --_bd: var(--c-gold-soft); }
   .agegate .btn--ghost { --_fg: var(--c-cream); --_bd: rgb(250 246 239 / 0.4); }
   .agegate .btn--ghost:hover { --_bg: var(--c-cream); --_fg: var(--c-ink); }
   @media (min-width: 768px) {
-    .agegate {
-      left: auto; right: var(--s-5); bottom: var(--s-5); max-width: 36rem;
-      border: 1px solid rgb(168 135 79 / 0.5); border-radius: var(--radius-lg);
-      box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.6);
-      padding: var(--s-4) var(--s-5);
-    }
-    .agegate__inner { flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
-    .agegate__badge { width: 3rem; height: 3rem; }
-    .agegate__body, .agegate__under { flex: 1 1 16rem; }
-    .agegate__title { font-size: var(--fs-2); }
-    .agegate__text { display: block; color: var(--c-muted-dark); font-size: 0.9375rem; }
+    .agegate__text { display: block; }
   }
 </style>

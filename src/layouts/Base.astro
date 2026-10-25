@@ -120,6 +120,7 @@ const preload = lang === 'ru' ? [fCormorantCyr, fInterCyr] : [fCormorantLatin, f
     -->
   </head>
   <body>
+    <AgeGate lang={lang} />
     <a class="skip-link" href="#main">{s.skip}</a>
     <Header lang={lang} altPath={altPath} />
     <main id="main" tabindex="-1">
@@ -127,7 +128,6 @@ const preload = lang === 'ru' ? [fCormorantCyr, fInterCyr] : [fCormorantLatin, f
       <slot />
     </main>
     <Footer lang={lang} />
-    <AgeGate lang={lang} />
     <script>
       import '../scripts/site.js';
     </script>

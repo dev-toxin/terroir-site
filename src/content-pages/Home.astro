@@ -19,20 +19,21 @@ const L = (p: string) => localize(lang, p);
 const C = {
   en: {
     title: 'Terroir — a wine assistant that knows your cellar, your taste and your kitchen',
-    description: 'Terroir remembers the bottles you own, how you like your wine and what you cook — and answers “what should I open tonight?” from your own shelf. Early access: web app and Telegram.',
-    kicker: 'Early access · web app & Telegram',
+    description: 'Terroir remembers the bottles you own, how you like your wine and what you cook — and answers “what should I open tonight?” from your own shelf. Early access: web app, Telegram bot planned.',
+    kicker: 'Early access · web app, Telegram bot planned',
     h1: 'What to open tonight — <em>from your own cellar.</em>',
     sub: 'Terroir is a personal wine assistant with a memory. It knows which bottles you have and where they lie, how you like your wine, and what you cook at home — so its answers come from your shelf, not from the whole internet.',
     cta2: 'See how it works',
     note: 'real answers come only from bottles you actually own',
-    facts: [['10–200', 'bottles at home'], ['3', 'things it remembers'], ['0', 'bottles it will sell you']],
+    ctaNote: 'Free · 4 short questions',
+    facts: [['Free', 'to join the waitlist'], ['EN · RU', 'languages'], ['0', 'wine ads or affiliate links']],
     cellar: {
       no: '01',
       title: 'Your cellar, <em>remembered</em>',
       lede: 'Every bottle is a label on a shelf: how many are left, where it lies and when its drinking window opens and closes. Terroir keeps that memory between conversations.',
       items: [
         { icon: 'rack', h: 'Your cellar', p: 'Ten bottles in a kitchen rack or two hundred in a basement — same care, same shelf map.' },
-        { icon: 'palate', h: 'Your taste', p: 'A short questionnaire to start, then every rating sharpens the picture — learnt from what you drink.' },
+        { icon: 'palate', h: 'Your taste', p: 'A short questionnaire to start, then every rating sharpens the picture, based on what you actually drink.' },
         { icon: 'book', h: 'Your kitchen', p: 'The dishes you actually cook. Wine for your recipes, and a recipe for the bottle you have.' },
       ],
     },
@@ -42,8 +43,8 @@ const C = {
       lede: 'This is what Terroir is for — not tasting notes for their own sake, but small decisions at home.',
       items: [
         { day: 'Friday, 19:40', h: 'What to open with dinner?', p: 'Duck breast is resting, you’re tired, you don’t want to think. Terroir looks at the shelf: “Saperavi 2018 is entering its peak, you have three. You liked the last one more after an hour open.”', tag: 'from the cellar', icon: 'glass' },
-        { day: 'Saturday, guests at eight', h: 'Friends are coming for an Italian night', p: 'Ragù is on the stove, six people, a mix of tastes. Terroir suggests two bottles you own that will cover the table — and notes which one your partner tends to prefer.', tag: 'from your recipes', icon: 'pair' },
-        { day: 'Some quiet Sunday', h: 'The bottle you’ve been saving', p: 'Everyone has one. Terroir remembers it too, and tells you gently when its window starts to close — so it’s opened at its best, not forgotten until it’s past.', tag: 'drinking window', icon: 'calendar' },
+        { day: 'Saturday, guests at eight', h: 'Friends are coming for an Italian night', p: 'Ragù is on the stove, six people, a mix of tastes. Terroir suggests two bottles you own that will suit the whole table — and notes which one your partner tends to prefer.', tag: 'from your recipes', icon: 'pair' },
+        { day: 'Some quiet Sunday', h: 'The bottle you’ve been saving', p: 'Everyone has one. Terroir remembers it too, and tells you gently when its window starts to close — so it’s opened at its best, not forgotten until it’s past its best.', tag: 'drinking window', icon: 'calendar' },
       ],
     },
     pairing: {
@@ -84,67 +85,68 @@ const C = {
     },
   },
   ru: {
-    title: 'Terroir — винный помощник, который знает ваш погреб, вкус и кухню',
-    description: 'Terroir помнит, какие бутылки у вас есть, какое вино вам нравится и что вы готовите, — и отвечает на вопрос «что открыть сегодня?» из вашего собственного погреба. Ранний доступ: веб и Telegram.',
-    kicker: 'Ранний доступ · веб и Telegram',
-    h1: 'Что открыть сегодня — <em>из своего погреба.</em>',
-    sub: 'Terroir — личный винный помощник с памятью. Он знает, какие бутылки у вас есть и где они лежат, какое вино вам по вкусу и что вы готовите дома. Поэтому отвечает из вашей полки, а не из всего интернета.',
+    title: 'Terroir — винный помощник, который знает ваш погреб, вкус и кухню',
+    description: 'Terroir помнит, какие бутылки у вас есть, какое вино вам нравится и что вы готовите, — и отвечает на вопрос «что открыть сегодня?» из вашего собственного погреба. Ранний доступ: веб-приложение, Telegram-бот в планах.',
+    kicker: 'Ранний доступ · веб-приложение, Telegram-бот в планах',
+    h1: 'Что открыть сегодня — <em>из своего погреба.</em>',
+    sub: 'Terroir — личный винный помощник с памятью. Он знает, какие бутылки у вас есть и где они лежат, какое вино вам по вкусу и что вы готовите дома. Поэтому отвечает из вашей полки, а не из всего интернета.',
     cta2: 'Как это работает',
-    note: 'советует только то, что реально стоит у вас на полке',
-    facts: [['10–200', 'бутылок дома'], ['3', 'вещи, которые он помнит'], ['0', 'бутылок, которые он вам продаст']],
+    note: 'советует только то, что реально стоит у вас на полке',
+    ctaNote: 'Бесплатно · 4 коротких вопроса',
+    facts: [['Бесплатно', 'запись в лист ожидания'], ['EN · RU', 'языки'], ['0', 'рекламы вина и партнёрских ссылок']],
     cellar: {
       no: '01',
-      title: 'Ваш погреб — <em>в памяти</em>',
-      lede: 'Каждая бутылка — этикетка на полке: сколько осталось, где лежит, когда открывается и закрывается окно питья. Terroir хранит эту память между разговорами.',
+      title: 'Ваш погреб — <em>в памяти</em>',
+      lede: 'Каждая бутылка — этикетка на полке: сколько осталось, где лежит, когда открывается и закрывается окно питья. Terroir хранит эту память между разговорами.',
       items: [
-        { icon: 'rack', h: 'Ваш погреб', p: 'Десять бутылок на кухне или двести в подвале — одинаково бережно и с картой полок.' },
-        { icon: 'palate', h: 'Ваш вкус', p: 'Короткий опрос на старте, дальше каждая оценка уточняет картину — по тому, что вы пьёте.' },
-        { icon: 'book', h: 'Ваша кухня', p: 'Блюда, которые вы правда готовите. Вино к вашим рецептам и рецепт — к вашей бутылке.' },
+        { icon: 'rack', h: 'Ваш погреб', p: 'Десять бутылок на кухне или двести в подвале — одинаково бережно и с картой полок.' },
+        { icon: 'palate', h: 'Ваш вкус', p: 'Короткий опрос на старте, дальше каждая оценка уточняет картину — по тому, что вы пьёте.' },
+        { icon: 'book', h: 'Ваша кухня', p: 'Блюда, которые вы правда готовите. Вино к вашим рецептам и рецепт — к вашей бутылке.' },
       ],
     },
     evening: {
       no: '02',
       title: 'Одна неделя, <em>три вечера</em>',
-      lede: 'Вот для чего Terroir: не дегустационные заметки ради заметок, а маленькие домашние решения.',
+      lede: 'Вот для чего Terroir: не дегустационные заметки ради заметок, а маленькие домашние решения.',
       items: [
-        { day: 'Пятница, 19:40', h: 'Что открыть к ужину?', p: 'Утиная грудка отдыхает, сил думать нет. Terroir смотрит на полку: «Саперави 2018 входит в пик, у вас три бутылки. Прошлую вы оценили выше, когда она постояла открытой час».', tag: 'из погреба', icon: 'glass' },
-        { day: 'Суббота, гости к восьми', h: 'Друзья придут на итальянский ужин', p: 'Рагу на плите, шесть человек, вкусы разные. Terroir предложит две ваши бутылки, которые закроют весь стол, и подскажет, какую из них обычно выбирает ваш партнёр.', tag: 'из ваших рецептов', icon: 'pair' },
-        { day: 'Какое-нибудь тихое воскресенье', h: 'Бутылка, которую жалко открывать', p: 'Такая есть у всех. Terroir тоже её помнит и мягко подскажет, когда окно начнёт закрываться, — чтобы открыть её в лучшей форме, а не вспомнить слишком поздно.', tag: 'окно питья', icon: 'calendar' },
+        { day: 'Пятница, 19:40', h: 'Что открыть к ужину?', p: 'Утиная грудка отдыхает, сил думать нет. Terroir смотрит на полку: «Саперави 2018 входит в пик, у вас три бутылки. Прошлую вы оценили выше, когда она постояла открытой час».', tag: 'из погреба', icon: 'glass' },
+        { day: 'Суббота, гости к восьми', h: 'Друзья придут на итальянский ужин', p: 'Рагу на плите, шесть человек, вкусы разные. Terroir предложит две ваши бутылки, которые подойдут всему столу, и подскажет, какую из них обычно выбирает ваш партнёр.', tag: 'из ваших рецептов', icon: 'pair' },
+        { day: 'Какое-нибудь тихое воскресенье', h: 'Бутылка, которую жалко открывать', p: 'Такая есть у всех. Terroir тоже её помнит и мягко подскажет, когда окно начнёт закрываться, — чтобы открыть её в лучшей форме, а не вспомнить слишком поздно.', tag: 'окно питья', icon: 'calendar' },
       ],
     },
     pairing: {
       no: '03',
       title: 'Вино <em>↔</em> ваш рецепт',
-      lede: 'Этого не умеют приложения-каталоги. Terroir подбирает пару сразу из двух ваших полок: рецептов, которые вы готовите, и бутылок, которые вы храните.',
-      recipe: { kicker: 'С вашей кухни', name: 'Свиная шея на углях', meta: 'ваш воскресный рецепт', notes: ['дым и корочка', 'жир, которому нужна терпкость', 'аджика к столу'] },
-      wine: { kicker: 'Из вашего погреба', name: 'Красностоп 2019', meta: 'полка B · осталось 2 бутылки', notes: ['плотные танины', 'тёмные ягоды, немного дыма', 'пик окна питья'] },
-      why: 'танины режут жир, дым встречает дым',
-      foot: 'И в обратную сторону: открываете бутылку — Terroir подскажет, что приготовить из ваших же рецептов.',
+      lede: 'Этого не умеют приложения-каталоги. Terroir подбирает пару сразу из двух ваших полок: рецептов, которые вы готовите, и бутылок, которые вы храните.',
+      recipe: { kicker: 'С вашей кухни', name: 'Свиная шея на углях', meta: 'ваш воскресный рецепт', notes: ['дым и корочка', 'жир, которому нужна терпкость', 'аджика к столу'] },
+      wine: { kicker: 'Из вашего погреба', name: 'Красностоп 2019', meta: 'полка B · осталось 2 бутылки', notes: ['плотные танины', 'тёмные ягоды, немного дыма', 'пик окна питья'] },
+      why: 'танины уравновешивают жирность, дымок к дымку',
+      foot: 'И в обратную сторону: открываете бутылку — Terroir подскажет, что приготовить из ваших же рецептов.',
     },
     notThis: {
       no: '04',
       title: 'Не очередной сканер этикеток. <em>Не чат, который забывает.</em>',
-      lede: 'Есть приложения, которые знают все вина мира, и чат-боты, готовые поговорить о любом из них. Ни те, ни другие не знают, что стоит у вас на полке сегодня.',
-      leftH: 'Чем Terroir не является',
+      lede: 'Есть приложения, которые знают все вина мира, и чат-боты, готовые поговорить о любом из них. Ни те, ни другие не знают, что стоит у вас на полке сегодня.',
+      leftH: 'Чем Terroir не станет',
       left: [
-        'Каталогом всех вин на свете с чужими оценками',
-        'Чатом, который каждый раз начинает с нуля и советует то, чего у вас нет',
+        'Каталогом всех вин на свете с чужими оценками',
+        'Чатом, который каждый раз начинает с нуля и советует то, чего у вас нет',
         'Магазином, маркетплейсом или замаскированной партнёрской ссылкой',
       ],
       rightH: 'Что такое Terroir',
       right: [
         'Учёт ваших бутылок: количество, место, окно питья',
-        'Память о вашем вкусе и рецептах, которая точнее с каждой оценкой',
-        'Помощник, который отвечает только из того, что у вас есть, — и честно говорит, если ничего не подходит',
+        'Память о вашем вкусе и рецептах, которая становится точнее с каждой оценкой',
+        'Помощник, который отвечает только из того, что у вас есть, — и честно говорит, если ничего не подходит',
       ],
     },
-    journal: { no: '05', title: 'Из <em>журнала</em>', lede: 'Короткие практичные заметки о том, как хранить и открывать вино дома.', read: 'Читать', all: 'Все заметки' },
+    journal: { no: '05', title: 'Из <em>журнала</em>', lede: 'Короткие практичные заметки о том, как хранить и открывать вино дома.', read: 'Читать', all: 'Все заметки' },
     privacy: {
-      title: 'Ваш погреб — <em>ваши данные</em>',
+      title: 'Ваш погреб — <em>ваши данные</em>',
       items: [
-        ['Экспорт в любой момент', 'Весь погреб, оценки и заметки — одним CSV-файлом.'],
-        ['Без продажи данных и рекламы', 'Мы не берём денег у виноделен за продвижение бутылок.'],
-        ['Удаление в любой момент', 'Попросите один раз — аккаунт и данные будут удалены.'],
+        ['Экспорт в любой момент', 'Весь погреб, оценки и заметки — одним CSV-файлом.'],
+        ['Без продажи данных и рекламы', 'Мы не берём денег у виноделен за продвижение бутылок.'],
+        ['Удаление в любой момент', 'Попросите один раз — аккаунт и данные будут удалены.'],
       ],
       link: 'Политика конфиденциальности (черновик)',
     },
@@ -158,7 +160,7 @@ const app = {
   '@type': 'SoftwareApplication',
   name: 'Terroir',
   applicationCategory: 'LifestyleApplication',
-  operatingSystem: 'Web, Telegram',
+  operatingSystem: 'Web',
   description: C.description,
   url: new URL(L('/'), SITE.url).href,
   inLanguage: lang,
@@ -178,6 +180,7 @@ const app = {
           <a class="btn" href={L(ROUTES.early)}>{s.cta}</a>
           <a class="btn btn--ghost" href={L(ROUTES.how)}>{C.cta2}</a>
         </div>
+        <p class="hero__ctanote rise rise-3">{C.ctaNote}</p>
         <dl class="facts">
           {C.facts.map(([n, l]) => (
             <div><dt class="tnum">{n}</dt><dd>{l}</dd></div>
@@ -246,8 +249,8 @@ const app = {
     </div>
   </section>
 
-  <!-- 04 · NOT THIS (dark) -->
-  <section class="section section--dark" aria-labelledby="h-not">
+  <!-- 04 · NOT THIS (paper, 2026-10: no more three dark blocks in a row) -->
+  <section class="section not-this" aria-labelledby="h-not">
     <div class="wrap">
       <SecHead no={C.notThis.no} title={C.notThis.title} lede={C.notThis.lede} id="h-not" />
       <div class="grid grid--2 contrast">
@@ -326,8 +329,28 @@ const app = {
   @media (max-width: 639px) {
     :global(.hero__note) { position: static; margin-top: var(--s-4); }
   }
+  .hero__ctanote { margin: var(--s-3) 0 0; font-size: var(--fs--1); letter-spacing: 0.04em; color: var(--c-muted); }
   .facts { display: flex; flex-wrap: wrap; gap: var(--s-5) var(--s-7); margin: var(--s-7) 0 0; padding-top: var(--s-5); border-top: 1px solid var(--c-line); }
   .facts div { min-width: 7rem; }
+  /* Phones: first screen = heading + small illustration + button; facts in one line (2026-10). */
+  @media (max-width: 1023px) {
+    .hero { padding-block: var(--s-5) var(--s-8); }
+    .hero__grid { gap: var(--s-4); }
+    .hero__copy { display: contents; }
+    .hero .kicker { order: 1; margin: 0; }
+    .hero h1 { order: 2; margin: 0; }
+    .hero .lede { order: 3; margin: 0; }
+    .hero__visual { order: 4; max-width: 10.5rem; justify-self: center; }
+    .hero .btn-row { order: 5; }
+    .hero__ctanote { order: 6; margin: 0; }
+    .facts { order: 7; flex-wrap: nowrap; gap: var(--s-4); margin-top: var(--s-2); }
+    .facts div { min-width: 0; flex: 1 1 0; }
+    .facts dt { font-size: var(--fs-2); }
+    .facts dd { font-size: 0.75rem; letter-spacing: 0.02em; }
+  }
+  @media (max-width: 1023px) and (min-width: 640px) {
+    .hero__visual { max-width: 14rem; }
+  }
   .facts dt { font-family: var(--f-display); font-size: var(--fs-4); font-weight: 600; line-height: 1; color: var(--c-merlot); }
   .facts dd { margin: var(--s-2) 0 0; font-size: var(--fs--1); letter-spacing: 0.04em; color: var(--c-muted); max-width: 14ch; }
 
@@ -368,13 +391,14 @@ const app = {
   /* pairing */
   .pairing__foot { text-align: center; margin: var(--s-7) auto 0; max-width: 52ch; color: var(--c-ink-soft); font-size: var(--fs-1); }
 
-  /* contrast (on dark) */
+  /* contrast (on paper since 2026-10) */
+  .not-this { background: var(--c-paper); border-block: 1px solid var(--c-line); }
   .contrast { margin-top: var(--s-4); }
   .contrast__col { padding: var(--s-6); border-radius: var(--radius-lg); }
   .contrast__col h3 { font-size: var(--fs-2); margin-bottom: var(--s-4); }
   .contrast__col ul { margin: 0; }
   .contrast__col li { margin-top: var(--s-3); }
-  .contrast__col--no { border: 1px dashed var(--c-line-dark); color: var(--c-muted-dark); }
+  .contrast__col--no { border: 1px dashed rgb(31 20 22 / 0.28); color: var(--c-muted); }
   .contrast__col--no ul { list-style: none; padding: 0; }
   .contrast__col--no li { padding-left: 1.75rem; position: relative; }
   .contrast__col--no li::before {
@@ -384,9 +408,9 @@ const app = {
     top: 0.75em;
     width: 0.9rem;
     height: 1px;
-    background: var(--c-muted-dark);
+    background: var(--c-muted);
   }
-  .contrast__col--yes { background: var(--c-ink-2); border: 1px solid rgb(168 135 79 / 0.5); }
+  .contrast__col--yes { background: var(--c-cream); border: 1px solid var(--c-gold); box-shadow: var(--shadow-card); }
 
   /* journal */
   .notes { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-5); }

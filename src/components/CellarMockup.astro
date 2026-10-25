@@ -30,13 +30,16 @@ const c = {
     a1: 'From your cellar: <strong>Krasnostop 2019</strong> — right at the peak of its window, 2 bottles on shelf B.',
     a2: 'You gave a similar one 5/5 last spring: “smoky, firm, great with charcoal”.',
     a3: 'Lighter option: Areni 2021 — its window closes next year.',
+    think: ['Checking your cellar…', 'Considering dinner…'],
+    sources: ['cellar · shelf B', 'recipe: pork neck on charcoal', 'your note · 5/5'],
+    sourcesLabel: 'Sources',
     chips: ['Open Krasnostop', 'Something lighter'],
     input: 'Ask about tonight…',
   },
   ru: {
-    aria: 'Иллюстрация приложения Terroir: полка погреба и диалог с помощником',
+    aria: 'Иллюстрация приложения Terroir: полка погреба и диалог с помощником',
     shelf: 'Ваш погреб',
-    total: '38 бутылок · 4 полки',
+    total: '38 бутылок · 4 полки',
     bottles: [
       { name: 'Красностоп', meta: 'Кубань · 2019', count: 2, from: 2022, to: 2031, peakFrom: 2025, peakTo: 2028, note: 'на пике', tone: 'red' },
       { name: 'Саперави', meta: 'Кахетия · квеври · 2018', count: 3, from: 2021, to: 2032, peakFrom: 2026, peakTo: 2030, tone: 'red' },
@@ -44,10 +47,13 @@ const c = {
       { name: 'Кокур', meta: 'Крым · 2022', count: 4, from: 2023, to: 2028, peakFrom: 2024, peakTo: 2027, tone: 'white' },
     ],
     chat: 'Помощник',
-    q: 'Что открыть к свиной шее на углях?',
-    a1: 'Из вашего погреба: <strong>Красностоп 2019</strong> — пик окна питья, 2 бутылки на полке B.',
-    a2: 'Похожему вы ставили 5/5 прошлой весной: «дымный, плотный, отлично к углям».',
-    a3: 'Если хочется легче — Арени 2021: его окно закрывается в следующем году.',
+    q: 'Что открыть к свиной шее на углях?',
+    a1: 'Из вашего погреба: <strong>Красностоп 2019</strong> — пик окна питья, 2 бутылки на полке B.',
+    a2: 'Похожему вы ставили 5/5 прошлой весной: «дымный, плотный, отлично к углям».',
+    a3: 'Если хочется легче — Арени 2021: его окно закрывается в следующем году.',
+    think: ['Смотрю погреб…', 'Учитываю ужин…'],
+    sources: ['погреб · полка B', 'рецепт: свиная шея на углях', 'ваша заметка · 5/5'],
+    sourcesLabel: 'Источники',
     chips: ['Открываю Красностоп', 'Что-нибудь легче'],
     input: 'Спросите про сегодняшний вечер…',
   },
@@ -82,9 +88,12 @@ const c = {
         </header>
         <ol class="mock__msgs">
           <li class="msg msg--me"><span class="visually-hidden">{lang === 'en' ? 'You: ' : 'Вы: '}</span>{c.q}</li>
-          <li class="msg msg--bot"><span class="visually-hidden">Terroir: </span><span set:html={c.a1} /></li>
-          <li class="msg msg--bot">{c.a2}</li>
-          <li class="msg msg--bot msg--soft">{c.a3}</li>
+          <li class="msg msg--think" aria-hidden="true">{c.think.map((t) => <span>{t}</span>)}</li>
+          <li class="msg msg--bot msg--answer"><span class="visually-hidden">Terroir: </span><span set:html={c.a1} />
+            <span class="msg__sources"><span class="visually-hidden">{c.sourcesLabel}: </span>{c.sources.map((x) => <span class="src">{x}</span>)}</span>
+          </li>
+          <li class="msg msg--bot msg--answer">{c.a2}</li>
+          <li class="msg msg--bot msg--soft msg--answer">{c.a3}</li>
         </ol>
         <div class="mock__chips" aria-hidden="true">
           {c.chips.map((ch) => <span>{ch}</span>)}
@@ -155,6 +164,15 @@ const c = {
   }
   .msg--bot :global(strong) { color: var(--c-merlot); font-weight: 600; }
   .msg--soft { color: var(--c-muted); }
+  /* provenance: where the answer came from (2026-10) */
+  .msg__sources { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
+  .src {
+    font-size: 0.72rem; line-height: 1.2; padding: 0.2rem 0.5rem; border-radius: 4px;
+    background: #efe5d6; border: 1px solid rgb(168 135 79 / 0.45); color: var(--c-ink-soft);
+  }
+  .src::before { content: '↳ '; color: var(--c-gold); }
+  /* «thinking» log: shown ~1.5 s before the answer, only when motion is allowed */
+  .msg--think { display: none; }
   .mock__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
   .mock__chips span {
     font-size: 0.8rem;
@@ -182,6 +200,23 @@ const c = {
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    .msg--think {
+      display: flex; flex-direction: column; gap: 0.15rem;
+      align-self: flex-start; font-size: 0.78rem; color: var(--c-muted);
+      font-style: italic; background: transparent; padding: 0.2rem 0.2rem;
+      overflow: hidden;
+      animation: think-out 0.3s 1.6s var(--ease) forwards !important;
+    }
+    .msg--think span { animation: think-dot 0.8s ease-in-out infinite alternate; }
+    .msg--think span:nth-child(2) { animation-delay: 0.4s; }
+    .msg--answer { animation: mock-in-late 0.5s var(--ease) backwards !important; }
+    .msg--answer:nth-of-type(3) { animation-delay: 1.7s !important; }
+    .msg--answer:nth-of-type(4) { animation-delay: 1.85s !important; }
+    .msg--answer:nth-of-type(5) { animation-delay: 2s !important; }
+    .mock__chips { animation-delay: 2.1s !important; }
+    @keyframes think-out { to { opacity: 0; max-height: 0; padding: 0; margin: 0; } }
+    @keyframes think-dot { from { opacity: 0.45; } to { opacity: 1; } }
+    @keyframes mock-in-late { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
     .mock__card, .msg, .mock__chips {
       animation: mock-in 0.6s var(--ease) backwards;
     }

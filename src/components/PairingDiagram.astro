@@ -76,6 +76,12 @@ const { recipe, wine, why } = Astro.props;
     font-family: var(--f-display); font-style: italic; font-size: var(--fs-2); line-height: 1.25;
     color: var(--c-merlot); margin: 0 auto; max-width: 18ch;
   }
+  @media (prefers-reduced-motion: no-preference) {
+    .pair__thread path { animation: pair-flow 2.4s linear infinite; }
+    .pair__why { animation: pair-glow 4.8s ease-in-out infinite; }
+    @keyframes pair-flow { to { stroke-dashoffset: -18; } }
+    @keyframes pair-glow { 50% { color: var(--c-terracotta-text); } }
+  }
   @media (max-width: 899px) {
     .pair__thread { transform: rotate(90deg); width: 3rem; height: 3rem; }
     .pair__card--recipe, .pair__card--wine { transform: none; }
