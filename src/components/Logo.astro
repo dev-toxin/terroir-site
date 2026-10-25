@@ -1,0 +1,31 @@
+---
+/**
+ * The ONLY place the logo is pulled into the site (header, footer, 404 …).
+ * Sources: src/assets/brand/logo.svg (wordmark) and src/assets/brand/mark.svg (monogram).
+ * Both use currentColor → colour comes from CSS. Replace the two files to rebrand (docs/BRAND.md).
+ */
+import logo from '../assets/brand/logo.svg?raw';
+import mark from '../assets/brand/mark.svg?raw';
+
+interface Props {
+  variant?: 'wordmark' | 'mark';
+  class?: string;
+  /** Decorative usage (e.g. next to visible text "Terroir") → hidden from AT. */
+  decorative?: boolean;
+}
+const { variant = 'wordmark', class: cls = '', decorative = false } = Astro.props;
+
+let svg = variant === 'mark' ? mark : logo;
+// strip <title> to avoid double announcements; label is set on the wrapper
+svg = svg.replace(/<title>[\s\S]*?<\/title>/, '').replace(/role="img"\s*/, '').replace(/aria-label="[^"]*"\s*/, '');
+svg = svg.replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+---
+
+<span class:list={['logo', `logo--${variant}`, cls]} role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : 'Terroir'} aria-hidden={decorative ? 'true' : undefined} set:html={svg} />
+
+<style>
+  .logo { display: inline-flex; color: inherit; line-height: 0; }
+  .logo :global(svg) { height: 100%; width: auto; display: block; }
+  .logo--wordmark { height: 1.9rem; }
+  .logo--mark { height: 2.5rem; }
+</style>

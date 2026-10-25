@@ -1,0 +1,241 @@
+---
+/**
+ * Hero visual: a "live" product mock built in HTML/CSS (not an image).
+ * Left — the cellar shelf; right — the assistant answering from that shelf.
+ * Entry animation is CSS-only, decorative and disabled under prefers-reduced-motion.
+ * Bug fix 2026-10-08: on phones (and in headless renders) the old animation started every card and
+ * message at opacity 0 with delays up to 3.1 s, so the mock looked empty. Now every element is fully
+ * readable from the first frame: the animation only nudges position and starts at opacity .6, and the
+ * longest delay is 0.6 s.
+ */
+import BottleLabel from './BottleLabel.astro';
+import type { Lang } from '../config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const c = {
+  en: {
+    aria: 'Illustration of the Terroir app: a cellar shelf and a conversation with the assistant',
+    shelf: 'Your cellar',
+    total: '38 bottles · 4 shelves',
+    bottles: [
+      { name: 'Krasnostop', meta: 'Kuban · 2019', count: 2, from: 2022, to: 2031, peakFrom: 2025, peakTo: 2028, note: 'at its peak', tone: 'red' },
+      { name: 'Saperavi', meta: 'Kakheti · qvevri · 2018', count: 3, from: 2021, to: 2032, peakFrom: 2026, peakTo: 2030, tone: 'red' },
+      { name: 'Areni', meta: 'Vayots Dzor · 2021', count: 1, from: 2023, to: 2027, peakFrom: 2024, peakTo: 2026, note: 'open soon', tone: 'rose' },
+      { name: 'Kokur', meta: 'Crimea · 2022', count: 4, from: 2023, to: 2028, peakFrom: 2024, peakTo: 2027, tone: 'white' },
+    ],
+    chat: 'Assistant',
+    q: 'What should I open with pork neck on the grill?',
+    a1: 'From your cellar: <strong>Krasnostop 2019</strong> — right at the peak of its window, 2 bottles on shelf B.',
+    a2: 'You gave a similar one 5/5 last spring: “smoky, firm, great with charcoal”.',
+    a3: 'Lighter option: Areni 2021 — its window closes next year.',
+    think: ['Checking your cellar…', 'Considering dinner…'],
+    sources: ['cellar · shelf B', 'recipe: pork neck on charcoal', 'your note · 5/5'],
+    sourcesLabel: 'Sources',
+    chips: ['Open Krasnostop', 'Something lighter'],
+    input: 'Ask about tonight…',
+  },
+  ru: {
+    aria: 'Иллюстрация приложения Terroir: полка погреба и диалог с помощником',
+    shelf: 'Ваш погреб',
+    total: '38 бутылок · 4 полки',
+    bottles: [
+      { name: 'Красностоп', meta: 'Кубань · 2019', count: 2, from: 2022, to: 2031, peakFrom: 2025, peakTo: 2028, note: 'на пике', tone: 'red' },
+      { name: 'Саперави', meta: 'Кахетия · квеври · 2018', count: 3, from: 2021, to: 2032, peakFrom: 2026, peakTo: 2030, tone: 'red' },
+      { name: 'Арени', meta: 'Вайоц-Дзор · 2021', count: 1, from: 2023, to: 2027, peakFrom: 2024, peakTo: 2026, note: 'пора открыть', tone: 'rose' },
+      { name: 'Кокур', meta: 'Крым · 2022', count: 4, from: 2023, to: 2028, peakFrom: 2024, peakTo: 2027, tone: 'white' },
+    ],
+    chat: 'Помощник',
+    q: 'Что открыть к свиной шее на углях?',
+    a1: 'Из вашего погреба: <strong>Красностоп 2019</strong> — пик окна питья, 2 бутылки на полке B.',
+    a2: 'Похожему вы ставили 5/5 прошлой весной: «дымный, плотный, отлично к углям».',
+    a3: 'Если хочется легче — Арени 2021: его окно закрывается в следующем году.',
+    think: ['Смотрю погреб…', 'Учитываю ужин…'],
+    sources: ['погреб · полка B', 'рецепт: свиная шея на углях', 'ваша заметка · 5/5'],
+    sourcesLabel: 'Источники',
+    chips: ['Открываю Красностоп', 'Что-нибудь легче'],
+    input: 'Спросите про сегодняшний вечер…',
+  },
+}[lang];
+---
+
+<figure class="mock" aria-label={c.aria} role="group">
+  <div class="mock__frame">
+    <div class="mock__bar" aria-hidden="true">
+      <span></span><span></span><span></span>
+      <em>terroir</em>
+    </div>
+    <div class="mock__body">
+      <section class="mock__shelf" aria-label={c.shelf}>
+        <header class="mock__head">
+          <p class="mock__title">{c.shelf}</p>
+          <p class="mock__sub tnum">{c.total}</p>
+        </header>
+        <div class="mock__cards">
+          {c.bottles.map((b, i) => (
+            <div class="mock__card" data-i={i}>
+              <BottleLabel lang={lang} compact {...(b as any)} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="mock__chat" aria-label={c.chat}>
+        <header class="mock__head">
+          <p class="mock__title">{c.chat}</p>
+          <p class="mock__sub"><span class="mock__dot" aria-hidden="true"></span>{lang === 'en' ? 'answers from your shelf' : 'отвечает из вашего погреба'}</p>
+        </header>
+        <ol class="mock__msgs">
+          <li class="msg msg--me"><span class="visually-hidden">{lang === 'en' ? 'You: ' : 'Вы: '}</span>{c.q}</li>
+          <li class="msg msg--think" aria-hidden="true">{c.think.map((t) => <span>{t}</span>)}</li>
+          <li class="msg msg--bot msg--answer"><span class="visually-hidden">Terroir: </span><span set:html={c.a1} />
+            <span class="msg__sources"><span class="visually-hidden">{c.sourcesLabel}: </span>{c.sources.map((x) => <span class="src">{x}</span>)}</span>
+          </li>
+          <li class="msg msg--bot msg--answer">{c.a2}</li>
+          <li class="msg msg--bot msg--soft msg--answer">{c.a3}</li>
+        </ol>
+        <div class="mock__chips" aria-hidden="true">
+          {c.chips.map((ch) => <span>{ch}</span>)}
+        </div>
+        <div class="mock__input" aria-hidden="true">{c.input}</div>
+      </section>
+    </div>
+  </div>
+</figure>
+
+<style>
+  /* The mock sits on the dark «cellar» section: pin its own ink colour, otherwise text inherits cream. */
+  .mock { margin: 0; position: relative; container-type: inline-size; color: var(--c-ink); }
+  .mock :global(a) { color: var(--c-merlot); }
+  .mock__frame {
+    background: var(--c-cream);
+    border: 1px solid rgb(31 20 22 / 0.12);
+    border-radius: 14px;
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.8) inset, 0 40px 80px -40px rgb(42 15 23 / 0.45), 0 12px 24px -16px rgb(31 20 22 / 0.25);
+    overflow: hidden;
+  }
+  .mock__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--c-line);
+    background: var(--c-paper);
+  }
+  .mock__bar span { width: 9px; height: 9px; border-radius: 50%; background: rgb(31 20 22 / 0.14); }
+  .mock__bar em {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--f-display);
+    font-size: 1rem;
+    color: var(--c-muted);
+    transform: translateX(-14px);
+  }
+  .mock__body { display: grid; }
+  .mock__shelf, .mock__chat { padding: 1rem; }
+  .mock__shelf {
+    background:
+      repeating-linear-gradient(180deg, transparent 0 calc(25% - 1px), rgb(168 135 79 / 0.25) calc(25% - 1px) 25%);
+    background-color: #efe5d6;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .mock__head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.75rem; }
+  .mock__title { font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; margin: 0; }
+  .mock__sub { font-size: 0.75rem; color: var(--c-muted); margin: 0; display: inline-flex; align-items: center; gap: 0.4rem; }
+  .mock__dot { width: 6px; height: 6px; border-radius: 50%; background: #3f7a4f; }
+  .mock__cards { display: grid; gap: 0.6rem; }
+  .mock__card:nth-child(n + 4) { display: none; }
+
+  .mock__chat { display: flex; flex-direction: column; }
+  .mock__msgs { list-style: none; padding: 0; margin: 0 0 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .msg { margin: 0; max-width: 92%; padding: 0.65rem 0.85rem; border-radius: 14px; font-size: 0.9rem; line-height: 1.45; }
+  .msg--me {
+    align-self: flex-end;
+    background: var(--c-merlot);
+    color: var(--c-cream);
+    border-bottom-right-radius: 4px;
+  }
+  .msg--bot {
+    align-self: flex-start;
+    background: var(--c-cream);
+    border: 1px solid var(--c-line);
+    border-bottom-left-radius: 4px;
+  }
+  .msg--bot :global(strong) { color: var(--c-merlot); font-weight: 600; }
+  .msg--soft { color: var(--c-muted); }
+  /* provenance: where the answer came from (2026-10) */
+  .msg__sources { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
+  .src {
+    font-size: 0.72rem; line-height: 1.2; padding: 0.2rem 0.5rem; border-radius: 4px;
+    background: #efe5d6; border: 1px solid rgb(168 135 79 / 0.45); color: var(--c-ink-soft);
+  }
+  .src::before { content: '↳ '; color: var(--c-gold); }
+  /* «thinking» log: shown ~1.5 s before the answer, only when motion is allowed */
+  .msg--think { display: none; }
+  .mock__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+  .mock__chips span {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgb(107 30 46 / 0.35);
+    color: var(--c-merlot);
+    border-radius: 999px;
+    background: var(--c-cream);
+  }
+  .mock__chips span:first-child { background: rgb(107 30 46 / 0.08); }
+  .mock__input {
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: var(--c-muted);
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    padding: 0.6rem 0.9rem;
+    background: #fff;
+  }
+
+  @container (min-width: 560px) {
+    .mock__body { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); }
+    .mock__shelf { border-bottom: 0; border-right: 1px solid var(--c-line); }
+    .mock__card:nth-child(n + 4) { display: block; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .msg--think {
+      display: flex; flex-direction: column; gap: 0.15rem;
+      align-self: flex-start; font-size: 0.78rem; color: var(--c-muted);
+      font-style: italic; background: transparent; padding: 0.2rem 0.2rem;
+      overflow: hidden;
+      animation: think-out 0.3s 1.6s var(--ease) forwards !important;
+    }
+    .msg--think span { animation: think-dot 0.8s ease-in-out infinite alternate; }
+    .msg--think span:nth-child(2) { animation-delay: 0.4s; }
+    .msg--answer { animation: mock-in-late 0.5s var(--ease) backwards !important; }
+    .msg--answer:nth-of-type(3) { animation-delay: 1.7s !important; }
+    .msg--answer:nth-of-type(4) { animation-delay: 1.85s !important; }
+    .msg--answer:nth-of-type(5) { animation-delay: 2s !important; }
+    .mock__chips { animation-delay: 2.1s !important; }
+    @keyframes think-out { to { opacity: 0; max-height: 0; padding: 0; margin: 0; } }
+    @keyframes think-dot { from { opacity: 0.45; } to { opacity: 1; } }
+    @keyframes mock-in-late { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .mock__card, .msg, .mock__chips {
+      animation: mock-in 0.6s var(--ease) backwards;
+    }
+    .mock__card:nth-child(2) { animation-delay: 0.06s; }
+    .mock__card:nth-child(3) { animation-delay: 0.12s; }
+    .mock__card:nth-child(4) { animation-delay: 0.18s; }
+    .msg:nth-child(1) { animation-delay: 0.25s; }
+    .msg:nth-child(2) { animation-delay: 0.35s; }
+    .msg:nth-child(3) { animation-delay: 0.45s; }
+    .msg:nth-child(4) { animation-delay: 0.55s; }
+    .mock__chips { animation-delay: 0.6s; }
+    .msg--me { animation-name: mock-in-r; }
+    @keyframes mock-in {
+      from { opacity: 0.6; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes mock-in-r {
+      from { opacity: 0.6; transform: translate(8px, 4px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+</style>

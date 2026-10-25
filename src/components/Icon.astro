@@ -1,0 +1,49 @@
+---
+/**
+ * Hand-drawn line illustrations (own SVG, 48×48 grid, 1.5 stroke, currentColor).
+ * Decorative by default (aria-hidden). Pass `label` to make it meaningful.
+ */
+interface Props {
+  name:
+    | 'bottle' | 'glass' | 'leaf' | 'rack' | 'book' | 'chat' | 'pair' | 'export'
+    | 'bell' | 'plane' | 'camera' | 'palate' | 'tap' | 'shield' | 'pin' | 'calendar' | 'cork';
+  class?: string;
+  label?: string;
+}
+const { name, class: cls = '', label } = Astro.props;
+
+const P: Record<Props['name'], string> = {
+  bottle: `<path d="M21 4h6v9c0 2 5 4.5 5 10.5V42a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V23.5C16 17.5 21 15 21 13Z"/><path d="M21 8h6"/><path d="M16 27h16M16 37h16"/><path d="M20 30.5h8M21.5 33.5h5" opacity=".6"/>`,
+  glass: `<path d="M15 5h18l-1 10a8 8 0 0 1-16 0Z"/><path d="M16 12c3 1.6 13 1.6 16 0" opacity=".6"/><path d="M24 23v16M17 43h14"/>`,
+  leaf: `<path d="M24 43V20"/><path d="M24 20c-3-6-9-8-15-7 1 3 0 6 2 9-3 2-3 5-2 8 4 0 7 2 9 5 3-2 6-1 6-1"/><path d="M24 20c3-6 9-8 15-7-1 3 0 6-2 9 3 2 3 5 2 8-4 0-7 2-9 5-3-2-6-1-6-1"/><path d="M24 20c0-5 2-9 5-12"/><path d="M24 28l-8-6M24 28l8-6" opacity=".6"/>`,
+  rack: `<rect x="5" y="6" width="38" height="36" rx="1"/><path d="M5 18h38M5 30h38"/><circle cx="13" cy="12" r="3.2"/><circle cx="24" cy="12" r="3.2"/><circle cx="35" cy="24" r="3.2"/><circle cx="13" cy="36" r="3.2"/><circle cx="24" cy="36" r="3.2"/><circle cx="35" cy="36" r="3.2"/><circle cx="13" cy="24" r="3.2" opacity=".35"/>`,
+  book: `<path d="M24 11c-5-3-12-3.5-18-2v29c6-1.5 13-1 18 2 5-3 12-3.5 18-2V9c-6-1.5-13-1-18 2Z"/><path d="M24 11v29"/><path d="M10 16c3-.6 6-.4 9 .6M10 22c3-.6 6-.4 9 .6M29 16.6c3-1 6-1.2 9-.6M29 22.6c3-1 6-1.2 9-.6" opacity=".6"/>`,
+  chat: `<path d="M6 9h26a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H16l-7 6v-6H6a2 2 0 0 1-2-2V11a2 2 0 0 1 2-2Z"/><path d="M38 17h4a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-2v5l-6-5H22a2 2 0 0 1-2-2v-1" opacity=".7"/><path d="M11 16h16M11 21h10" opacity=".6"/>`,
+  pair: `<path d="M8 6h12l-.7 7a5.3 5.3 0 0 1-10.6 0Z"/><path d="M14 18.5V30M10 31h8"/><path d="M28 6h12l-.7 7a5.3 5.3 0 0 1-10.6 0Z"/><path d="M34 18.5V30M30 31h8"/><path d="M12 38c4 4 20 4 24 0" opacity=".7"/>`,
+  export: `<path d="M12 4h17l9 9v29a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M29 4v9h9"/><path d="M16 22h16M16 27h16M16 32h10" opacity=".6"/><path d="M24 36v8m-3-3 3 3 3-3"/>`,
+  bell: `<path d="M24 6a10 10 0 0 0-10 10v8l-4 7h28l-4-7v-8A10 10 0 0 0 24 6Z"/><path d="M20 35a4 4 0 0 0 8 0"/><path d="M24 3v3"/>`,
+  plane: `<path d="M43 6 5 21l13 5 3 13 6-8 9 7Z"/><path d="M18 26 43 6 21 39" opacity=".6"/>`,
+  camera: `<path d="M6 15h8l3-5h14l3 5h8v24H6Z"/><circle cx="24" cy="26" r="7.5"/><path d="M36 20h2" opacity=".6"/>`,
+  palate: `<circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="7"/><path d="M24 6v11M24 31v11M6 24h11M31 24h11M11.3 11.3l7.7 7.7M29 29l7.7 7.7M36.7 11.3 29 19M19 29l-7.7 7.7" opacity=".6"/>`,
+  tap: `<path d="M18 22V10a3 3 0 0 1 6 0v11"/><path d="M24 19a3 3 0 0 1 6 0v3M30 21a3 3 0 0 1 6 0v8c0 7-4 13-11 13h-1c-5 0-8-3-10-7l-4-8a3 3 0 0 1 5-3l2 3"/><path d="M12 7a9 9 0 0 1 1.5-3M30 7a9 9 0 0 0-1.5-3" opacity=".6"/>`,
+  shield: `<path d="M24 4 8 10v11c0 10 7 18 16 23 9-5 16-13 16-23V10Z"/><path d="m17 24 5 5 9-10"/>`,
+  pin: `<path d="M24 44s14-13 14-24a14 14 0 0 0-28 0c0 11 14 24 14 24Z"/><circle cx="24" cy="20" r="5"/>`,
+  calendar: `<rect x="6" y="9" width="36" height="33" rx="2"/><path d="M6 18h36M15 5v8M33 5v8"/><path d="M12 30h24" opacity=".6"/><circle cx="26" cy="30" r="3"/>`,
+  cork: `<path d="M17 8h14l-2 30H19Z"/><path d="M18 18h12M18.5 28h11" opacity=".6"/><path d="M14 42h20"/>`,
+};
+---
+
+<svg
+  class:list={['icon', cls]}
+  viewBox="0 0 48 48"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+  set:html={P[name]}
+/>

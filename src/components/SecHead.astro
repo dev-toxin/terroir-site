@@ -1,0 +1,20 @@
+---
+/** Section heading in journal style: «№ 02 ───» + h2 + optional lede. */
+interface Props {
+  no?: string;
+  title: string;      // may contain <em>
+  lede?: string;
+  center?: boolean;
+  id?: string;
+  level?: 'h1' | 'h2';
+}
+const { no, title, lede, center = false, id, level = 'h2' } = Astro.props;
+const H = level;
+---
+
+<div class:list={['sec-head', center && 'sec-head--center']}>
+  {no && <p class="sec-head__no" aria-hidden="true">№ {no}</p>}
+  <H id={id} set:html={title} />
+  {lede && <p class="lede" set:html={lede} />}
+  <slot />
+</div>

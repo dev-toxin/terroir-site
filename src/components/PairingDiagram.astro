@@ -1,0 +1,92 @@
+---
+/**
+ * «Wine ↔ your recipe» — the main difference from catalogue apps, drawn as two linked cards:
+ * a recipe card from the user's own kitchen and a bottle label from their own cellar,
+ * connected by a brass thread with the reason in the middle.
+ * Pure HTML/CSS/SVG, readable without JS.
+ */
+import Icon from './Icon.astro';
+import type { Lang } from '../config';
+interface Props {
+  lang: Lang;
+  recipe: { kicker: string; name: string; meta: string; notes: string[] };
+  wine: { kicker: string; name: string; meta: string; notes: string[] };
+  why: string;
+}
+const { recipe, wine, why } = Astro.props;
+---
+
+<div class="pair">
+  <article class="pair__card pair__card--recipe">
+    <p class="pair__kicker"><Icon name="book" class="pair__icon" />{recipe.kicker}</p>
+    <h3 class="pair__name">{recipe.name}</h3>
+    <p class="pair__meta">{recipe.meta}</p>
+    <ul class="pair__notes">{recipe.notes.map((n) => <li>{n}</li>)}</ul>
+  </article>
+
+  <div class="pair__link">
+    <svg class="pair__thread" viewBox="0 0 120 40" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+      <path d="M2 20 C 30 2, 90 38, 118 20" />
+    </svg>
+    <p class="pair__why">{why}</p>
+  </div>
+
+  <article class="pair__card pair__card--wine">
+    <p class="pair__kicker"><Icon name="bottle" class="pair__icon" />{wine.kicker}</p>
+    <h3 class="pair__name">{wine.name}</h3>
+    <p class="pair__meta">{wine.meta}</p>
+    <ul class="pair__notes">{wine.notes.map((n) => <li>{n}</li>)}</ul>
+  </article>
+</div>
+
+<style>
+  .pair { display: grid; gap: var(--s-5); align-items: center; }
+  .pair__card {
+    position: relative;
+    background: var(--c-cream);
+    border: 1px solid var(--c-gold);
+    border-radius: 6px;
+    padding: var(--s-6) var(--s-6) var(--s-5);
+    box-shadow: var(--shadow-card);
+  }
+  .pair__card::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgb(168 135 79 / 0.5);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .pair__card--recipe { transform: rotate(-1deg); }
+  .pair__card--wine { transform: rotate(0.8deg); }
+  .pair__kicker {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: var(--fs--1); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--c-terracotta-text); margin: 0 0 var(--s-3);
+  }
+  :global(.pair__icon) { width: 1.6rem; height: 1.6rem; color: var(--c-merlot); flex: none; }
+  .pair__name { font-size: var(--fs-3); font-weight: 600; margin: 0 0 var(--s-1); }
+  .pair__meta { font-family: var(--f-display); font-style: italic; font-size: var(--fs-1); color: var(--c-merlot); margin: 0 0 var(--s-4); }
+  .pair__notes { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--c-line); }
+  .pair__notes li { margin: 0; padding: var(--s-2) 0; border-bottom: 1px dashed var(--c-line); color: var(--c-ink-soft); font-size: var(--fs-0); }
+  .pair__link { text-align: center; padding-inline: var(--s-2); }
+  .pair__thread { display: block; width: 100%; max-width: 9rem; height: 2.5rem; margin: 0 auto var(--s-2); }
+  .pair__thread path { fill: none; stroke: var(--c-gold); stroke-width: 1.6; stroke-dasharray: 4 5; }
+  .pair__why {
+    font-family: var(--f-display); font-style: italic; font-size: var(--fs-2); line-height: 1.25;
+    color: var(--c-merlot); margin: 0 auto; max-width: 18ch;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pair__thread path { animation: pair-flow 2.4s linear infinite; }
+    .pair__why { animation: pair-glow 4.8s ease-in-out infinite; }
+    @keyframes pair-flow { to { stroke-dashoffset: -18; } }
+    @keyframes pair-glow { 50% { color: var(--c-terracotta-text); } }
+  }
+  @media (max-width: 899px) {
+    .pair__thread { transform: rotate(90deg); width: 3rem; height: 3rem; }
+    .pair__card--recipe, .pair__card--wine { transform: none; }
+  }
+  @media (min-width: 900px) {
+    .pair { grid-template-columns: minmax(0, 1fr) 11rem minmax(0, 1fr); gap: var(--s-4); }
+  }
+</style>
