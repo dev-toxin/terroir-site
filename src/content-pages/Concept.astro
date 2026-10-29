@@ -1,0 +1,114 @@
+---
+import '../styles/global.css';
+import '../styles/concepts.css';
+import AgeGate from '../components/AgeGate.astro';
+import { SITE } from '../config';
+import cellar from '../assets/photos/cellar.jpg?url';
+import day from '../assets/photos/day.jpg?url';
+import white from '../assets/photos/white.jpg?url';
+import mark from '../assets/terroir-mark-preview.png?url';
+interface Props { lang: 'ru' | 'en'; concept: 'shelf' | 'flow' | 'landscape' }
+const { lang, concept } = Astro.props;
+const ru = lang === 'ru';
+const base = ru ? '/ru' : '';
+const other = ru ? `/concepts/${concept}/` : `/ru/concepts/${concept}/`;
+const t = ru ? {
+  preview:'ДИЗАЙН-КОНЦЕПЦИЯ', nav:'Как это работает', cta:'Узнать о раннем доступе', intro:'ВАШИ БУТЫЛКИ. ВАШ ВКУС.',
+  headline:'Что открыть сегодня?', sub:'Terroir — персональный винный помощник, который создаётся для вашей коллекции, вкуса и повседневных решений.',
+  hint:'Идея продукта · в разработке', demo:'ПРИМЕР СЦЕНАРИЯ', demoInfo:'Иллюстрация будущего сценария, не работающий помощник.',
+  shelf:'Моя полка', shelfSub:'Ваши бутылки, в одном месте', ask:'Что открыть к ужину?', ask2:'А если просто вечер дома?', answer:'Из вашей полки можно выбрать белое: оно подойдёт к лёгкому ужину.', answer2:'Для спокойного вечера можно выбрать красное из вашей коллекции.',
+  wine1:'Белое · свежее', wine2:'Красное · мягкое', bottle1:'Белое сухое', bottle2:'Красное сухое', example:'ПРИМЕР',
+  sectionTag:'ЛИЧНЫЙ КОНТЕКСТ', sectionTitle:'Не ещё один каталог. Ваша история с вином.', sectionBody:'Идея Terroir — связать бутылки, заметки, вкус и рецепты, чтобы ориентироваться в собственной коллекции было проще.',
+  card1:'Ваши бутылки', card1body:'Видеть свою полку и помнить, что у вас есть.', card2:'Ваш вкус', card2body:'Собирать впечатления, к которым хочется вернуться.', card3:'Ваш вечер', card3body:'Искать идею для ужина или бутылку по настроению.',
+  note:'Terroir находится в разработке. Иллюстрации показывают замысел, а не доступные функции.', final:'Хороший вечер начинается с вопроса.', finalSub:'Следите за развитием Terroir и расскажите, что вам важно.', privacy:'Конфиденциальность', terms:'Условия', age:'18+ · Только для совершеннолетних', switcher:'Другие концепции', flowLabel:'Запрос → контекст → ответ', stage1:'Ваша полка', stage2:'Ваш вопрос', stage3:'Идея на вечер', story:'Из коллекции — к моменту', storySub:'Не нужно начинать с бесконечного поиска. Начните с того, что уже есть у вас.', design:'Цвет и композиция — черновик для обсуждения.', more:'О проекте'
+} : {
+  preview:'DESIGN CONCEPT', nav:'How it works', cta:'Explore early access', intro:'YOUR BOTTLES. YOUR TASTE.',
+  headline:'What will you open tonight?', sub:'Terroir is a personal wine assistant being created around your collection, your taste and everyday decisions.',
+  hint:'Product concept · in development', demo:'EXAMPLE SCENARIO', demoInfo:'An illustration of a future scenario, not a working assistant.',
+  shelf:'My shelf', shelfSub:'Your bottles, together', ask:'What should I open for dinner?', ask2:'What about a quiet night in?', answer:'A white from your shelf could be a good choice for a light dinner.', answer2:'A red from your collection could work for a relaxed evening.',
+  wine1:'White · fresh', wine2:'Red · mellow', bottle1:'Dry white', bottle2:'Dry red', example:'EXAMPLE',
+  sectionTag:'PERSONAL CONTEXT', sectionTitle:'More than a catalogue. Your own wine story.', sectionBody:'The idea behind Terroir is to connect bottles, notes, taste and recipes, making your own collection easier to navigate.',
+  card1:'Your bottles', card1body:'See your shelf and remember what you have.', card2:'Your taste', card2body:'Keep the impressions you want to revisit.', card3:'Your evening', card3body:'Find an idea for dinner or a bottle to suit the mood.',
+  note:'Terroir is in development. The illustrations show a concept, not available features.', final:'A good evening starts with a question.', finalSub:'Follow Terroir’s development and tell us what matters to you.', privacy:'Privacy', terms:'Terms', age:'18+ · Adults only', switcher:'Other concepts', flowLabel:'Question → context → answer', stage1:'Your shelf', stage2:'Your question', stage3:'An idea for tonight', story:'From your collection to the moment', storySub:'Instead of starting with an endless search, start with what you already have.', design:'Colour and composition are drafts for discussion.', more:'About'
+};
+const number = { shelf:'01', flow:'02', landscape:'03' }[concept];
+const label = { shelf:'Shelf', flow:'Flow', landscape:'Landscape' }[concept];
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Terroir · {label} — {t.preview}</title>
+  <meta name="description" content={`${t.sub} ${label}: ${t.design}`} />
+  <link rel="canonical" href={`${SITE.url}${base}/concepts/${concept}/`} />
+  <link rel="alternate" hreflang="en" href={`${SITE.url}/concepts/${concept}/`} />
+  <link rel="alternate" hreflang="ru" href={`${SITE.url}/ru/concepts/${concept}/`} />
+  <link rel="alternate" hreflang="x-default" href={`${SITE.url}/concepts/${concept}/`} />
+  <meta property="og:image" content={`${SITE.url}/og/og-${lang}.png`} />
+  <link rel="icon" href="/favicon.svg" />
+</head>
+<body class:list={['concept', `concept--${concept}`]}>
+  <AgeGate lang={lang} />
+  <a class="skip-link" href="#main">{ru ? 'К содержимому' : 'Skip to content'}</a>
+  <header class="c-header">
+    <a class="c-logo" href={`${base}/`} aria-label="Terroir">
+      <img src={mark} width="26" height="46" alt="" />
+      <span>terroir<span class="logo-dot">.</span></span>
+    </a>
+    <nav class="c-nav" aria-label={ru ? 'Основная навигация' : 'Main navigation'}><a href="#idea">{t.nav}</a><a href={`${base}/about/`}>{t.more}</a></nav>
+    <div class="c-header-actions"><a class="c-lang" href={other} lang={ru ? 'en' : 'ru'}>{ru ? 'EN' : 'RU'}</a><a class="c-header-cta" href={`${base}/early-access/`}>{t.cta} <span aria-hidden="true">↗</span></a></div>
+  </header>
+  <main id="main">
+    {concept === 'shelf' && <section class="hero hero-shelf">
+      <div class="hero-copy"><p class="eyebrow"><span class="eyebrow-dot"></span>{t.intro}</p><h1>{t.headline}</h1><p class="lead">{t.sub}</p><div class="hero-actions"><a class="c-button" href={`${base}/early-access/`}>{t.cta}<span aria-hidden="true">↗</span></a><span class="hero-hint">{t.hint}</span></div></div>
+      <div class="shelf-stage"><div class="photo-orbit"><img src={day} alt="" width="1024" height="1024" fetchpriority="high" /></div><div class="shelf-board"><div class="board-top"><div><p class="small-caps">TERROIR / {t.example}</p><h2>{t.shelf}</h2></div><span class="board-count">02</span></div><p class="board-sub">{t.shelfSub}</p><div class="bottle-row"><span class="bottle-icon white-bottle"></span><div><strong>{t.bottle1}</strong><small>{t.wine1}</small></div><span>↗</span></div><div class="bottle-row"><span class="bottle-icon red-bottle"></span><div><strong>{t.bottle2}</strong><small>{t.wine2}</small></div><span>↗</span></div><div class="board-question">✦ &nbsp;{t.ask}<span>↗</span></div></div><span class="floating-note">✳ {ru ? 'ваша коллекция' : 'your collection'}</span></div>
+    </section>}
+    {concept === 'flow' && <section class="hero hero-flow"><div class="flow-top"><p class="eyebrow"><span class="eyebrow-dot"></span>{t.intro}</p><div class="flow-index">TERROIR / {number}</div></div><div class="flow-heading"><h1>{t.headline}</h1><div><p class="lead">{t.sub}</p><a class="c-button" href={`${base}/early-access/`}>{t.cta}<span aria-hidden="true">↗</span></a><p class="hero-hint">{t.hint}</p></div></div><div class="flow-stage"><img class="flow-photo" src={white} alt="" width="1024" height="1024" fetchpriority="high" /><div class="flow-demo"><div class="demo-top"><span>✳ &nbsp; {t.demo}</span><span>01 — 03</span></div><div class="flow-steps"><span>{t.stage1}</span><span class="flow-arrow">→</span><span>{t.stage2}</span><span class="flow-arrow">→</span><span>{t.stage3}</span></div><div class="flow-answer"><span class="answer-icon">✦</span><div><small>{t.ask}</small><strong>{t.answer}</strong></div></div><p class="demo-disclaimer">{t.demoInfo}</p></div></div></section>}
+    {concept === 'landscape' && <section class="hero hero-landscape"><div class="landscape-copy"><p class="eyebrow"><span class="eyebrow-dot"></span>{t.intro}</p><h1>{t.headline}</h1><p class="lead">{t.sub}</p><a class="c-button" href={`${base}/early-access/`}>{t.cta}<span aria-hidden="true">↗</span></a><p class="hero-hint">{t.hint}</p></div><div class="landscape-stage"><div class="landscape-photo"><img src={cellar} alt="" width="1024" height="1024" fetchpriority="high" /></div><svg class="landscape-lines" viewBox="0 0 700 240" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 190 Q150 30 325 155 T730 50"/><path d="M-20 215 Q150 55 325 180 T730 75"/><path d="M-20 240 Q150 80 325 205 T730 100"/></svg><div class="landscape-prompt"><span class="prompt-spark">✳</span><div><small>{t.demo}</small><strong>{t.ask}</strong></div><span>↗</span></div></div><span class="landscape-side">TERROIR &nbsp; / &nbsp; {number}</span></section>}
+    <section class="scenario" id="idea">
+      <div class="scenario-intro"><p class="eyebrow">{t.sectionTag}</p><h2>{t.sectionTitle}</h2><p>{t.sectionBody}</p></div>
+      {concept === 'shelf' && <div class="scenario-content shelf-scenario">
+        <div class="story-photo"><img src={cellar} alt="" loading="lazy" width="1024" height="585"/><span>{t.story}</span></div>
+        <div class="demo-card" data-demo data-answer1={t.answer} data-answer2={t.answer2}>
+          <div class="demo-card-top"><span>✳ TERROIR</span><span>{t.example}</span></div>
+          <div class="scenario-shelf"><span class="mini-bottle white-bottle"></span><span class="mini-bottle red-bottle"></span><strong>{t.shelf}</strong></div>
+          <p class="demo-card-label">{t.shelf} → {ru ? 'вопрос' : 'question'}</p>
+          <div class="demo-options" aria-label={ru ? 'Выберите пример вопроса' : 'Choose an example question'}><button type="button" data-choice="1" aria-pressed="true">{t.ask}</button><button type="button" data-choice="2" aria-pressed="false">{t.ask2}</button></div>
+          <div class="demo-response"><span>✦</span><p data-answer aria-live="polite">{t.answer}</p></div><p class="demo-disclaimer">{t.demoInfo}</p>
+        </div>
+      </div>}
+      {concept === 'flow' && <div class="flow-scenario" data-demo data-answer1={t.answer} data-answer2={t.answer2}>
+        <div class="flow-path"><div class="flow-context"><span class="flow-step-number">01</span><div><small>{t.example}</small><strong>{t.shelf}</strong><p>{t.bottle1} · {t.bottle2}</p></div></div>
+          <div class="flow-connector" aria-hidden="true">↓</div>
+          <div class="flow-question"><span class="flow-step-number">02</span><div><strong>{ru ? 'Выберите вопрос' : 'Choose a question'}</strong><div class="demo-options"><button type="button" data-choice="1" aria-pressed="true">{t.ask}</button><button type="button" data-choice="2" aria-pressed="false">{t.ask2}</button></div></div></div>
+          <div class="flow-connector" aria-hidden="true">↓</div>
+          <div class="flow-result"><span class="flow-step-number">03</span><div><strong>{t.stage3}</strong><p data-answer aria-live="polite">{t.answer}</p></div></div>
+        </div><div class="flow-story"><img src={day} alt="" loading="lazy" width="1024" height="585"/><div><span>✳</span><strong>{t.story}</strong><p>{t.demoInfo}</p></div></div>
+      </div>}
+      {concept === 'landscape' && <div class="landscape-scenario">
+        <div class="landscape-collection"><img src={white} alt="" loading="lazy" width="1024" height="585"/><div><small>{t.example}</small><h3>{t.shelf}</h3><p>{t.bottle1}<br/>{t.bottle2}</p></div></div>
+        <div class="landscape-questions"><p class="eyebrow">{t.demo} / 01—02</p><h3>{ru ? 'Два повода, две идеи' : 'Two moments, two ideas'}</h3><p>{t.demoInfo}</p>
+          <details open><summary>{t.ask}<span aria-hidden="true">＋</span></summary><p>{t.answer}</p></details>
+          <details><summary>{t.ask2}<span aria-hidden="true">＋</span></summary><p>{t.answer2}</p></details>
+        </div>
+      </div>}
+      <noscript><p class="demo-disclaimer">{ru ? 'Кнопки примеров Shelf и Flow работают с JavaScript; первый ответ показан выше.' : 'The Shelf and Flow example buttons need JavaScript; the first answer is shown above.'}</p></noscript>
+    </section>
+    <section class="features"><div><p class="eyebrow">01 / {t.card1}</p><h3>{t.card1}</h3><p>{t.card1body}</p></div><div><p class="eyebrow">02 / {t.card2}</p><h3>{t.card2}</h3><p>{t.card2body}</p></div><div><p class="eyebrow">03 / {t.card3}</p><h3>{t.card3}</h3><p>{t.card3body}</p></div></section>
+    <section class="final"><div><p class="eyebrow">TERROIR / {t.hint}</p><h2>{t.final}</h2><p>{t.finalSub}</p></div><a class="c-button" href={`${base}/early-access/`}>{t.cta}<span aria-hidden="true">↗</span></a></section>
+    <p class="product-note">{t.note}</p>
+  </main>
+  <footer class="c-footer"><div><strong>terroir<span class="logo-dot">.</span></strong><p>{t.age}</p></div><div class="footer-links"><a href={`${base}/privacy/`}>{t.privacy}</a><a href={`${base}/terms/`}>{t.terms}</a><a href={`${base}/about/`}>{t.more}</a></div><div><p>{t.switcher}</p><div class="concept-switch">{(['shelf','flow','landscape'] as const).map((name, i) => <a href={`${base}/concepts/${name}/`} aria-current={name === concept ? 'page' : undefined}>{['01','02','03'][i]} {name}</a>)}</div><small>{t.design}</small></div></footer>
+  <script>
+    import '../scripts/site.js';
+    document.querySelectorAll<HTMLElement>('[data-demo]').forEach((demo) => {
+      demo.querySelectorAll<HTMLButtonElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
+        demo.querySelectorAll('[data-choice]').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        const answer = demo.querySelector('[data-answer]');
+        if (answer) answer.textContent = button.dataset.choice === '1' ? demo.dataset.answer1 ?? '' : demo.dataset.answer2 ?? '';
+      }));
+    });
+  </script>
+</body>
+</html>
