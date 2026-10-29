@@ -1,7 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import CellarMockup from '../components/CellarMockup.astro';
-import TableScene from '../components/TableScene.astro';
+import { Picture } from 'astro:assets';
+import photoCellar from '../assets/photos/cellar.jpg';
+import photoDay from '../assets/photos/day.jpg';
+import photoWhite from '../assets/photos/white.jpg';
 import PairingDiagram from '../components/PairingDiagram.astro';
 import SecHead from '../components/SecHead.astro';
 import Icon from '../components/Icon.astro';
@@ -27,6 +30,11 @@ const C = {
     note: 'real answers come only from bottles you actually own',
     ctaNote: 'Free · 4 short questions',
     facts: [['Free', 'to join the waitlist'], ['EN · RU', 'languages'], ['0', 'wine ads or affiliate links']],
+    alt: {
+      hero: 'A bottle of red wine with an engraved bird on the label and a poured glass on an oak barrel in a home cellar, a corkscrew and a cork beside them.',
+      day: 'A glass of red wine on a kitchen table by the window, with bread, olives, cheese and a bottle with a stag on the label.',
+      white: 'A glass of chilled white wine next to a bottle with a bird on the label, half a lemon and a sprig of thyme.',
+    },
     cellar: {
       no: '01',
       title: 'Your cellar, <em>remembered</em>',
@@ -94,6 +102,11 @@ const C = {
     note: 'советует только то, что реально стоит у вас на полке',
     ctaNote: 'Бесплатно · 4 коротких вопроса',
     facts: [['Бесплатно', 'запись в лист ожидания'], ['EN · RU', 'языки'], ['0', 'рекламы вина и партнёрских ссылок']],
+    alt: {
+      hero: 'Бутылка красного вина с гравюрой птицы на этикетке и налитый бокал на дубовой бочке в домашнем погребе, рядом штопор и пробка.',
+      day: 'Бокал красного вина на кухонном столе у окна: хлеб, оливки, сыр и бутылка с оленем на этикетке.',
+      white: 'Бокал охлаждённого белого вина рядом с бутылкой с птицей на этикетке, половинкой лимона и веточкой тимьяна.',
+    },
     cellar: {
       no: '01',
       title: 'Ваш погреб — <em>в памяти</em>',
@@ -188,8 +201,9 @@ const app = {
         </dl>
       </div>
       <div class="hero__visual">
-        <!-- TODO: photo (local generation, see 🎨 Генерация графики) — still life of a dinner table, no real labels -->
-        <TableScene />
+        <figure class="photo photo--hero">
+          <Picture src={photoCellar} formats={['avif', 'webp']} fallbackFormat="jpg" widths={[480, 614]} quality={30} sizes="(max-width: 639px) 9rem, (max-width: 1023px) 14rem, 30rem" alt={C.alt.hero} loading="eager" fetchpriority="high" />
+        </figure>
         <MarginNote class="hero__note" dir="left">{C.note}</MarginNote>
       </div>
     </div>
@@ -222,6 +236,7 @@ const app = {
   <section class="section" aria-labelledby="h-evenings">
     <div class="wrap">
       <SecHead no={C.evening.no} title={C.evening.title} lede={C.evening.lede} id="h-evenings" />
+      <div class="evenings__grid">
       <ol class="evenings">
         {C.evening.items.map((it) => (
           <li class="evening">
@@ -237,6 +252,10 @@ const app = {
           </li>
         ))}
       </ol>
+      <figure class="photo photo--white">
+        <Picture src={photoWhite} formats={['avif', 'webp']} fallbackFormat="jpg" widths={[480, 960]} quality={55} sizes="(max-width: 1023px) min(calc(100vw - 2.5rem), 30rem), 24rem" alt={C.alt.white} loading="lazy" decoding="async" />
+      </figure>
+      </div>
     </div>
   </section>
 
@@ -244,6 +263,9 @@ const app = {
   <section class="section section--paper pairing" aria-labelledby="h-pairing">
     <div class="wrap">
       <SecHead no={C.pairing.no} title={C.pairing.title} lede={C.pairing.lede} id="h-pairing" center />
+      <figure class="photo photo--day">
+        <Picture src={photoDay} formats={['avif', 'webp']} fallbackFormat="jpg" widths={[480, 960, 1344]} quality={55} sizes="(max-width: 1023px) calc(100vw - 2.5rem), 60rem" alt={C.alt.day} loading="lazy" decoding="async" />
+      </figure>
       <PairingDiagram lang={lang} recipe={C.pairing.recipe} wine={C.pairing.wine} why={C.pairing.why} />
       <p class="pairing__foot">{C.pairing.foot}</p>
     </div>
@@ -328,6 +350,16 @@ const app = {
   }
   @media (max-width: 639px) {
     :global(.hero__note) { position: static; margin-top: var(--s-4); }
+  }
+  /* photos */
+  .photo { margin: 0; }
+  .photo :global(img) { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 50px 90px -50px rgb(42 15 23 / 0.75), 0 14px 30px -20px rgb(31 20 22 / 0.35); }
+  .photo--day { max-width: 60rem; margin: 0 auto var(--s-7); }
+  .photo--white { max-width: 30rem; }
+  .evenings__grid { display: grid; gap: var(--s-7); }
+  @media (min-width: 1024px) {
+    .evenings__grid { grid-template-columns: minmax(0, 1fr) 24rem; align-items: start; gap: var(--s-8); }
+    .photo--white { position: sticky; top: var(--s-7); }
   }
   .hero__ctanote { margin: var(--s-3) 0 0; font-size: var(--fs--1); letter-spacing: 0.04em; color: var(--c-muted); }
   .facts { display: flex; flex-wrap: wrap; gap: var(--s-5) var(--s-7); margin: var(--s-7) 0 0; padding-top: var(--s-5); border-top: 1px solid var(--c-line); }

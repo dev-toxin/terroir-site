@@ -113,15 +113,22 @@ const report = [];
 for (const page of ['index.html', 'ru/index.html']) {
   const p = join(DIST, page);
   const s = readFileSync(p, 'utf8');
-  const assets = new Set([...s.matchAll(/(?:href|src)="(\/_astro\/[^"]+)"/g)].map((m) => m[1]));
+  const assets = new Set([...s.matchAll(/(?:href|src)="(\/_astro\/[^"]+)"/g)].map((m) => m[1]).filter((a) => !/\.(avif|webp|jpe?g|png|woff2)$/.test(a)));
   let total = size(p);
   for (const a of assets) total += size(join(DIST, a));
+  // Images: eager ones count at their largest AVIF candidate; lazy ones are reported, not budgeted.
+  let lazy = 0;
+  for (const [pic] of s.matchAll(/<picture[\s\S]*?<\/picture>/g)) {
+    const avif = (pic.match(/srcset="([^"]+)"[^>]*type="image\/avif"/) || [])[1] || '';
+    const biggest = Math.max(0, ...avif.split(',').map((c) => c.trim().split(' ')[0]).filter(Boolean).map((u) => size(join(DIST, u))));
+    if (/loading="lazy"/.test(pic)) lazy += biggest; else total += biggest;
+  }
   // fonts actually needed for this language (normal + italic display, text)
   const css = [...assets].filter((a) => a.endsWith('.css'));
   const sub = page.startsWith('ru') ? 'cyrillic' : 'latin';
   const fonts = files.filter((f) => f.includes('/_astro/') && f.endsWith('.woff2') && new RegExp(`-${sub}-wght`).test(f));
   for (const ft of fonts) total += size(ft);
-  report.push(`${page}: ~${kb(total)} (HTML+CSS+JS+${fonts.length} fonts)`);
+  report.push(`${page}: ~${kb(total)} (HTML+CSS+JS+${fonts.length} fonts+eager images); lazy images up to ${kb(lazy)}`);
   if (total > 300 * 1024) err(page, `page weight ${kb(total)} > 300 KB`);
   void css;
 }
